@@ -1,8 +1,35 @@
 ﻿@page "/issuePanel"
 @attribute [Authorize]
 
-<h1>IssuePanel</h1>
-
-@code {
-
-}
+<main role="main" class="col-md-12 ml-sm-auto
+             col-lg-12 px-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Overzicht problemen</h1>
+    </div>
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Locatie</th>
+                    <th scope="col">Kamer</th>
+                    <th scope="col">Probleem</th>
+                    <th scope="col">Vermeld door</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Eindhoven</td>
+                    <td>2.02</td>
+                    <td>Planten zijn dood</td>
+                    <td>Rik Leemans</td>
+                </tr>
+                <tr>
+                    <td>Amsterdam</td>
+                    <td>1.13</td>
+                    <td>Onopgeruimde werkplek bij aankomst.</td>
+                    <td>Dirk Lemmen</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>

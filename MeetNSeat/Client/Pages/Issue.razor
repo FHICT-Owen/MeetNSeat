@@ -1,8 +1,27 @@
 ﻿@page "/issue"
 @attribute [Authorize]
 
-<h1>Issue</h1>
-
-@code {
-
-}
+<main role="main" class="col-md-12 ml-sm-auto
+             col-lg-12 px-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Probleem melden</h1>
+    </div>
+    <div>
+        <form>
+            <div class="mb-3">
+                <label for="issue" class="form-label">Probleem</label>
+                <textarea class="form-control" id="issue" style="height: 100px"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="room" class="form-label">Kamer</label>
+                <select class="form-control" aria-label="Default select example">
+                    <option disabled selected>Selecteer een kamer</option>
+                    <option value="1">Kamer 1</option>
+                    <option value="2">Kamer 2</option>
+                    <option value="3">Kamer 3</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Meld probleem</button>
+        </form>
+    </div>
+</main>
