@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MeatNSeat.Dal.Factories\MeatNSeat.Dal.Factories.csproj" />
+    <ProjectReference Include="..\MeatNSeat.Dal.Interfaces\MeatNSeat.Dal.Interfaces.csproj" />
+  </ItemGroup>
+
 </Project>
