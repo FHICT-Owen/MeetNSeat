@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace MeatNSeat.Factories
+namespace MeatNSeat.Logic
 {
     public class Class1
-    {   
-
+    {
     }
 }
