@@ -1,20 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using MeatNSeat.Dal.Interfaces;
+using MeatNSeat.Dal.DbContext;
 
 namespace MeatNSeat.Dal
 {
     public class ReservationDal : IReservationDal
     {
+        private readonly DbContext.DbContext context; 
         public List<ReservationDto> GetAllReservations()
         {
-            return null;
+            var reservationList = context.Reservations.ToList();
+            return reservationList;
         }
 
-        public void CreateReservation()
+        public void AddReservation(ReservationDto reservationDto)
         {
-            //Ef Insert query
+            context.Reservations.Add(reservationDto);
+            context.SaveChanges();
         }
+
+        public void RemoveReservation(ReservationDto reservationDto)
+        {
+            var entry = context.Reservations.SingleOrDefault(result => result.Id == reservationDto.Id);
+            if (entry == null) return;
+            context.Reservations.Remove(entry);
+            context.SaveChanges();
+        }
+
+        public void UpdateReservation(ReservationDto reservationDto)
+        {
+            var entry = context.Reservations.SingleOrDefault(result => result.Id == reservationDto.Id);
+            if (entry == null) return;
+            context.Entry(entry).CurrentValues.SetValues(reservationDto);
+            context.SaveChanges();
+        } 
     }
 }

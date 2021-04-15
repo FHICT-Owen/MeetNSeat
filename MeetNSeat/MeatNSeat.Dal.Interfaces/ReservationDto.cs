@@ -1,17 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace MeatNSeat.Dal.Interfaces
 {
     public class ReservationDto
     {
-        public int Id { get; private set; }
-        public int RoomId { get; private set; }
-        public int ReservationCount { get; private set; }
-        public DateTime StartTime { get; private set; }
-        public DateTime EndTime { get; private set; }
-        public DateTime PlannedDate { get; private set; }
-        public bool IsConfirmed { get; private set; }
+        #region properties
+        [Key]
+        public int Id { get; set; }
+        public int RoomId { get; set; }
+        public int ReservationCount { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public DateTime PlannedDate { get; set; }
+        public bool IsConfirmed { get; set; }
+        #endregion
+
+        public ReservationDto(int id, int roomId, int reservationCount, DateTime startTime, DateTime endTime, DateTime plannedDate, bool isConfirmed)
+        {
+            Id = id;
+            RoomId = roomId;
+            ReservationCount = reservationCount;
+            StartTime = startTime;
+            EndTime = endTime;
+            PlannedDate = plannedDate;
+            IsConfirmed = isConfirmed;
+        }
     }
 }

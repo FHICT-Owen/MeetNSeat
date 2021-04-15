@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MeatNSeat.Logic
+namespace MeetNSeat.Shared
 {
-    public class User
+    public class Floor
     {
     }
 }
