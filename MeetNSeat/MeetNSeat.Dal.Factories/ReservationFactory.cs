@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MeatNSeat.Dal.Interfaces;
+using MeetNSeat.Dal.Interfaces;
 
-namespace MeatNSeat.Dal.Factories
+namespace MeetNSeat.Dal.Factories
 {
     public class ReservationFactory
     {

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Client\MeetNSeat.Client.csproj" />
+    <ProjectReference Include="..\MeetNSeat.Logic\MeetNSeat.Logic.csproj" />
     <ProjectReference Include="..\Shared\MeetNSeat.Shared.csproj" />
   </ItemGroup>
 

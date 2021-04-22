@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MeatNSeat.Dal.Interfaces;
-using MeatNSeat.Dal.DbContext;
+using MeetNSeat.Dal.Interfaces;
+using MeetNSeat.Dal.DbContext;
 
-namespace MeatNSeat.Dal
+namespace MeetNSeat.Dal
 {
     public class ReservationDal : IReservationDal
     {

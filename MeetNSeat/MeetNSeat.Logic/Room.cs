@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MeetNSeat.Shared
+namespace MeetNSeat.Logic
 {
     public class Room
     {

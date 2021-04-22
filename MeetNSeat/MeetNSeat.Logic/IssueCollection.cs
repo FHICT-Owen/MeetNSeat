@@ -1,6 +1,7 @@
 using System;
+using System.Collections.Generic;
 
-namespace MeetNSeat.Shared
+namespace MeetNSeat.Logic
 {
     public class IssueCollection
     {

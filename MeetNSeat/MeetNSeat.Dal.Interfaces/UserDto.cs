@@ -1,4 +1,4 @@
-﻿namespace MeatNSeat.Dal.Interfaces
+﻿namespace MeetNSeat.Dal.Interfaces
 {
     public class UserDto
     {

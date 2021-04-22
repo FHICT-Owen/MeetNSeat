@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace MeatNSeat.Dal.Interfaces
+namespace MeetNSeat.Dal.Interfaces
 {
     public class ReservationDto
     {

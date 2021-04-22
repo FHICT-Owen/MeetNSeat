@@ -1,8 +1,8 @@
 ﻿using System;
-using MeatNSeat.Dal.Factories;
-using MeatNSeat.Dal.Interfaces;
+using MeetNSeat.Dal.Factories;
+using MeetNSeat.Dal.Interfaces;
 
-namespace MeetNSeat.Shared
+namespace MeetNSeat.Logic
 {
     public class Reservation
     {

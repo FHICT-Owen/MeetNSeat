@@ -1,6 +1,6 @@
 using System;
 
-namespace MeetNSeat.Shared
+namespace MeetNSeat.Logic
 {
     public class Issue
     {

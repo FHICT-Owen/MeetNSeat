@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using MeatNSeat.Dal.Interfaces;
+using MeetNSeat.Dal.Interfaces;
 
-namespace MeatNSeat.Dal.Interfaces
+namespace MeetNSeat.Dal.Interfaces
 {
     public interface IReservationDal
     {

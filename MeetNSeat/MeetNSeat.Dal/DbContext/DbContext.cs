@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MeatNSeat.Dal.Interfaces;
+using MeetNSeat.Dal.Interfaces;
 
-namespace MeatNSeat.Dal.DbContext
+namespace MeetNSeat.Dal.DbContext
 {
     public class DbContext : IdentityDbContext
     {
