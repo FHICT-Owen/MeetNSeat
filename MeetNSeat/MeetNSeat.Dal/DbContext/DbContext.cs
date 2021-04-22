@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Configuration;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -7,16 +7,11 @@ using MeetNSeat.Dal.Interfaces;
 
 namespace MeetNSeat.Dal.DbContext
 {
-    public class DbContext : IdentityDbContext
+    public class DbContext
     {
-        public DbContext(DbContextOptions<DbContext> options)
-            : base(options)
+        public static string GetConnectionString(string name)
         {
-
+            return ConfigurationManager.ConnectionStrings[name].ConnectionString;
         }
-
-        public DbSet<UserDto> Users { get; }
-        public DbSet<ReservationDto> Reservations { get;  }
-        public DbSet<RoomDto> Rooms { get;  set; }
-    }
+    }      
 }
