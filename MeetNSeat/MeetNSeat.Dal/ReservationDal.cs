@@ -1,41 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Data;
+using Dapper;
 using MeetNSeat.Dal.Interfaces;
-using MeetNSeat.Dal.DbContext;
+using System.Data.SqlClient;
 
 namespace MeetNSeat.Dal
 {
     public class ReservationDal : IReservationDal
     {
-        private readonly DbContext.DbContext context; 
         public List<ReservationDto> GetAllReservations()
         {
-            var reservationList = context.Reservations.ToList();
-            return reservationList;
+            // var reservationList = context.Reservations.ToList();
+            // return reservationList;
+            return null;
         }
 
         public void AddReservation(ReservationDto reservationDto)
         {
-            context.Reservations.Add(reservationDto);
-            context.SaveChanges();
+            using (IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection")))
+            {
+                connection.Execute("", reservationDto);
+            }
         }
 
         public void RemoveReservation(ReservationDto reservationDto)
         {
-            var entry = context.Reservations.SingleOrDefault(result => result.Id == reservationDto.Id);
-            if (entry == null) return;
-            context.Reservations.Remove(entry);
-            context.SaveChanges();
+            // var entry = context.Reservations.SingleOrDefault(result => result.Id == reservationDto.Id);
+            // if (entry == null) return;
+            // context.Reservations.Remove(entry);
+            // context.SaveChanges();
         }
 
         public void UpdateReservation(ReservationDto reservationDto)
         {
-            var entry = context.Reservations.SingleOrDefault(result => result.Id == reservationDto.Id);
-            if (entry == null) return;
-            context.Entry(entry).CurrentValues.SetValues(reservationDto);
-            context.SaveChanges();
+            // var entry = context.Reservations.SingleOrDefault(result => result.Id == reservationDto.Id);
+            // if (entry == null) return;
+            // context.Entry(entry).CurrentValues.SetValues(reservationDto);
+            // context.SaveChanges();
         } 
     }
 }
