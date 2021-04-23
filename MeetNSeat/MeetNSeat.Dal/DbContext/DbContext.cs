@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.IO;
+using MeetNSeat.Dal.Interfaces;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MeetNSeat.Dal.Interfaces;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace MeetNSeat.Dal.DbContext
 {
@@ -17,6 +18,6 @@ namespace MeetNSeat.Dal.DbContext
 
         public DbSet<UserDto> Users { get; }
         public DbSet<ReservationDto> Reservations { get;  }
-        public DbSet<RoomDto> Rooms { get;  set; }
+        public DbSet<RoomDto> Rooms { get; }
     }
 }
