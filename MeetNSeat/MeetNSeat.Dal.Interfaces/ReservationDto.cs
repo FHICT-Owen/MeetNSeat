@@ -19,9 +19,8 @@ namespace MeetNSeat.Dal.Interfaces
         public DateTime IsConfirmed { get; set; }
         #endregion
 
-        public ReservationDto(int id, int roomId, int userId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed)
+        public ReservationDto(int roomId, int userId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed)
         {
-            Id = id;
             RoomId = roomId;
             UserId = userId;
             Attendees = attendees;
