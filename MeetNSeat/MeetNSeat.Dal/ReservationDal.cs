@@ -20,7 +20,7 @@ namespace MeetNSeat.Dal
         public void AddReservation(ReservationDto reservationDto)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
-            connection.Query("dbo.ReservationAdd @room, @user, @attendees, @created, @start, @end, @confirmed",
+            connection.Execute("dbo.CreateReservation @ReservationId, @RoomId, @UserId, @Attendees, @CreatedOn, @StartTime, @EndTime, @IsConfirmed",
                 reservationDto);
             
             //connection.Execute("", reservationDto);

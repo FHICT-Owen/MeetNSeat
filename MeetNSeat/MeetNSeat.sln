@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetNSeat.Dal.Factories", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetNSeat.Dal.Interfaces", "MeetNSeat.Dal.Interfaces\MeetNSeat.Dal.Interfaces.csproj", "{5F092BBE-E9BF-4E10-9F18-57DD1AE7748B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetNSeat.Tests", "MeetNSeat.Tests\MeetNSeat.Tests.csproj", "{14B5A0E0-7098-4616-8B3B-6CE6645122F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetNSeat.Tests", "MeetNSeat.Tests\MeetNSeat.Tests.csproj", "{14B5A0E0-7098-4616-8B3B-6CE6645122F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

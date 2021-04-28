@@ -10,8 +10,7 @@ namespace MeetNSeat.Dal
         public static string GetConnectionString(string name)
         {
             IConfiguration configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("../MeetNSeat.Server/appsettings.Development.json")
+                .AddJsonFile("dbSettings.json")
                 .Build();
             return configuration.GetConnectionString(name);
         }

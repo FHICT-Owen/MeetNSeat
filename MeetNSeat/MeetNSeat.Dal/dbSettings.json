@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=cgi-wradbserver.database.windows.net;Initial Catalog=CGI-WRA_db;Persist Security Info=True;User ID=grotebaas;Password=Grote7856"
+  }
+}

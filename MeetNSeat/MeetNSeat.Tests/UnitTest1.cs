@@ -11,9 +11,9 @@ namespace MeetNSeat.Tests
         [TestMethod]
         public void TestMethod1()
         {
-            ReservationDal r = new ReservationDal();
+            var r = new ReservationDal();
 
-            ReservationDto reservationDto = new ReservationDto(1,1, 6, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
+            var reservationDto = new ReservationDto(1,1, 6, 5,DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
 
             r.AddReservation(reservationDto);
         }
