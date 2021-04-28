@@ -13,7 +13,7 @@ namespace MeetNSeat.Tests
         {
             var r = new ReservationDal();
 
-            var reservationDto = new ReservationDto(1,1, 6, 5,DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
+            var reservationDto = new ReservationDto(1, 1, 5,DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
 
             r.AddReservation(reservationDto);
         }
