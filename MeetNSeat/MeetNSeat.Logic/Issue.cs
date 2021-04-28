@@ -1,20 +1,20 @@
-using System;
+using MeetNSeat.Dal.Interfaces;
 
 namespace MeetNSeat.Logic
 {
     public class Issue
     {
-			public int IssueID { get; private set; }
-			public int UserID { get; private set; }
-			public int RoomID { get; private set; }
+			public int IssueId { get; private set; }
+			public int UserId { get; private set; }
+			public int RoomId { get; private set; }
 			public string IssueDescription { get; private set; }
-			public bool IsResolved { get; private set; } = false;
+			public bool IsResolved { get; private set; }
 
-			public Issue(int issueID, int userID, int roomID, string issueDescription)
+			public Issue(int issueId, int userId, int roomId, string issueDescription)
 			{
-				IssueID = issueID;
-				UserID = userID;
-				RoomID = roomID;
+				IssueId = issueId;
+				UserId = userId;
+				RoomId = roomId;
 				IssueDescription = issueDescription;
 			}
 
@@ -22,5 +22,10 @@ namespace MeetNSeat.Logic
 			{
 				IsResolved = true;
 			}
+			
+			public IssueDto ConvertToDto() 
+			{ 
+				return new IssueDto(IssueId, UserId, RoomId, IssueDescription, IsResolved);
+	    }
     }
 }
