@@ -1,4 +1,7 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace MeetNSeat.Dal
 {
@@ -6,7 +9,10 @@ namespace MeetNSeat.Dal
     {
         public static string GetConnectionString(string name)
         {
-            return ConfigurationManager.ConnectionStrings[name].ConnectionString;
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddJsonFile("dbSettings.json")
+                .Build();
+            return configuration.GetConnectionString(name);
         }
     }
 }

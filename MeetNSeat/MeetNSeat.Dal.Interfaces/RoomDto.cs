@@ -2,6 +2,6 @@
 {
     public class RoomDto
     {
-
+        public string test { get; }
     }
 }
