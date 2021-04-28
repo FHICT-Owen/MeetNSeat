@@ -1,4 +1,8 @@
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using Dapper;
 using MeetNSeat.Dal.Interfaces;
 
 namespace MeetNSeat.Dal
@@ -7,12 +11,15 @@ namespace MeetNSeat.Dal
 	{
 		public List<IssueDto> GetAllIssues()
 		{
-			throw new System.NotImplementedException();
+			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+			var output = connection.Query<IssueDto>("").ToList();
+			return output;
 		}
 
-		public void AddIssue(IssueDto issue)
+		public void AddIssue(IssueDto issueDto)
 		{
-			throw new System.NotImplementedException();
+			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+			connection.Execute("dbo.CreateIssue @UserId @RoomId @IssueDescription @IsResolved", issueDto);
 		}
 
 		public void Resolve()
