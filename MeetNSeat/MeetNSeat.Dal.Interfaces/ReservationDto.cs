@@ -12,18 +12,18 @@ namespace MeetNSeat.Dal.Interfaces
         public int Id { get; set; }
         public int RoomId { get; set; }
         public int UserId { get; set; }
-        public int ReservationCount { get; set; }
+        public int Attendees { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public DateTime PlannedDate { get; set; }
-        public bool IsConfirmed { get; set; }
+        public DateTime IsConfirmed { get; set; }
         #endregion
 
-        public ReservationDto(int userId, int roomId, int reservationCount, DateTime startTime, DateTime endTime, DateTime plannedDate, bool isConfirmed)
+        public ReservationDto(int userId, int roomId, int attendees, DateTime startTime, DateTime endTime, DateTime plannedDate, DateTime isConfirmed)
         {
             RoomId = roomId;
             UserId = userId;
-            ReservationCount = reservationCount;
+            Attendees = attendees;
             StartTime = startTime;
             EndTime = endTime;
             PlannedDate = plannedDate;

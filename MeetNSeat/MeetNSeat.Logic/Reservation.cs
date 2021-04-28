@@ -14,7 +14,7 @@ namespace MeetNSeat.Logic
         public DateTime StartTime { get; private set; }
         public DateTime EndTime { get; private set; }
         public DateTime PlannedDate { get; private set; }
-        public bool IsConfirmed { get; private set; }
+        public DateTime IsConfirmed { get; private set; }
         #endregion Properties
         
         // Optional
@@ -24,7 +24,7 @@ namespace MeetNSeat.Logic
             Digitalscreen
         }
 
-        public Reservation(int id, int roomId, int reservationCount, DateTime startTime, DateTime endTime, DateTime plannedDate, bool isConfirmed)
+        public Reservation(int id, int roomId, int reservationCount, DateTime startTime, DateTime endTime, DateTime plannedDate, DateTime isConfirmed)
         {
             Id = id;
             RoomId = roomId;
@@ -37,7 +37,7 @@ namespace MeetNSeat.Logic
         }
 
         public Reservation(ReservationDto reservationDto)
-            : this(reservationDto.Id, reservationDto.RoomId, reservationDto.ReservationCount, reservationDto.StartTime, reservationDto.EndTime, reservationDto.PlannedDate, reservationDto.IsConfirmed)
+            : this(reservationDto.Id, reservationDto.RoomId, reservationDto.Attendees, reservationDto.StartTime, reservationDto.EndTime, reservationDto.PlannedDate, reservationDto.IsConfirmed)
         {
         }
 

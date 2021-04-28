@@ -4,7 +4,7 @@ using System.Text;
 using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
 using System.Linq;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+//using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace MeetNSeat.Logic
 {
