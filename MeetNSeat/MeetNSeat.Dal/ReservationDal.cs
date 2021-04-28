@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using Dapper;
 using MeetNSeat.Dal.Interfaces;
 using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace MeetNSeat.Dal
 {
@@ -17,10 +19,10 @@ namespace MeetNSeat.Dal
 
         public void AddReservation(ReservationDto reservationDto)
         {
-            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection").ToString());
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
             connection.Query("dbo.ReservationAdd @room, @user, @attendees, @created, @start, @end, @confirmed",
                 reservationDto);
-
+            
             //connection.Execute("", reservationDto);
 
 

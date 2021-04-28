@@ -9,8 +9,11 @@ namespace MeetNSeat.Dal
     {
         public static string GetConnectionString(string name)
         {
-            string connection = ConfigurationLoader.GetConfiguration("../MeetNSeat.Server/appsettings")["ConnectionStrings:DefaultConnection"];
-            return connection;
+            IConfiguration configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("../MeetNSeat.Server/appsettings.Development.json")
+                .Build();
+            return configuration.GetConnectionString(name);
         }
     }
 }
