@@ -9,7 +9,7 @@ namespace MeetNSeat.Logic
 {
     public class User
     {
-        public int UserId { get; set; }
+        public int Id { get; set; }
 
         private List<Reservation> reservations = new List<Reservation>();
         private IReservationDal dal;
