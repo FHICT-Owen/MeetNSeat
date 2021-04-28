@@ -9,6 +9,7 @@ namespace MeetNSeat.Logic
         #region Properties
         private readonly IReservationDal dal;
         public int Id { get; private set; }
+        public int UserId { get; private set; }
         public int RoomId { get; private set; }
         public int Attendees { get; private set; }
         public DateTime StartTime { get; private set; }
@@ -23,9 +24,10 @@ namespace MeetNSeat.Logic
             Digitalscreen
         }
 
-        public Reservation(int id, int roomId, int attendees, DateTime startTime, DateTime endTime, DateTime isConfirmed)
+        public Reservation(int id, int userId, int roomId, int attendees, DateTime startTime, DateTime endTime, DateTime isConfirmed)
         {
             Id = id;
+            UserId = userId;
             RoomId = roomId;
             Attendees = attendees;
             StartTime = startTime;
@@ -35,7 +37,7 @@ namespace MeetNSeat.Logic
         }
 
         public Reservation(ReservationDto reservationDto)
-            : this(reservationDto.UserId, reservationDto.RoomId, reservationDto.Attendees, reservationDto.StartTime, reservationDto.EndTime, reservationDto.IsConfirmed)
+            : this(reservationDto.Id, reservationDto.UserId, reservationDto.RoomId, reservationDto.Attendees, reservationDto.StartTime, reservationDto.EndTime, reservationDto.IsConfirmed)
         {
         }
 
