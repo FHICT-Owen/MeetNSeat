@@ -25,5 +25,15 @@ namespace MeetNSeat.Logic
             var reservationDto = new ReservationDto(roomId, Id, attendees, createdOn, startTime, endTime, isConfirmed);
             dal.AddReservation(reservationDto);
         }
+
+        public void GetAllReservations(int id, int roomId, int userId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed)
+        {
+            var reservations = new ReservationDto(id, roomId, userId, attendees, createdOn, startTime, endTime, isConfirmed);
+        }
+
+        public void GetAllUserReservations(int id, int roomId, int userId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed)
+        {
+            var reservations = new ReservationDto(id, roomId, userId, attendees, createdOn, startTime, endTime, isConfirmed);
+        }
     }
 }
