@@ -13,13 +13,13 @@ namespace MeetNSeat.Logic
     {
       _dal = IssueFactory.CreateIssueDal();
     }
-    public IReadOnlyCollection<Issue> GetAllIssue() 
-    {
-      _issues.Clear();
-      _dal.GetAllIssues().ForEach(dtos => _issues.Add(new Issue(dto)));
-			
-      return _issues.AsReadOnly();
-    }
+    // public IReadOnlyCollection<Issue> GetAllIssue() 
+    // {
+    //   _issues.Clear();
+    //   _dal.GetAllIssues().ForEach(dtos => _issues.Add(new Issue(dto)));
+			 //
+    //   return _issues.AsReadOnly();
+    // }
     public void AddIssue(Issue issue)
     {
       _issues.Add(issue);
