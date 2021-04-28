@@ -6,10 +6,10 @@ namespace MeetNSeat.Dal.Interfaces
 {
     public interface IFeedbackDal
     {
-        List<FeedbackDto> getAllFeedbacks();
-        FeedbackDto GetFeedbackDtoByID(int feedbackID);
+        List<FeedbackDto> GetAllFeedback();
+        FeedbackDto GetFeedbackDtoById(int id);
         bool InsertFeedback(FeedbackDto feedbackDto);
         bool UpdateFeedback(FeedbackDto feedbackDto);
-        bool DeleteFeedback(int feedbackID);
+        bool DeleteFeedback(int id);
     }
 }

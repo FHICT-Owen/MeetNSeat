@@ -6,14 +6,13 @@ namespace MeetNSeat.Logic
 {
     public class Feedback
     {
-        //TODO: iFeedbackDal?
-        public int FeedbackID { get; private set; }
+        public int Id { get; private set; }
         public string Description { get; private set; }
         public int FeedbackState { get; private set; }
 
-        public Feedback(int feedbackID, string description, int feedbackState)
+        public Feedback(int id, string description, int feedbackState)
         {
-            FeedbackID = feedbackID;
+            Id = id;
             Description = description;
             FeedbackState = feedbackState;
         }

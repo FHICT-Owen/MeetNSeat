@@ -6,13 +6,13 @@ namespace MeetNSeat.Dal.Interfaces
 {
     public class FeedbackDto
     {
-        public int FeedbackID { get;  set; }
+        public int Id { get;  set; }
         public string Description { get;  set; }
         public int FeedbackState { get;  set; }
 
-        public FeedbackDto(int feedbackId, string description, int feedbackState)
+        public FeedbackDto(int id, string description, int feedbackState)
         {
-            FeedbackID = feedbackId;
+            Id = id;
             Description = description;
             FeedbackState = feedbackState;
         }

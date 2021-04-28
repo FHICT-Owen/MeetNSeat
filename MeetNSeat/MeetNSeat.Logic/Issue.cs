@@ -10,16 +10,16 @@ namespace MeetNSeat.Logic
 	    public string IssueDescription { get; private set; }
 	    public bool IsResolved { get; private set; }
 
-	    public Issue(int issueId, int userId, int roomId, string issueDescription)
+	    public Issue(int id, int userId, int roomId, string issueDescription)
 	    {
-		    Id = issueId;
+		    Id = id;
 		    UserId = userId;
 		    RoomId = roomId;
 		    IssueDescription = issueDescription;
 	    }
 
 	    public Issue(IssueDto dto) {
-		    Id = dto.IssueId;
+		    Id = dto.Id;
 		    UserId = dto.UserId;
 		    RoomId = dto.RoomId;
 		    IssueDescription = dto.IssueDescription;
