@@ -4,22 +4,22 @@ namespace MeetNSeat.Logic
 {
     public class Issue
     {
-	    public int IssueId { get; private set; }
+	    public int Id { get; private set; }
 	    public int UserId { get; private set; }
 	    public int RoomId { get; private set; }
 	    public string IssueDescription { get; private set; }
 	    public bool IsResolved { get; private set; }
 
-	    public Issue(int issueId, int userId, int roomId, string issueDescription)
+	    public Issue(int id, int userId, int roomId, string issueDescription)
 	    {
-		    IssueId = issueId;
+		    Id = id;
 		    UserId = userId;
 		    RoomId = roomId;
 		    IssueDescription = issueDescription;
 	    }
 
 	    public Issue(IssueDto dto) {
-		    IssueId = dto.IssueId;
+		    Id = dto.Id;
 		    UserId = dto.UserId;
 		    RoomId = dto.RoomId;
 		    IssueDescription = dto.IssueDescription;
@@ -32,7 +32,7 @@ namespace MeetNSeat.Logic
 
 	    public IssueDto ConvertToDto()
 	    {
-		    return new IssueDto(IssueId, UserId, RoomId, IssueDescription, IsResolved);
+		    return new IssueDto(Id, UserId, RoomId, IssueDescription, IsResolved);
 	    }
     }
 }
