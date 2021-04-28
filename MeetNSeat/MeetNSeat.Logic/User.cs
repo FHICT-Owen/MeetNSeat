@@ -20,9 +20,9 @@ namespace MeetNSeat.Logic
             dal = ReservationFactory.CreateReservationDal();
         }
 
-        public void AddReservation(int roomId, int reservationCount, DateTime startTime, DateTime endTime, DateTime plannedDate, DateTime isConfirmed)
+        public void AddReservation(int roomId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed)
         {
-            var reservationDto = new ReservationDto(Id, roomId, reservationCount, startTime, endTime, plannedDate, isConfirmed);
+            var reservationDto = new ReservationDto(roomId, Id, attendees, createdOn, startTime, endTime, isConfirmed);
             dal.AddReservation(reservationDto);
         }
     }
