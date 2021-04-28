@@ -41,7 +41,7 @@ namespace MeetNSeat.Dal
         public List<ReservationDto> GetAllUserReservations(ReservationDto reservationDto)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
-            var output = connection.Query<ReservationDto>("dbo.GetAllUserReservations @UserID", new { reservationDto }).ToList();
+            var output = connection.Query<ReservationDto>("dbo.GetAllUserReservations @UserId", new { reservationDto }).ToList();
             return output;
             
         }
