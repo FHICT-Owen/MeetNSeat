@@ -10,7 +10,8 @@
         <form>
             <div class="mb-3">
                 <label for="issue" class="form-label">Probleem</label>
-                <textarea class="form-control" id="issue" style="height: 100px"></textarea>
+                <textarea class="form-control" id="issue" style="height: 100px" @bind="Description" @bind:event="oninput" maxlength="1000"></textarea>
+                Characters : @Description.Length / 1000
             </div>
             <div class="mb-3">
                 <label for="room" class="form-label">Kamer</label>
@@ -25,3 +26,7 @@
         </form>
     </div>
 </main>
+
+@code {
+    public string Description { get; set; } = string.Empty;
+}
