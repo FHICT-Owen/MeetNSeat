@@ -9,13 +9,6 @@ namespace MeetNSeat.Dal
 {
     public class ReservationDal : IReservationDal
     {
-        public List<ReservationDto> GetAllReservations()
-        {
-            // var reservationList = context.Reservations.ToList();
-            // return reservationList;
-            return null;
-        }
-
         public void AddReservation(ReservationDto reservationDto)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
@@ -38,19 +31,24 @@ namespace MeetNSeat.Dal
             // context.SaveChanges();
         }
 
-        public List<ReservationDto> GetReservationByUser(ReservationDto reservationDto)
+        public List<ReservationDto> GetReservationByUser(int id)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
-            var output = connection.Query<ReservationDto>("dbo.GetAllUserReservations @UserId", new { reservationDto }).ToList();
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@UserId", id);
+
+            var output = connection.Query<ReservationDto>("dbo.GetAllUserReservations @UserId",parameters).ToList();
             return output;
             
         }
 
 
-        public List<ReservationDto> GetAllReservations(ReservationDto reservationDto)
+        public List<ReservationDto> GetAllReservations()
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
-            var output = connection.Query<ReservationDto>("dbo.GetAllReservations", new { reservationDto }).ToList();
+            
+            var output = connection.Query<ReservationDto>("dbo.GetAllReservations").ToList();
             return output;
 
         }

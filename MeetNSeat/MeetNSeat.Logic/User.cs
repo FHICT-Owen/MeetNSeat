@@ -26,16 +26,14 @@ namespace MeetNSeat.Logic
             dal.AddReservation(reservationDto);
         }
 
-        public void GetAllReservations(int roomId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed)
+        public void GetAllReservations()
         {
-            var reservations = new ReservationDto(roomId, Id, attendees, createdOn, startTime, endTime, isConfirmed);
-            dal.GetAllReservations(reservations);
+            var reservations = dal.GetAllReservations();
         }
 
-        public void GetReservationByUser(int roomId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed)
+        public List<ReservationDto> GetReservationByUser(int userId)
         {
-            var reservations = new ReservationDto(roomId, Id, attendees, createdOn, startTime, endTime, isConfirmed);
-            dal.GetReservationByUser(reservations);
+            return dal.GetReservationByUser(userId);
         }
     }
 }
