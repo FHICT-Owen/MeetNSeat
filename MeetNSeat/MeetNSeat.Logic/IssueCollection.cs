@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
-using MeetNSeat.Logic.Interfaces;
 
 namespace MeetNSeat.Logic
 {
-  public class IssueCollection : IIssueCollection
+  public class IssueCollection
   {
     private readonly List<Issue> _issues = new List<Issue>();
     private readonly IIssueDal _dal;
@@ -25,8 +24,9 @@ namespace MeetNSeat.Logic
       return _issues.AsReadOnly();
     }
     
-    public void AddIssue(Issue issue)
+    public void AddIssue(int roomId, int userId, string description)
     {
+      var issue = new Issue(roomId, userId, description);
       _issues.Add(issue);
       _dal.AddIssue(issue.ConvertToDto());
     }

@@ -11,11 +11,10 @@ namespace MeetNSeat.Dal.Interfaces
 		public DateTime CreatedOn { get; set; }
 		public bool IsResolved { get; set; }
 
-		public IssueDto(int id, int userId, int roomId, string description, DateTime createdOn, bool isResolved)
+		public IssueDto(int roomId, int userId, string description, DateTime createdOn, bool isResolved)
 		{
-			Id = id;
-			UserId = userId;
 			RoomId = roomId;
+			UserId = userId;
 			Description = description;
 			CreatedOn = createdOn;
 			IsResolved = isResolved;

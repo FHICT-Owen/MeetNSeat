@@ -20,35 +20,35 @@
     }
 }
 
-
-<!--<div class="row">
-    <div class="col-md-4">
-        <form>
-            <div class="form-group">
-                <label for="Type" class="control-label">Type</label>
-                <input for="Type" class="form-control" @bind-value="@Attendees" />
-                <label for="Seeding" class="control-label">Seeding</label>
-                <input type="datetime" for="Seeding" class="form-control" @bind-value="@StartTime" />
-                <label for="Time" class="control-label">Time</label>
-                <input type="datetime" for="Time" class="form-control" @bind-value="@EndTime" />
-            </div>
-            <div class="form-group">
-                <button type="button" class="btn btn-primary" @onclick="CreateReservation">Save</button>-->
-                @*<button type="button" class="btn btn-danger" @onclick="Cancel">Cancel</button>*@
-            <!--</div>
-        </form>
-    </div>
-</div>
+@* *@
+@* <!--<div class="row"> *@
+@*     <div class="col-md-4"> *@
+@*         <form> *@
+@*             <div class="form-group"> *@
+@*                 <label for="Type" class="control-label">Type</label> *@
+@*                 <input for="Type" class="form-control" @bind-value="@Attendees" /> *@
+@*                 <label for="Seeding" class="control-label">Seeding</label> *@
+@*                 <input type="datetime" for="Seeding" class="form-control" @bind-value="@StartTime" /> *@
+@*                 <label for="Time" class="control-label">Time</label> *@
+@*                 <input type="datetime" for="Time" class="form-control" @bind-value="@EndTime" /> *@
+@*             </div> *@
+@*             <div class="form-group"> *@
+@*                 <button type="button" class="btn btn-primary" @onclick="CreateReservation">Save</button>--> *@
+@*                 $1$<button type="button" class="btn btn-danger" @onclick="Cancel">Cancel</button>#1# *@
+@*             <!--</div> *@
+@*         </form> *@
+@*     </div> *@
+@* </div> *@
 
 @code {
-    private string Attendees;
-    private DateTime StartTime;
-    private DateTime EndTime;
+    // private string Attendees;
+    // private DateTime StartTime;
+    // private DateTime EndTime;
 
-    protected void CreateReservation()
-    {
-        manageReservation.AddReservation(1, 1, Convert.ToInt32(Attendees), StartTime, EndTime);
-    }-->
+    // protected void CreateReservation()
+    // {
+    //     manageReservation.AddReservation(1, 1, Convert.ToInt32(Attendees), StartTime, EndTime);
+    // }
 
 
     //void Cancel()
