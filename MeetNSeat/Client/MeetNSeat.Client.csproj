@@ -12,4 +12,8 @@
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MeetNSeat.Logic.Interfaces\MeetNSeat.Logic.Interfaces.csproj" />
+  </ItemGroup>
+
 </Project>
