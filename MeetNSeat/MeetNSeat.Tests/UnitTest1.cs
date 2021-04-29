@@ -13,7 +13,7 @@ namespace MeetNSeat.Tests
         {
             var r = new User();
 
-            r.AddReservation(1, 5, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
+            r.AddReservation(1, 1,5, DateTime.Now, DateTime.Now);
         }
     }
 }
