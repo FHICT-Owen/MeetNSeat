@@ -12,19 +12,7 @@ namespace MeetNSeat.Tests
 		{
 			var r = new IssueCollection();
 
-			r.AddIssue(1, "s1", "YOtest");
-		}
-	}
-	
-	[TestClass]
-	public class UnitTest2
-	{
-		[TestMethod]
-		public void TestMethod1()
-		{
-			var r = new User();
-
-			r.AddReservation(1, "1",5, DateTime.Now, DateTime.Now);
+			r.AddIssue(1, "test", "test");
 		}
 	}
 }
