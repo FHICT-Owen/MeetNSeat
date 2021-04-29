@@ -1,0 +1,26 @@
+@page "/datachecker"
+
+@using MeetNSeat.Client.Services
+@using System.Net.Http.Json
+@using MeetNSeat.Client.Models
+@using Blazored.SessionStorage
+
+@attribute [Authorize]
+@inject IApiClientService ApiClientService;
+@inject ISessionStorageService Storage
+
+<div>
+    <h4>User Ip - @ipAddress.IP</h4>
+    <h4>User Id - @userId</h4>
+</div>
+
+@code {
+    private string userId;
+    IpAddress ipAddress = new IpAddress();
+    protected override async Task OnInitializedAsync()
+    {
+        ipAddress = await ApiClientService.GetUserIPAsync();
+        string storedUserId = await Storage.GetItemAsync<string>("userId");
+        userId = storedUserId.Split(" ")[2];
+    }
+}
