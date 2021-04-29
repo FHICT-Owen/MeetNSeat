@@ -23,11 +23,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GetClaimsPrincipalData();
+        await GetUserId();
         await base.OnParametersSetAsync();
     }
 
-    private async Task GetClaimsPrincipalData()
+    private async Task GetUserId()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
