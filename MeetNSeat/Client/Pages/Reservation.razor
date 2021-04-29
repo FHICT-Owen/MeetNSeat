@@ -15,7 +15,7 @@
     protected override Task OnInitializedAsync()
     {
         manageReservation = ReservationFactory.AddReservation();
-        manageReservation.AddReservation(1, 1, 1, DateTime.Now, DateTime.Now);
+        manageReservation.AddReservation(1, "1", 1, DateTime.Now, DateTime.Now);
         return null;
     }
 }

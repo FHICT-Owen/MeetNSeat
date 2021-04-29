@@ -12,7 +12,7 @@ namespace MeetNSeat.Tests
 		{
 			var r = new IssueCollection();
 
-			r.AddIssue(1, 1, "YOtest");
+			r.AddIssue(1, "s1", "YOtest");
 		}
 	}
 	
@@ -24,7 +24,7 @@ namespace MeetNSeat.Tests
 		{
 			var r = new User();
 
-			r.AddReservation(1, 1,5, DateTime.Now, DateTime.Now);
+			r.AddReservation(1, "1",5, DateTime.Now, DateTime.Now);
 		}
 	}
 }

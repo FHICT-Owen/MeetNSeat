@@ -6,6 +6,6 @@ namespace MeetNSeat.Logic.Interfaces
 {
     public interface IManageReservation
     {
-        public void AddReservation(int roomId, int userId, int attendees, DateTime startTime, DateTime endTime);
+        public void AddReservation(int roomId, string userId, int attendees, DateTime startTime, DateTime endTime);
     }
 }

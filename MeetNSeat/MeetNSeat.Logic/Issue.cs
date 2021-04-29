@@ -7,12 +7,12 @@ namespace MeetNSeat.Logic
     {
 	    public int Id { get; }
 	    public int RoomId { get; }
-	    public int UserId { get; }
+	    public string UserId { get; }
 	    public string Description { get; }
 	    public DateTime CreatedOn { get; }
 	    public bool IsResolved { get; private set; }
 
-	    public Issue(int userId, int roomId, string description)
+	    public Issue(int roomId, string userId, string description)
 	    {
 		    RoomId = roomId;
 		    UserId = userId;
