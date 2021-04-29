@@ -22,9 +22,10 @@ namespace MeetNSeat.Dal
 			connection.Execute("dbo.InsertIssue @RoomId, @UserId, @Description, @CreatedOn, @IsResolved", issueDto);
 		}
 
-		public void Resolve()
+		public void Resolve(IssueDto issueDto)
 		{
-			throw new System.NotImplementedException();
+			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+			connection.Execute("dbo.ResolveIssue @RoomId, @UserId, @Description, @CreatedOn, @IsResolved", issueDto);
 		}
 	}
 }
