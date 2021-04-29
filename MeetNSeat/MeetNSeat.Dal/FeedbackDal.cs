@@ -14,7 +14,10 @@ namespace MeetNSeat.Dal
         public bool DeleteFeedback(int id)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
-            if (connection.ExecuteScalar<bool>("EXEC DeleteFeedback", id, commandType: CommandType.StoredProcedure))
+            DynamicParameters parameter = new DynamicParameters();
+            parameter.Add("@id", id);
+            var result = connection.Execute("dbo.DeleteFeedback @id", parameter);
+            if (result > 0)
             {
                 return true;
             }
@@ -26,14 +29,18 @@ namespace MeetNSeat.Dal
         public List<FeedbackDto> GetAllFeedback()
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
-            var query = connection.Query<FeedbackDto>("EXEC GetAllFeedback", commandType: CommandType.StoredProcedure);
+            var query = connection.Query<FeedbackDto>("dbo.GetAllFeedback;");
+
             List<FeedbackDto> feedback = query.ToList();
             return feedback;
         }
         public FeedbackDto GetFeedbackDtoById(int id)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
-            FeedbackDto feedbackDto = connection.ExecuteScalar<FeedbackDto>("EXEC GetFeedbackByID", id);
+            DynamicParameters parameter = new DynamicParameters();
+
+            parameter.Add("@id", id);
+            var feedbackDto = connection.Query<FeedbackDto>(@"dbo.GetFeedbackByID @id;", parameter).First();
             return feedbackDto;
         }
         public bool InsertFeedback(FeedbackDto feedbackDto)
@@ -41,11 +48,10 @@ namespace MeetNSeat.Dal
 
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
             DynamicParameters parameter = new DynamicParameters();
-
-            parameter.Add("@Description", feedbackDto.Id);
+            parameter.Add("@Description", feedbackDto.Description);
             parameter.Add("@FeedbackState", feedbackDto.FeedbackState);
-           
-            if (connection.ExecuteScalar<bool>("EXEC InsertFeedback", parameter))
+            var result  = connection.Execute("dbo.InsertFeedback @Description, @FeedbackState", feedbackDto);
+            if (result > 0)
             {
                 return true;
             }
@@ -57,7 +63,13 @@ namespace MeetNSeat.Dal
         public bool UpdateFeedback(FeedbackDto feedbackDto)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
-            if (connection.ExecuteScalar<bool>("EXEC UpdateFeedback", feedbackDto))
+            DynamicParameters parameter = new DynamicParameters();
+            parameter.Add("@id", feedbackDto.Id);
+            parameter.Add("@description", feedbackDto.Description);
+            parameter.Add("@feedbackstate", feedbackDto.FeedbackState);
+
+            var result = connection.Execute("dbo.UpdateFeedback @id, @description, @feedbackstate", feedbackDto);
+            if (result > 0)
             {
                 return true;
             }
