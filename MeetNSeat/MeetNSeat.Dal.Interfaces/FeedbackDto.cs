@@ -10,9 +10,14 @@ namespace MeetNSeat.Dal.Interfaces
         public string Description { get;  set; }
         public int FeedbackState { get;  set; }
 
-        public FeedbackDto(int id, string description, int feedbackState)
+        public FeedbackDto(string description, int feedbackState)
         {
-            Id = id;
+            Description = description;
+            FeedbackState = feedbackState;
+        }
+        public FeedbackDto(int feedbackId, string description, int feedbackState)
+        {
+            Id = feedbackId;
             Description = description;
             FeedbackState = feedbackState;
         }
