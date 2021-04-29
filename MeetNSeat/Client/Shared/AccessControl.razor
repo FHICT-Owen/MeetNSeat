@@ -10,7 +10,7 @@
 
 <AuthorizeView>
     <Authorized>
-        Hello, @context.User.Identity.Name || @userId
+        Hello, @context.User.Identity.Name || @_userId
         <a href="#" @onclick="BeginSignOut">Log out</a>
     </Authorized>
     <NotAuthorized>
@@ -19,9 +19,7 @@
 </AuthorizeView>
 
 @code{
-    private string authMessage;
-    private string userId;
-    private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
+    private string _userId;
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,13 +34,7 @@
 
         if (user.Identity.IsAuthenticated)
         {
-            authMessage = $"{user.Identity.Name} is authenticated.";
-            claims = user.Claims;
-            userId = $"User Id: {user.FindFirst(c => c.Type == "sub")?.Value.Split("|")[1]}";
-        }
-        else
-        {
-            authMessage = "The user is NOT authenticated.";
+            _userId = $"User Id: {user.FindFirst(c => c.Type == "sub")?.Value.Split("|")[1]}";
         }
     }
 
