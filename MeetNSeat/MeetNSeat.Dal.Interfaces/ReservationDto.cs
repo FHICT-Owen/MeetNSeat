@@ -9,25 +9,29 @@ namespace MeetNSeat.Dal.Interfaces
     {
         #region properties
         [Key]
-        public int Id { get; set; }
-        public int RoomId { get; set; }
-        public int UserId { get; set; }
-        public int Attendees { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public DateTime IsConfirmed { get; set; }
+        public int Id { get;}
+        public int RoomId { get;}
+        public string UserId { get;}
+        public int FeedbackId { get; }
+        public int Attendees { get;}
+        public DateTime CreatedOn { get;}
+        public DateTime StartTime { get;}
+        public DateTime EndTime { get; }
+        public DateTime IsConfirmed { get; }
         #endregion
 
-        public ReservationDto(int roomId, int userId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed)
+
+        public ReservationDto(int reservationId, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime confirmed)
         {
+            Id = reservationId;
             RoomId = roomId;
             UserId = userId;
+            FeedbackId = feedbackId;
             Attendees = attendees;
             CreatedOn = createdOn;
             StartTime = startTime;
             EndTime = endTime;
-            IsConfirmed = isConfirmed;  
+            IsConfirmed = confirmed;
         }
     }
 }

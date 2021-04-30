@@ -1,5 +1,33 @@
 ﻿@page "/"
+@using Blazored.SessionStorage
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ISessionStorageService Storage
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+@code
+{
+    protected override async Task OnParametersSetAsync()
+    {
+        await GetUserId();
+        await base.OnParametersSetAsync();
+    }
+
+    private async Task GetUserId()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var userId = $"User Id: {user.FindFirst(c => c.Type == "sub")?.Value.Split("|")[1]}";
+            if (userId != "")
+            {
+                await Storage.SetItemAsync("userId", userId);
+            }
+        }
+    }
+}

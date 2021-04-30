@@ -6,14 +6,14 @@ using MeetNSeat.Logic;
 namespace MeetNSeat.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class ReservationsTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void GetAllReservations()
         {
-            var r = new User();
+            var u = new User();
 
-            r.AddReservation(1, 1,5, DateTime.Now, DateTime.Now);
+            Assert.IsNotNull(u.GetReservationByUser(1));
         }
     }
 }

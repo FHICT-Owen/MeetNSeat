@@ -24,8 +24,9 @@ namespace MeetNSeat.Logic
       return _issues.AsReadOnly();
     }
     
-    public void AddIssue(Issue issue)
+    public void AddIssue(int roomId, string userId, string description)
     {
+      var issue = new Issue(roomId, userId, description);
       _issues.Add(issue);
       _dal.AddIssue(issue.ConvertToDto());
     }

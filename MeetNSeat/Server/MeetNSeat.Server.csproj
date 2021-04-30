@@ -27,5 +27,9 @@
     <ProjectReference Include="..\MeetNSeat.Logic\MeetNSeat.Logic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers" />
+  </ItemGroup>
+
 
 </Project>
