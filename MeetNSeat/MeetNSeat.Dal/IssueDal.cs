@@ -12,7 +12,7 @@ namespace MeetNSeat.Dal
 		public List<IssueDto> GetAllIssues()
 		{
 			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
-			var output = connection.Query<IssueDto>("").ToList();
+			var output = connection.Query<IssueDto>("dbo.GetAllIssues").ToList();
 			return output;
 		}
 
