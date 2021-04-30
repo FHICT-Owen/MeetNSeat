@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using Dapper;
 using MeetNSeat.Dal.Interfaces;
 using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
+using System.Linq;
 
 namespace MeetNSeat.Dal
 {
     public class ReservationDal : IReservationDal
     {
-        public List<ReservationDto> GetAllReservations()
-        {
-            // var reservationList = context.Reservations.ToList();
-            // return reservationList;
-            return null;
-        }
-
         public void AddReservation(ReservationDto reservationDto)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
@@ -37,6 +29,28 @@ namespace MeetNSeat.Dal
             // if (entry == null) return;
             // context.Entry(entry).CurrentValues.SetValues(reservationDto);
             // context.SaveChanges();
-        } 
+        }
+
+        public List<ReservationDto> GetReservationByUser(int id)
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@UserId", id);
+
+            var output = connection.Query<ReservationDto>("dbo.GetAllUserReservations @UserId",parameters).ToList();
+            return output;
+            
+        }
+
+
+        public List<ReservationDto> GetAllReservations()
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+            
+            var output = connection.Query<ReservationDto>("dbo.GetAllReservations").ToList();
+            return output;
+
+        }
     }
 }
