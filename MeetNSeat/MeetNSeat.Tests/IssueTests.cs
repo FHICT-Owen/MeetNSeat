@@ -8,11 +8,11 @@ namespace MeetNSeat.Tests
 	public class UnitTest1
 	{
 		[TestMethod]
-		public void ReportNewIssue()
+		public void IssueShouldBeAddedToTheDatabase()
 		{
 			var issueCollection = new IssueCollection();
 
-			issueCollection.AddIssue(1, "test", "test");
+			issueCollection.AddIssue(1, "test", "Test succeeded");
 		}
 	}
 }
