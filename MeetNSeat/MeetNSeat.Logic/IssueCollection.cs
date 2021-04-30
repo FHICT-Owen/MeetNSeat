@@ -4,7 +4,7 @@ using MeetNSeat.Dal.Interfaces;
 
 namespace MeetNSeat.Logic
 {
-  public class IssueCollection
+  public class IssueCollection : IManageIssue
   {
     private readonly List<Issue> _issues = new List<Issue>();
     private readonly IIssueDal _dal;
