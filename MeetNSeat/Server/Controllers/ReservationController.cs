@@ -21,7 +21,8 @@ namespace MeetNSeat.Server.Controllers
         [HttpPost("api")]
         public void CreateReservation()
         {
-            _manageReservation.AddReservation(1, 1, 1, DateTime.Now, DateTime.Now);
+            //int reservationId, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime
+            _manageReservation.AddReservation(1, 1, "1", 1, 5, DateTime.Now, DateTime.Now, DateTime.Now);
         }
 
         //manageReservation = ReservationFactory.AddReservation();
