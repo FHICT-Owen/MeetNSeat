@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Client\MeetNSeat.Client.csproj" />
+    <ProjectReference Include="..\MeetNSeat.Logic.Factories\MeetNSeat.Logic.Factories.csproj" />
     <ProjectReference Include="..\MeetNSeat.Logic\MeetNSeat.Logic.csproj" />
   </ItemGroup>
 
