@@ -11,7 +11,8 @@ namespace MeetNSeat.Tests
 		[TestMethod]
 		public void IssueShouldBeAddedToTheDatabase()
 		{
-			// _issueCollection.AddIssue(1, "test", "Test succeeded");
+			var s = new Issue("Test succeeded", 1, "test");
+			_issueCollection.AddIssue(s);
 		}
 		
 		[TestMethod]

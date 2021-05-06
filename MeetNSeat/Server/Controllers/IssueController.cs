@@ -22,12 +22,18 @@ namespace MeetNSeat.Server.Controllers
 			return Ok(issues);
 		}
 		
+		// [HttpPost]
+		// public void AddIssue(string description, int roomId, string userId)
+		// {
+		// 	var s = new Issue(description, roomId, userId);
+		// 	_manageIssue.AddIssue(s);
+		// }
+		
 		[HttpPost]
-		public ActionResult AddIssue([FromBody] IssueModel issueModel)
+		public void AddIssue([FromBody] IssueModel issueModel)
 		{
-			var issue = new Issue(issueModel.Description, issueModel.RoomId, issueModel.UserId);
-			_manageIssue.AddIssue(issue);
-			return Ok($"Issue added with id: {issue.Id}");
+			var s = new Issue(issueModel.Description, issueModel.RoomId, issueModel.UserId);
+			_manageIssue.AddIssue(s);
 		}
 	}
 }

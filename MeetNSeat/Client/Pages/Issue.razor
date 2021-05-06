@@ -1,9 +1,6 @@
-﻿@inject IssueService _issueService;
-
-@page "/issue"
+﻿@page "/issue"
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Client.Models
-@using System.Configuration
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
@@ -14,8 +11,9 @@
         <form>
             <div class="mb-3">
                 <label for="issue" class="form-label">Probleem</label>
-                <textarea class="form-control" id="issue" style="height: 100px" @bind="Description" @bind:event="oninput"  maxlength="1000"></textarea>
+                <textarea class="form-control" id="issue" style="height: 100px" @bind="Description" @bind:event="oninput" maxlength="1000"></textarea>
                 Characters : @Description.Length / 1000
+                @{ IsDisabled = Description.Length <= 0; }
             </div>
             <div class="mb-3">
                 <label for="room" class="form-label">Kamer</label>
@@ -26,7 +24,7 @@
                     <option value="3">Kamer 3</option>
                 </select>
             </div>
-            <button @onclick="AddIssue" disabled="@IsDisabled" type="submit" class="btn btn-primary">Meld probleem</button>
+            <button @onclick="AddIssue" type="button" disabled="@IsDisabled" class="btn btn-primary">Meld probleem</button>
         </form>
     </div>
 </main>
@@ -34,12 +32,10 @@
 @code {
 	private string Description { get; set; } = string.Empty;
 
-    private IssueModel NewIssue { get; set; }
-    
-    private bool IsDisabled { get; set; }
-    
-    private void AddIssue()
+    private bool IsDisabled { get; set; } = true;
+
+    private static async Task AddIssue()
     {
-        // _issueService.AddIssue(NewIssue);
+        await IssueService.AddIssue(new IssueModel());
     }
 }

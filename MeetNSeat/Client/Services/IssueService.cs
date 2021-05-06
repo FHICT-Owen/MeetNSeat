@@ -8,21 +8,16 @@ namespace MeetNSeat.Client.Services
 {
 	public class IssueService
 	{
-		private readonly HttpClient _http;
-
-		public IssueService(HttpClient http)
+		public static async Task<IEnumerable<IssueModel>> GetAllIssues()
 		{
-			_http = http;
+			using var client = new HttpClient();
+			return await client.GetFromJsonAsync<List<IssueModel>>("https://localhost:5001/api/issues");
 		}
 		
-		public async Task<IEnumerable<IssueModel>> GetAllIssues()
+		public static async Task AddIssue(IssueModel issue)
 		{
-			return await _http.GetFromJsonAsync<List<IssueModel>>("api/issues");
-		}
-		
-		public async void AddIssue(IssueModel issue)
-		{
-			await _http.PostAsJsonAsync("api/issues", issue);
+			using var client = new HttpClient();
+			await client.PostAsJsonAsync("https://localhost:5001/api/issues", issue);
 		}
 	}
 }
