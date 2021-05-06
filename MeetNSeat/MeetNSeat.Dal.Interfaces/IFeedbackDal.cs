@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MeetNSeat.Dal;
+﻿using System.Collections.Generic;
 namespace MeetNSeat.Dal.Interfaces
 {
     public interface IFeedbackDal

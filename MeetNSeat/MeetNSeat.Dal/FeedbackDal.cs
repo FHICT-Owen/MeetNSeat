@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Dapper;
+using MeetNSeat.Dal.Interfaces;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using Dapper;
-using MeetNSeat.Dal.Interfaces;
 
 namespace MeetNSeat.Dal
 {

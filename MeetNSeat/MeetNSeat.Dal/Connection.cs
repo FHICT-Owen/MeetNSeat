@@ -1,9 +1,4 @@
-﻿using System;
-using System.Configuration;
-using System.IO;
-using Microsoft.Extensions.Configuration;
-
-namespace MeetNSeat.Dal
+﻿namespace MeetNSeat.Dal
 {
     public static class Connection
     {

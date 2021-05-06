@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using MeetNSeat.Dal.Factories;
+﻿using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
 using MeetNSeat.Logic.Interfaces;
+using System;
+using System.Collections.Generic;
 
 namespace MeetNSeat.Logic
 {

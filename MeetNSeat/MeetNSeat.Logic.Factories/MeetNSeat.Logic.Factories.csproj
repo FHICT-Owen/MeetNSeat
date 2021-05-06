@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MeetNSeat.Logic.Interfaces\MeetNSeat.Logic.Interfaces.csproj" />
     <ProjectReference Include="..\MeetNSeat.Logic\MeetNSeat.Logic.csproj" />
   </ItemGroup>
 

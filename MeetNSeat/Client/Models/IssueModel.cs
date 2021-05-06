@@ -1,10 +1,8 @@
 using System;
-using System.Text.Json.Serialization;
-using MeetNSeat.Logic;
 
 namespace MeetNSeat.Client.Models
 {
-	public class IssueModel
+    public class IssueModel
 	{
 		public int Id { get; set; }
 		public int RoomId { get; set; }

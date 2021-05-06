@@ -1,8 +1,5 @@
-﻿using System;
+﻿using MeetNSeat.Dal.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MeetNSeat.Dal.Interfaces;
 
 namespace MeetNSeat.Dal
 {
