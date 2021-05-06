@@ -19,17 +19,13 @@ namespace MeetNSeat.Dal.Interfaces
         #endregion
 
 
-        public ReservationDto(int reservationId, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime confirmed)
+        public ReservationDto(int roomId, string userId, int attendees, DateTime startTime, DateTime endTime)
         {
-            Id = reservationId;
             RoomId = roomId;
             UserId = userId;
-            FeedbackId = feedbackId;
             Attendees = attendees;
-            CreatedOn = createdOn;
             StartTime = startTime;
             EndTime = endTime;
-            IsConfirmed = confirmed;
         }
     }
 }

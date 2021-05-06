@@ -30,11 +30,37 @@ namespace MeetNSeat.Logic
             return dal.GetReservationByUser(userId);
         }
 
-        public void AddReservation(string type, int locationId, string userId, int feedbackId, int attendees, DateTime startTime, DateTime endTime)
+        public bool AddReservation(string type, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
         {
-            // TODO: Kamers ophalen gebaseerd op type.
+            // Retrieve rooms by type and location
             Room room = new Room();
-            room.GetAvailableRooms(type, locationId);
+            var rooms = room.GetAvailableRooms(type, locationId);
+
+            Reservation reservation = new Reservation();
+            var reservations = reservation.GetAllReservations();
+
+            //TODO: Check if any room is available on given date
+            // Loop trough reservations with given room id
+            // Check if there is no reservation in given start and end
+
+            foreach (var r in reservations)
+            {
+                if (startTime > r.StartTime || endTime < r.EndTime)
+                {
+                    // Room not available
+                    return false;
+                }
+                else
+                {
+                    //TODO: Set reservation
+                    ReservationDto reservationDto = new ReservationDto(r.RoomId, userId, attendees, startTime, endTime);
+                    return dal.AddReservation(reservationDto);
+                    // Room available
+                }
+            }
+
+            
+
 
             throw new NotImplementedException();
         }
