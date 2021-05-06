@@ -9,13 +9,13 @@ namespace MeetNSeat.Dal
 {
     public class RoomDal : IRoomDal
     {
-        public List<RoomDto> GetAllRoomsByType(RoomDto roomDto)
+        public List<RoomDto> GetAllRoomsByType(string type, int locationId)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
 
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@LocationID", roomDto.LocationId);
-            parameters.Add("@Type", roomDto.Type);
+            parameters.Add("@LocationID", locationId);
+            parameters.Add("@Type", type);
 
             var output = connection.Query<RoomDto>("dbo.GetAllRoomsByType @LocationID, @Type", parameters).ToList();
             return output;

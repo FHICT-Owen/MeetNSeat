@@ -1,4 +1,5 @@
-﻿using MeetNSeat.Dal.Factories;
+﻿using System.Collections.Generic;
+using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
 //using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
@@ -20,10 +21,9 @@ namespace MeetNSeat.Logic
             dal = RoomFactory.CreateRoomDal();
         }
 
-        public void GetAvailableRoom()
+        public List<RoomDto> GetAvailableRooms(string type, int locationId)
         {
-            var rooms = dal.GetAllRooms();
-
+            return dal.GetAllRoomsByType(type, locationId);
         }
     }
 }
