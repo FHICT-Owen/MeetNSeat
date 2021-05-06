@@ -6,11 +6,11 @@ namespace MeetNSeat.Client.Models
 {
 	public class IssueModel
 	{
-		public int Id { get; }
-		public int RoomId { get; }
-		public string UserId { get; }
-		public string Description { get; }
-		public DateTime CreatedOn { get; }
-		public bool IsResolved { get; private set; }
+		public int Id { get; set; }
+		public int RoomId { get; set; }
+		public string UserId { get; set; }
+		public string Description { get; set; }
+		public DateTime CreatedOn { get; set; }
+		public bool IsResolved { get; set; }
 	}
 }

@@ -6,7 +6,7 @@ using MeetNSeat.Client.Models;
 
 namespace MeetNSeat.Client.Services
 {
-	public class IssueService : IIssueService
+	public class IssueService
 	{
 		private readonly HttpClient _http;
 
