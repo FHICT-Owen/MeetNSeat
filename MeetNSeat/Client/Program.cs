@@ -26,6 +26,8 @@ namespace MeetNSeat.Client
                 options.BaseAddress = new Uri("https://jsonip.com");
             });
             builder.Services.AddHttpClient<IssueService>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+            builder.Services.AddHttpClient<FeedbackService>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+
             builder.Services.AddScoped<IApiClientService, ApiClientService>();
 
             await builder.Build().RunAsync();
