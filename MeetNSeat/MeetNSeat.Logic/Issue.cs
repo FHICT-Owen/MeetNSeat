@@ -12,11 +12,11 @@ namespace MeetNSeat.Logic
 	    public DateTime CreatedOn { get; }
 	    public bool IsResolved { get; private set; }
 
-	    public Issue(int roomId, string userId, string description)
+	    public Issue(string description, int roomId, string userId)
 	    {
+		    Description = description;
 		    RoomId = roomId;
 		    UserId = userId;
-		    Description = description;
 		    CreatedOn = DateTime.Now;
 		    IsResolved = false;
 	    }

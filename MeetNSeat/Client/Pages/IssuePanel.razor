@@ -1,4 +1,8 @@
-﻿@page "/issuePanel"
+﻿@inject IssueService _issueService;
+
+@page "/issuePanel"
+@using MeetNSeat.Client.Models
+@using MeetNSeat.Client.Services
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto
@@ -9,27 +13,38 @@
     <div>
         <table class="table table-striped">
             <thead>
-                <tr>
-                    <th scope="col">Locatie</th>
-                    <th scope="col">Kamer</th>
-                    <th scope="col">Probleem</th>
-                    <th scope="col">Vermeld door</th>
-                </tr>
+            <tr>
+                <th scope="col">Description</th>
+                <th scope="col">Room</th>
+                <th scope="col">Reported by</th>
+                <th scope="col">Reported on</th>
+                <th scope="col">Is resolved</th>
+            </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Eindhoven</td>
-                    <td>2.02</td>
-                    <td>Planten zijn dood</td>
-                    <td>Rik Leemans</td>
-                </tr>
-                <tr>
-                    <td>Amsterdam</td>
-                    <td>1.13</td>
-                    <td>Onopgeruimde werkplek bij aankomst.</td>
-                    <td>Dirk Lemmen</td>
-                </tr>
+            @if (Issues.Count > 0)
+            {
+                foreach (var issue in Issues)
+                {
+                    <tr>
+                        <td>@issue.Description</td>
+                        <td>@issue.RoomId</td>
+                        <td>@issue.UserId</td>
+                        <td>@issue.CreatedOn</td>
+                        <td>@issue.IsResolved</td>
+                    </tr>
+                }
+            }
             </tbody>
         </table>
     </div>
 </main>
+
+@code {
+    List<IssueModel> Issues { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Issues = (await _issueService.GetAllIssues()).ToList();
+    }
+}

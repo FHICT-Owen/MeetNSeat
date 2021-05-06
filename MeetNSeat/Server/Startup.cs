@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Hosting;
@@ -48,6 +49,12 @@ namespace MeetNSeat.Server
             app.UseStaticFiles();
 
             app.UseRouting();
+            
+            app.UseCors(builder => builder
+                .WithOrigins("http://localhost:5001")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+            );
 
             app.UseEndpoints(endpoints =>
             {

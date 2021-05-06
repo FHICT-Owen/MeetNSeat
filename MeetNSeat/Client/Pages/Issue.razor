@@ -1,4 +1,8 @@
-﻿@page "/issue"
+﻿@inject IssueService _issueService;
+
+@page "/issue"
+@using MeetNSeat.Client.Services
+@using MeetNSeat.Client.Models
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
@@ -27,5 +31,12 @@
 </main>
 
 @code {
-    public string Description { get; set; } = string.Empty;
+	private string Description { get; set; } = string.Empty;
+
+    private IssueModel NewIssue { get; set; } = new ();
+    
+    private void AddIssue()
+    {
+        _issueService.AddIssue(NewIssue);
+    }
 }
