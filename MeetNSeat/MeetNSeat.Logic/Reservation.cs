@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
 
@@ -24,6 +25,11 @@ namespace MeetNSeat.Logic
             Digitalscreen
         }
 
+        public Reservation()
+        {
+            
+        }
+
         public Reservation(int id, int roomId, string userId,  int attendees, DateTime startTime, DateTime endTime, DateTime isConfirmed)
         {
             Id = id;
@@ -41,7 +47,10 @@ namespace MeetNSeat.Logic
         {
         }
 
-
+        public List<ReservationDto> GetAllReservations()
+        {
+            return dal.GetAllReservations();
+        }
 
         public void EditReservation()
         {

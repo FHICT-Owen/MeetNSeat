@@ -50,7 +50,6 @@ namespace MeetNSeat.Dal
             
             var output = connection.Query<ReservationDto>("dbo.GetAllReservations").ToList();
             return output;
-
         }
     }
 }
