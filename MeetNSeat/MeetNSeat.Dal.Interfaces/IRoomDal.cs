@@ -4,6 +4,6 @@ namespace MeetNSeat.Dal.Interfaces
 {
     public interface IRoomDal
     {
-        List<RoomDto> GetAllRooms();
+        List<RoomDto> GetAllRoomsByType(RoomDto roomDto);
     }
 }

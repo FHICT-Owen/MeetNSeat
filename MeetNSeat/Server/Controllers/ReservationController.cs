@@ -22,7 +22,7 @@ namespace MeetNSeat.Server.Controllers
         public void CreateReservation()
         {
             //int reservationId, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime
-            _manageReservation.AddReservation(1, 1, "1", 1, 5, DateTime.Now, DateTime.Now, DateTime.Now);
+            _manageReservation.AddReservation(1, "1", 1, 5, DateTime.Now, DateTime.Now);
         }
 
         //manageReservation = ReservationFactory.AddReservation();

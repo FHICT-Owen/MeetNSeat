@@ -19,11 +19,7 @@ namespace MeetNSeat.Logic
             dal = ReservationFactory.CreateReservationDal();
         }
 
-        public void AddReservation(int reservationId, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime)
-        {
-            //var reservationDto = new ReservationDto(reservationId, roomId, userId, feedbackId, attendees, createdOn, startTime, endTime);
-            //dal.AddReservation(reservationDto);
-        }
+       
 
         public List<ReservationDto> GetAllReservations()
         {
@@ -35,6 +31,13 @@ namespace MeetNSeat.Logic
         {
             return dal.GetReservationByUser(userId);
         }
-        
+
+        public void AddReservation(int roomId, string userId, int feedbackId, int attendees, DateTime startTime, DateTime endTime)
+        {
+            // TODO: Kamers ophalen gebaseerd op type.
+            
+
+            throw new NotImplementedException();
+        }
     }
 }
