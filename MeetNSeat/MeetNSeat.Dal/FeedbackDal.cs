@@ -27,10 +27,8 @@ namespace MeetNSeat.Dal
         public List<FeedbackDto> GetAllFeedback()
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
-            var query = connection.Query<FeedbackDto>("dbo.GetAllFeedback;");
-
-            List<FeedbackDto> feedback = query.ToList();
-            return feedback;
+            var query = connection.Query<FeedbackDto>("dbo.GetAllFeedback;").ToList();
+            return query;
         }
         public FeedbackDto GetFeedbackDtoById(int id)
         {

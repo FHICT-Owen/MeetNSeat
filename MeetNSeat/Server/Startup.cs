@@ -21,6 +21,7 @@ namespace MeetNSeat.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IManageIssue, IssueCollection>();
+            services.AddTransient<IManageFeedback, FeedbackCollection>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

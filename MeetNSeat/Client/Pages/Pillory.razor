@@ -1,4 +1,7 @@
-﻿@page "/pillory"
+﻿@inject FeedbackService _feedbackService;
+@page "/pillory"
+@using MeetNSeat.Client.Models
+@using MeetNSeat.Client.Services
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto
@@ -14,26 +17,30 @@
                     <th scope="col">Tijd</th>
                     <th scope="col">Locatie</th>
                     <th scope="col">Kamer</th>
-                    <th scope="col">Presentie</th>
-                    <th scope="col">Persoon</th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="color:red">
-                    <td>13:00 - 14:00</td>
-                    <td>Eindhoven</td>
-                    <td>2.20</td>
-                    <td>Afwezig</td>
-                    <td>Owen de Bree</td>
-                </tr>
-                <tr class="color:red">
-                    <td>08:00 - 11:00</td>
-                    <td>Eindhoven</td>
-                    <td>3.15</td>
-                    <td>30 min telaat</td>
-                    <td>Siem Lucassen</td>
-                </tr>
+                @if (Feedback.Count > 0)
+                    {
+                        foreach (var feedback in Feedback)
+                        {
+                            <tr class="color:red">
+                                <td>@feedback.Id</td>
+                                <td>@feedback.Description</td>
+                                <td>@feedback.FeedbackState</td>
+                            </tr>
+                        }
+                    }
             </tbody>
         </table>
     </div>
 </main>
+@code
+{
+    List<FeedbackModel> Feedback { get; set; } = new();
+        protected override async Task OnInitializedAsync()
+
+        {
+            Feedback = (await _feedbackService.GetAllFeedback()).ToList();
+        }
+}
