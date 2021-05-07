@@ -2,7 +2,7 @@ using System;
 
 namespace MeetNSeat.Client.Models
 {
-    public class IssueModel
+	public class IssueModel
 	{
 		public string Description { get; set; }
 		public int RoomId { get; set; }
@@ -10,11 +10,11 @@ namespace MeetNSeat.Client.Models
 		public DateTime CreatedOn { get; set; }
 		public bool IsResolved { get; set; }
 
-		public IssueModel()
+		public IssueModel(string description)
 		{
+			Description = description;
 			RoomId = 1;
 			UserId = "test";
-			Description = "sdadas";
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
+using MeetNSeat.Logic.Interfaces;
 
 namespace MeetNSeat.Logic
 {

@@ -1,4 +1,5 @@
 ﻿using MeetNSeat.Logic;
+using MeetNSeat.Logic.Interfaces;
 using MeetNSeat.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 
