@@ -19,22 +19,15 @@ namespace MeetNSeat.Server.Controllers
 		[HttpGet]
 		public ActionResult GetAllIssues()
 		{
-			var issues = _manageIssue.GetAllIssues();
-			return Ok(issues);
+			var allIssues = _manageIssue.GetAllIssues();
+			return Ok(allIssues);
 		}
-		
-		// [HttpPost]
-		// public void AddIssue(string description, int roomId, string userId)
-		// {
-		// 	var s = new Issue(description, roomId, userId);
-		// 	_manageIssue.AddIssue(s);
-		// }
 		
 		[HttpPost]
 		public void AddIssue([FromBody] IssueModel issueModel)
 		{
-			var s = new Issue(issueModel.Description, issueModel.RoomId, issueModel.UserId);
-			_manageIssue.AddIssue(s);
+			var newIssue = new Issue(issueModel.Description, issueModel.RoomId, issueModel.UserId);
+			_manageIssue.AddIssue(newIssue);
 		}
 	}
 }
