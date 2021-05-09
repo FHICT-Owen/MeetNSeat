@@ -1,45 +1,44 @@
-﻿@inject IssueService _issueService;
-
-@page "/issue"
+﻿@page "/issue"
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Client.Models
-@using System.Configuration
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Probleem melden</h1>
+        <h2>Report issue</h2>
     </div>
     <div>
         <form>
             <div class="mb-3">
-                <label for="issue" class="form-label">Probleem</label>
-                <textarea class="form-control" id="issue" style="height: 100px" @bind="Description" @bind:event="oninput"  maxlength="1000"></textarea>
+                <label for="issue" class="form-label">Issue</label>
+                <textarea class="form-control" id="issue" placeholder="Enter your issue here." style="height: 100px" @bind="Description" @bind:event="oninput" maxlength="1000"></textarea>
                 Characters : @Description.Length / 1000
             </div>
             <div class="mb-3">
-                <label for="room" class="form-label">Kamer</label>
-                <select class="form-control" aria-label="Default select example">
-                    <option disabled selected>Selecteer een kamer</option>
+                <label for="room" class="form-label">Room</label>
+                <select class="form-control" @bind="Room" aria-label="Default select example">
+                    <option disabled selected placeholder="If the problem is related to a room u can select it here" >Selecteer een kamer</option>
                     <option value="1">Kamer 1</option>
                     <option value="2">Kamer 2</option>
                     <option value="3">Kamer 3</option>
                 </select>
             </div>
-            <button @onclick="AddIssue" disabled="@IsDisabled" type="submit" class="btn btn-primary">Meld probleem</button>
+            <button @onclick="AddIssue" type="button" disabled="@IsDisabled" class="btn btn-primary">Meld probleem</button>
         </form>
     </div>
 </main>
 
-@code {
-	private string Description { get; set; } = string.Empty;
+@{ IsDisabled = Description.Length <= 0; }
 
-    private IssueModel NewIssue { get; set; }
+@code {
+	private static string Description { get; set; } = string.Empty;
+
+    private string Room { get; set; } = string.Empty;
     
-    private bool IsDisabled { get; set; }
+    private bool IsDisabled { get; set; } = true;
     
-    private void AddIssue()
+    private static async Task AddIssue()
     {
-        // _issueService.AddIssue(NewIssue);
+        await IssueService.AddIssue(new IssueModel(Description));
     }
 }

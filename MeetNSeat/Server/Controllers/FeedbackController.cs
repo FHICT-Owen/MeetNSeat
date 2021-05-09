@@ -1,4 +1,5 @@
 ﻿using MeetNSeat.Logic;
+using MeetNSeat.Logic.Interfaces;
 using MeetNSeat.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +14,12 @@ namespace MeetNSeat.Server.Controllers
         {
             _manageFeedback = manageFeedback;
         }
+        
         [HttpGet]
-        public ActionResult GetAllIssues()
+        public ActionResult GetAllFeedback()
         {
-            var issues = _manageFeedback.GetAllFeedback();
-            return Ok(issues);
+            var allFeedback = _manageFeedback.GetAllFeedback();
+            return Ok(allFeedback);
         }
     }
 }

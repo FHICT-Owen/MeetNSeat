@@ -1,4 +1,5 @@
 using MeetNSeat.Logic;
+using MeetNSeat.Logic.Interfaces;
 using MeetNSeat.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,16 +19,15 @@ namespace MeetNSeat.Server.Controllers
 		[HttpGet]
 		public ActionResult GetAllIssues()
 		{
-			var issues = _manageIssue.GetAllIssues();
-			return Ok(issues);
+			var allIssues = _manageIssue.GetAllIssues();
+			return Ok(allIssues);
 		}
 		
 		[HttpPost]
-		public ActionResult AddIssue([FromBody] IssueModel issueModel)
+		public void AddIssue([FromBody] IssueModel issueModel)
 		{
-			var issue = new Issue(issueModel.Description, issueModel.RoomId, issueModel.UserId);
-			_manageIssue.AddIssue(issue);
-			return Ok($"Issue added with id: {issue.Id}");
+			var newIssue = new Issue(issueModel.Description, issueModel.RoomId, issueModel.UserId);
+			_manageIssue.AddIssue(newIssue);
 		}
 	}
 }
