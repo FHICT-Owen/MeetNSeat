@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace MeetNSeat.Logic
 {
-    public class User : IManageReservation
+    public class User : IManageUser
     {
         public int Id { get; set; }
 
@@ -20,13 +20,16 @@ namespace MeetNSeat.Logic
             dal = ReservationFactory.CreateReservationDal();
         }
 
-        public List<ReservationDto> GetAllReservations()
+        public IReadOnlyCollection<Reservation> GetAllReservations()
         {
-            return dal.GetAllReservations();
-            
+            reservations.Clear();
+            dal.GetAllReservations().ForEach(
+                dto => reservations.Add(new Reservation(dto)));
+            return reservations.AsReadOnly();
+
         }
 
-        public List<ReservationDto> GetReservationByUser(int userId)
+        public List<ManageReservationDto> GetReservationByUser(int userId)
         {
             return dal.GetReservationByUser(userId);
         }

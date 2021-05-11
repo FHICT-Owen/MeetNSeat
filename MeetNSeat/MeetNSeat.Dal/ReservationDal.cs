@@ -33,24 +33,24 @@ namespace MeetNSeat.Dal
             // context.SaveChanges();
         }
 
-        public List<ReservationDto> GetReservationByUser(int id)
+        public List<ManageReservationDto> GetReservationByUser(int id)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
 
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@UserId", id);
 
-            var output = connection.Query<ReservationDto>("dbo.GetAllUserReservations @UserId",parameters).ToList();
+            var output = connection.Query<ManageReservationDto>("dbo.GetAllUserReservations @UserId",parameters).ToList();
             return output;
             
         }
 
 
-        public List<ReservationDto> GetAllReservations()
+        public List<ManageReservationDto> GetAllReservations()
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
             
-            var output = connection.Query<ReservationDto>("dbo.GetAllReservations").ToList();
+            List<ManageReservationDto> output = connection.Query<ManageReservationDto>("dbo.GetAllReservations").ToList();
             return output;
         }
     }

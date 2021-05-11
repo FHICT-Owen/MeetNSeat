@@ -7,13 +7,13 @@ namespace MeetNSeat.Dal.Interfaces
     {
         #region properties
         [Key]
-        public int Id { get;}
-        public int RoomId { get;}
-        public string UserId { get;}
+        public int Id { get; }
+        public int RoomId { get; }
+        public string UserId { get; }
         public int FeedbackId { get; }
-        public int Attendees { get;}
-        public DateTime CreatedOn { get;}
-        public DateTime StartTime { get;}
+        public int Attendees { get; }
+        public DateTime CreatedOn { get; }
+        public DateTime StartTime { get; }
         public DateTime EndTime { get; }
         public DateTime IsConfirmed { get; }
         #endregion

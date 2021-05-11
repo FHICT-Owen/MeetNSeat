@@ -4,10 +4,10 @@ namespace MeetNSeat.Dal.Interfaces
 {
     public interface IReservationDal
     {
-        List<ReservationDto> GetAllReservations();
+        List<ManageReservationDto> GetAllReservations();
         bool AddReservation(ReservationDto reservationDto);
         void RemoveReservation(ReservationDto reservationDto);
         void UpdateReservation(ReservationDto reservationDto);
-        List<ReservationDto> GetReservationByUser(int id);
+        List<ManageReservationDto> GetReservationByUser(int id);
     }
 }

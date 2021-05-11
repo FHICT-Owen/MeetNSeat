@@ -22,6 +22,7 @@ namespace MeetNSeat.Server
         {
             services.AddTransient<IManageIssue, IssueCollection>();
             services.AddTransient<IManageFeedback, FeedbackCollection>();
+            services.AddTransient<IManageUser, User>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
