@@ -8,6 +8,6 @@ namespace MeetNSeat.Dal.Interfaces
         bool AddReservation(ReservationDto reservationDto);
         void RemoveReservation(ReservationDto reservationDto);
         void UpdateReservation(ReservationDto reservationDto);
-        List<ReservationDto> GetReservationByUser(string id);
+        List<ManageReservationDto> GetReservationByUser(string id);
     }
 }

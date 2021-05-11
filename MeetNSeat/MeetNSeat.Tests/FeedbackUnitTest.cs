@@ -58,18 +58,7 @@ namespace MeetNSeat.Tests
             UserDal userDal = new UserDal();
             FeedbackCollection feedback = new FeedbackCollection();
             List<FeedbackDto> feedbackDto = feedback.GetFeedbackByUser("Rik Leemans");
-
-            //Assert.AreEqual(1, feedbackDto);
             Assert.IsNotNull(feedbackDto);
-        }
-
-        [TestMethod]
-        public void GetReservationByUser()
-        {
-            ReservationDal reservationDal = new ReservationDal();
-            reservationDal.GetReservationByUser("Rik Leemans");
-
-            Assert.IsNotNull(reservationDal.GetReservationByUser("Rik Leemans"));
         }
     }
 }

@@ -20,6 +20,12 @@ namespace MeetNSeat.Logic
             _dal = FeedbackFactory.CreateFeedbackDal();
             dalReservationDal = ReservationFactory.CreateReservationDal();
         }
+
+        public bool AddFeedback(Feedback feedback)
+        {
+            return _dal.InsertFeedback(feedback.ConvertToDto());
+        }
+
         public IReadOnlyCollection<Feedback> GetAllFeedback()
         {
             _feedback.Clear();
