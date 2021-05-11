@@ -11,10 +11,10 @@ namespace MeetNSeat.Client.Models
         public string Description { get; set; }
         public int FeedbackState { get; set; }
 
-        public FeedbackModel(string description)
+        public FeedbackModel(string description, int feedbackState)
         {
             Description = description;
-            FeedbackState = 1;
+            FeedbackState = feedbackState;
         }
     }
 }
