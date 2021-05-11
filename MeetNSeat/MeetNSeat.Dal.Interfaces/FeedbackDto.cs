@@ -17,5 +17,9 @@
             Description = description;
             FeedbackState = feedbackState;
         }
+
+        public FeedbackDto()
+        {
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace MeetNSeat.Logic
             
         }
 
-        public List<ReservationDto> GetReservationByUser(int userId)
+        public List<ReservationDto> GetReservationByUser(string userId)
         {
             return dal.GetReservationByUser(userId);
         }
