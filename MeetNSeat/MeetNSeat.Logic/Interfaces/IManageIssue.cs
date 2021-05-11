@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MeetNSeat.Logic
+namespace MeetNSeat.Logic.Interfaces
 {
 	public interface IManageIssue
 	{

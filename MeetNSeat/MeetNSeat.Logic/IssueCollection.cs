@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
+using MeetNSeat.Logic.Interfaces;
 
 namespace MeetNSeat.Logic
 {

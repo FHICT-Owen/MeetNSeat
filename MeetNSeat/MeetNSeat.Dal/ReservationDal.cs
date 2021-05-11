@@ -33,7 +33,7 @@ namespace MeetNSeat.Dal
             // context.SaveChanges();
         }
 
-        public List<ManageReservationDto> GetReservationByUser(int id)
+        public List<ReservationDto> GetReservationByUser(string id)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
 

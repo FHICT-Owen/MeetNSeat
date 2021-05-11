@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using MeetNSeat.Dal;
 using MeetNSeat.Dal.Interfaces;
+using System.Linq;
+using MeetNSeat.Logic;
 
 namespace MeetNSeat.Tests
 {
@@ -48,6 +50,26 @@ namespace MeetNSeat.Tests
             bool result = feedbackDal.DeleteFeedback(4);
 
             Assert.IsTrue(result, "successfully deleted");
+        }
+
+        [TestMethod]
+        public void GetFeedbackByUser()
+        {
+            UserDal userDal = new UserDal();
+            FeedbackCollection feedback = new FeedbackCollection();
+            List<FeedbackDto> feedbackDto = feedback.GetFeedbackByUser("Rik Leemans");
+
+            //Assert.AreEqual(1, feedbackDto);
+            Assert.IsNotNull(feedbackDto);
+        }
+
+        [TestMethod]
+        public void GetReservationByUser()
+        {
+            ReservationDal reservationDal = new ReservationDal();
+            reservationDal.GetReservationByUser("Rik Leemans");
+
+            Assert.IsNotNull(reservationDal.GetReservationByUser("Rik Leemans"));
         }
     }
 }

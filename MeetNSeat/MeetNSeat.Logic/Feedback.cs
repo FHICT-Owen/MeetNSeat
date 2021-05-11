@@ -1,4 +1,6 @@
-﻿using MeetNSeat.Dal.Interfaces;
+﻿using System.Collections.Generic;
+using MeetNSeat.Dal;
+using MeetNSeat.Dal.Interfaces;
 
 namespace MeetNSeat.Logic
 {
@@ -26,6 +28,8 @@ namespace MeetNSeat.Logic
         {
             return new FeedbackDto(Id, Description, FeedbackState);
         }
+
+
 
     }
 }

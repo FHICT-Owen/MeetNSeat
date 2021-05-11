@@ -13,7 +13,7 @@ namespace MeetNSeat.Tests
         {
             var u = new User();
 
-            Assert.IsNotNull(u.GetReservationByUser(1));
+            Assert.IsNotNull(u.GetReservationByUser("test"));
         }
         [TestMethod]
         public void GetAllReservations()
