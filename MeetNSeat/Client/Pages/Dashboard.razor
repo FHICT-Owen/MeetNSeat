@@ -12,6 +12,7 @@
     <div class="row">
         <div class="col-md-6">
             <h1 class="h3">Reserveringen</h1>
+            <p>@msg</p>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -45,7 +46,6 @@
                                 <td>@user.EndTime</td>
                                 <td>
                                     <form>
-                                            <input type="hidden" id="UserId" value="@user.ReservationId">
                                             <button @onclick="() => DeleteReservation(user)" type="button" class="btn btn-danger">Vrij geven</button>
                                     </form>
                                 </td>
@@ -83,18 +83,22 @@
 
 @code{
 
+    private static string msg { get; set; }
 
-        List<UserModel> User { get; set; } = new();
-        protected override async Task OnInitializedAsync()
+    List<UserModel> User { get; set; } = new();
+    protected override async Task OnInitializedAsync()
 
     {
-        User = (await _userService.GetAllReservations()).ToList();
-    }
 
-    private static int id { get; set; } = 0;
+        User = (await _userService.GetAllReservations()).ToList();
+        msg = msg;
+
+    }
 
     private static async Task DeleteReservation(UserModel user)
     {
-        await UserService.DeleteReservation(id);
+        
+        msg = await UserService.DeleteReservation(user.ReservationId);
+
     }
 }
