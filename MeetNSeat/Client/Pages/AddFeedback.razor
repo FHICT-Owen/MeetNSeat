@@ -8,6 +8,7 @@
         <h2>Add new feedback</h2>
     </div>
     <div>
+        <p>@msg</p>
         <form>
             <div class="form-group">
                 <label for="feedback">Feedback</label>
@@ -15,7 +16,7 @@
             </div>
             <div class="form-group">
                 <label for="feedbackstate">Give me a smiley</label>
-                <select class="form-control"  @bind="FeedbackState" @bind:event="oninput" id="feedbackstate">
+                <select class="form-control" @bind="FeedbackState" @bind:event="oninput" id="feedbackstate">
                     <option value="1">:(</option>
                     <option value="2">:|</option>
                     <option value="3">:)</option>
@@ -27,11 +28,16 @@
 </main>
 
 @code {
-    private static string Description { get; set; } = string.Empty;
-    private static int FeedbackState { get; set; } = 0;
-
+    private static string Description { get; set; } = null;
+    private static int? FeedbackState { get; set; } = null;
+    private static string msg { get; set; }
     private static async Task AddNewFeedback()
     {
-        await FeedbackService.AddFeedback(new FeedbackModel(Description, FeedbackState));
+        msg = await FeedbackService.AddFeedback(new FeedbackModel(Description, FeedbackState));
+    }
+    protected override async Task OnInitializedAsync()
+
+    {
+        msg = msg;
     }
 }

@@ -7,11 +7,11 @@ namespace MeetNSeat.Client.Models
 {
     public class FeedbackModel
     {
-        public int Id { get; set; }
-        public string Description { get; set; }
-        public int FeedbackState { get; set; }
+        public int FeedbackId { get; set; }
+        public string? Description { get; set; }
+        public int? FeedbackState { get; set; }
 
-        public FeedbackModel(string description, int feedbackState)
+        public FeedbackModel(string? description, int? feedbackState)
         {
             Description = description;
             FeedbackState = feedbackState;

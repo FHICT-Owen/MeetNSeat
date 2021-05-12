@@ -23,7 +23,7 @@ namespace MeetNSeat.Tests
         [TestMethod]
         public void GetFeedbackDtoByIdTest()
         {
-            int feedbackDto = feedbackDal.GetFeedbackDtoById(2).Id;
+            int feedbackDto = feedbackDal.GetFeedbackDtoById(2).FeedbackId;
             Assert.AreEqual(2, feedbackDto, "Feedback by Id returns a feedback");
 
         }
