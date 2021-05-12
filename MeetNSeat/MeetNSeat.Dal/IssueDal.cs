@@ -11,20 +11,20 @@ namespace MeetNSeat.Dal
 	{
 		public List<IssueDto> GetAllIssues()
 		{
-			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 			var output = connection.Query<IssueDto>("dbo.GetAllIssues").ToList();
 			return output;
 		}
 
 		public void AddIssue(IssueDto issueDto)
 		{
-			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 			connection.Execute("dbo.InsertIssue @RoomId, @UserId, @Description, @CreatedOn, @IsResolved", issueDto);
 		}
 
 		public void Resolve(IssueDto issueDto)
 		{
-			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 			connection.Execute("dbo.ResolveIssue @RoomId, @UserId, @Description, @CreatedOn, @IsResolved", issueDto);
 		}
 	}

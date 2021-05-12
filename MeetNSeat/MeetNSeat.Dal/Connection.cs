@@ -5,7 +5,7 @@ namespace MeetNSeat.Dal
 {
     public static class Connection
     {
-        public static string GetConnectionString(string name)
+        public static string GetConnectionString()
         {
             IConfiguration configuration = new ConfigurationBuilder()
                 .AddJsonFile("dbSettings.json")

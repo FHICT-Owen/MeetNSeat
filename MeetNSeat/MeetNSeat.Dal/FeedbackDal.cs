@@ -11,7 +11,7 @@ namespace MeetNSeat.Dal
     {
         public bool DeleteFeedback(int id)
         {
-            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             DynamicParameters parameter = new DynamicParameters();
             parameter.Add("@id", id);
             var result = connection.Execute("dbo.DeleteFeedback @id", parameter);
@@ -26,13 +26,13 @@ namespace MeetNSeat.Dal
         }
         public List<FeedbackDto> GetAllFeedback()
         {
-            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             var query = connection.Query<FeedbackDto>("dbo.GetAllFeedback;").ToList();
             return query;
         }
         public FeedbackDto GetFeedbackDtoById(int id)
         {
-            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             DynamicParameters parameter = new DynamicParameters();
 
             parameter.Add("@id", id);
@@ -42,7 +42,7 @@ namespace MeetNSeat.Dal
         public bool InsertFeedback(FeedbackDto feedbackDto)
         {
 
-            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             DynamicParameters parameter = new DynamicParameters();
             parameter.Add("@Description", feedbackDto.Description);
             parameter.Add("@FeedbackState", feedbackDto.FeedbackState);
@@ -58,7 +58,7 @@ namespace MeetNSeat.Dal
         }
         public bool UpdateFeedback(FeedbackDto feedbackDto)
         {
-            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             DynamicParameters parameter = new DynamicParameters();
             parameter.Add("@id", feedbackDto.Id);
             parameter.Add("@description", feedbackDto.Description);

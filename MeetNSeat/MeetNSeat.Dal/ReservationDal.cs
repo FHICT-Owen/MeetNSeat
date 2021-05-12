@@ -11,7 +11,7 @@ namespace MeetNSeat.Dal
     {
         public bool AddReservation(ReservationDto reservationDto)
         {
-            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             connection.Execute("dbo.CreateReservation @RoomId, @UserId, @Attendees, @CreatedOn, @StartTime, @EndTime, @IsConfirmed", reservationDto);
             //TODO: Iets anders voor bedenken
             return true;
@@ -35,7 +35,7 @@ namespace MeetNSeat.Dal
 
         public List<ReservationDto> GetReservationByUser(int id)
         {
-            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@UserId", id);
@@ -48,7 +48,7 @@ namespace MeetNSeat.Dal
 
         public List<ReservationDto> GetAllReservations()
         {
-            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             
             var output = connection.Query<ReservationDto>("dbo.GetAllReservations").ToList();
             return output;

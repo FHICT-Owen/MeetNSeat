@@ -11,7 +11,7 @@ namespace MeetNSeat.Dal
     {
         public List<RoomDto> GetAllRoomsByType(string type, int locationId)
         {
-            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@LocationID", locationId);
