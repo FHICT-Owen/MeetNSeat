@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Dapper;
 using MeetNSeat.Dal.Interfaces;
+using MeetNSeat.Dal.Interfaces.Dtos;
 
 namespace MeetNSeat.Dal
 {

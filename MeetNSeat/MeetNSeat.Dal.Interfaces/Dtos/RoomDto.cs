@@ -1,4 +1,4 @@
-﻿namespace MeetNSeat.Dal.Interfaces
+﻿namespace MeetNSeat.Dal.Interfaces.Dtos
 {
     public class RoomDto
     {

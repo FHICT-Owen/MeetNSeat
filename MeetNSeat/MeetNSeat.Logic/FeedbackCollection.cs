@@ -4,6 +4,7 @@ using System.Text;
 using MeetNSeat.Dal;
 using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
+using MeetNSeat.Dal.Interfaces.Dtos;
 using MeetNSeat.Logic.Interfaces;
 
 namespace MeetNSeat.Logic

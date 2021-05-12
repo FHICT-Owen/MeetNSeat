@@ -1,10 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using MeetNSeat.Dal;
-using MeetNSeat.Dal.Interfaces;
-using System.Linq;
+using MeetNSeat.Dal.Interfaces.Dtos;
 using MeetNSeat.Logic;
 
 namespace MeetNSeat.Tests

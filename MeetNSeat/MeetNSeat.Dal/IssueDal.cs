@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
 using MeetNSeat.Dal.Interfaces;
+using MeetNSeat.Dal.Interfaces.Dtos;
 
 namespace MeetNSeat.Dal
 {

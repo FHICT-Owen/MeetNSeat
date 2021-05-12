@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using MeetNSeat.Dal.Interfaces;
+using MeetNSeat.Dal.Interfaces.Dtos;
 
 namespace MeetNSeat.Logic.Interfaces
 {

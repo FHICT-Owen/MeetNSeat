@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MeetNSeat.Dal.Interfaces
+namespace MeetNSeat.Dal.Interfaces.Dtos
 {
     public class CreateReservationDto
     {

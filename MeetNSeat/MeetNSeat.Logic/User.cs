@@ -4,6 +4,7 @@ using MeetNSeat.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MeetNSeat.Dal.Interfaces.Dtos;
 
 namespace MeetNSeat.Logic
 {
