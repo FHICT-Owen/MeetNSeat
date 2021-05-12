@@ -25,7 +25,7 @@ namespace MeetNSeat.Client.Services
             using var client = new HttpClient();
             await client.PostAsJsonAsync("https://localhost:5001/api/reservation", reservation);
         }
-        public static async Task DeleteReservering(int id)
+        public static async Task DeleteReservation(int id)
         {
             using var client = new HttpClient();
             await client.DeleteAsync("https://localhost:5001/api/user/" + id);
