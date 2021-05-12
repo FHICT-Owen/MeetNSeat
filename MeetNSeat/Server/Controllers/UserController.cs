@@ -22,5 +22,11 @@ namespace MeetNSeat.Server.Controllers
             return Ok(user);
         }
 
+        [HttpPost]
+        public void CreateReservation([FromBody] ReservationModel reservationModel)
+        {
+            var newReservation = _manageUser.AddReservation(reservationModel.Type, reservationModel.LocationId, reservationModel.UserId, reservationModel.Attendees, reservationModel.StartTime, reservationModel.EndTime);
+        }
+
     }
 }

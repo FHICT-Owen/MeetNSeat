@@ -34,7 +34,7 @@ namespace MeetNSeat.Logic
             return dal.GetReservationByUser(userId);
         }
 
-        public bool AddReservation(int roomId, string type, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
+        public bool AddReservation(string type, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
         {
 
             // Retrieve rooms by type and location
@@ -48,12 +48,13 @@ namespace MeetNSeat.Logic
             // Loop trough reservations with given room id
             // Check if there is no reservation in given start and end
 
-            if (reservations.Where(r => r.RoomId == roomId).Any(r => startTime > r.StartTime || endTime < r.EndTime))
+            if (reservations.Where(r => r.RoomId == room.Id).Any(r => startTime > r.StartTime || endTime < r.EndTime))
             {
                 return false;
             }
+
             //TODO: Set reservation
-            ReservationDto reservationDto = new ReservationDto(roomId, userId, attendees, startTime, endTime);
+            ReservationDto reservationDto = new ReservationDto(room.Id, userId, attendees, startTime, endTime);
             return dal.AddReservation(reservationDto);
             // Room available
         }

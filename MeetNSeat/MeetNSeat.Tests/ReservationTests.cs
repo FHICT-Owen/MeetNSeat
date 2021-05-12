@@ -22,5 +22,10 @@ namespace MeetNSeat.Tests
 
             Assert.IsNotNull(u.GetAllReservations());
         }
+        [TestMethod]
+        public void CreateReservation()
+        {
+            var u = new User();
+        }
     }
 }
