@@ -36,29 +36,46 @@ namespace MeetNSeat.Logic
 
         public bool AddReservation(string type, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
         {
-
+            var isAvailable = true;
             // Retrieve rooms by type and location
             Room roomObject = new Room();
             var rooms = roomObject.GetAvailableRooms(type, locationId);
 
-            Reservation reservation = new Reservation();
-            var reservations = reservation.GetAllReservations();
+            var roomid = 0;
+
+            Reservation reservationObject = new Reservation();
+            var reservations = reservationObject.GetAllReservations();
 
             //TODO: Check if any room is available on given date
             // Loop trough reservations with given room id
             // Check if there is no reservation in given start and end
             foreach (var room in rooms)
             {
-                if (!reservations.Where(r => r.RoomId == room.RoomID).Any(r => startTime > r.StartTime || endTime < r.EndTime))
+                foreach (var reservation in reservations)
                 {
-                    return false;
+                    if (reservation.RoomId == room.RoomID)
+                    {
+                        // begin < 1 < end && begin < 2 < end
+
+                        // reservation.StartTime < startTime && startTime < reservation.EndTime && reservation.StartTime < endTime && endTime < reservation.EndTime
+                        // reservation.StartTime < endTime && endTime < reservation.EndTime
+
+                        if (reservation.StartTime < startTime && startTime < reservation.EndTime && reservation.StartTime < endTime && endTime < reservation.EndTime)
+                        {
+                            isAvailable = false;
+                        }
+                    }
                 }
-                else
-                {
-                    CreateReservationDto createReservationDto = new CreateReservationDto(room.RoomID, userId, attendees, startTime, endTime);
-                    return dal.AddReservation(createReservationDto);
-                }
+
+                roomid = room.RoomID;
             }
+            if (isAvailable)
+            {
+                CreateReservationDto createReservationDto = new CreateReservationDto(roomid, userId, attendees, startTime, endTime);
+                return dal.AddReservation(createReservationDto);
+            }
+
+
             return false;
         }
 
