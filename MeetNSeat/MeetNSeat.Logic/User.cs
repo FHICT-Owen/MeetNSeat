@@ -12,8 +12,8 @@ namespace MeetNSeat.Logic
     {
         public string Id { get; set; }
 
-        private List<Reservation> reservations = new List<Reservation>();
-        private IReservationDal dal;
+        private readonly List<Reservation> _reservations = new List<Reservation>();
+        private readonly IReservationDal _dal;
 
         public User(UserDto userDto)
         {
@@ -23,33 +23,32 @@ namespace MeetNSeat.Logic
         public User()
         {
             // Factory
-            dal = ReservationFactory.CreateReservationDal();
+            _dal = ReservationFactory.CreateReservationDal();
         }
 
         public IReadOnlyCollection<Reservation> GetAllReservations()
         {
-            reservations.Clear();
-            dal.GetAllReservations().ForEach(
-                dto => reservations.Add(new Reservation(dto)));
-            return reservations.AsReadOnly();
-
+            _reservations.Clear();
+            _dal.GetAllReservations().ForEach(
+                dto => _reservations.Add(new Reservation(dto)));
+            return _reservations.AsReadOnly();
         }
 
         public List<ManageReservationDto> GetReservationByUser(string userId)
         {
-            return dal.GetReservationByUser(userId);
+            return _dal.GetReservationByUser(userId);
         }
 
         public bool AddReservation(string type, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
         {
             var isAvailable = true;
             // Retrieve rooms by type and location
-            Room roomObject = new Room();
+            var roomObject = new Room();
             var rooms = roomObject.GetAvailableRooms(type, locationId);
 
-            var roomid = 0;
+            var roomId = 0;
 
-            Reservation reservationObject = new Reservation();
+            var reservationObject = new Reservation();
             var reservations = reservationObject.GetAllReservations();
 
             //TODO: Check if any room is available on given date
@@ -71,12 +70,12 @@ namespace MeetNSeat.Logic
                     }
                 }
 
-                roomid = room.RoomID;
+                roomId = room.RoomID;
             }
             if (isAvailable)
             {
-                CreateReservationDto createReservationDto = new CreateReservationDto(roomid, userId, attendees, startTime, endTime);
-                return dal.AddReservation(createReservationDto);
+                var createReservationDto = new CreateReservationDto(roomId, userId, attendees, startTime, endTime);
+                return _dal.AddReservation(createReservationDto);
             }
 
 
@@ -85,7 +84,7 @@ namespace MeetNSeat.Logic
 
         public bool DeleteReservation(int id)
         {
-            return dal.RemoveReservation(id);
+            return _dal.RemoveReservation(id);
         }
         
         public UserDto ConvertToDto()
