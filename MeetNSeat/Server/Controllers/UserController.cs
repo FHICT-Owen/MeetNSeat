@@ -22,7 +22,17 @@ namespace MeetNSeat.Server.Controllers
             return Ok(user);
         }
 
+<<<<<<< HEAD
         [HttpDelete("{id:int}")]
+=======
+        [HttpPost]
+        public void CreateReservation([FromBody] ReservationModel reservationModel)
+        {
+            var newReservation = _manageUser.AddReservation(reservationModel.Type, reservationModel.LocationId, reservationModel.UserId, reservationModel.Attendees, reservationModel.StartTime, reservationModel.EndTime);
+        }
+
+        [HttpPost]
+>>>>>>> 6c626a5cc3ed86aa59e73de195f5fa62b81992de
         public bool DeleteResult(int id)
         {
             return _manageUser.DeleteReservation(id);
