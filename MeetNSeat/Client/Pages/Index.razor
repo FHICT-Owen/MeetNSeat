@@ -27,6 +27,7 @@ Welcome to your new app.
             if (userId != "")
             {
                 await Storage.SetItemAsync("userId", userId);
+                var nickname = user.Identity.Name;
             }
         }
     }
