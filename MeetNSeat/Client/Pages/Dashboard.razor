@@ -39,7 +39,7 @@
                                 <td>@user.RoomId</td>
                                 <td>@user.RoomId</td>
                                 <td>@user.RoomId</td>
-                                <td>@user.Id</td>
+                                <td>@user.ReservationId</td>
                                 <td>@user.FeedbackId</td>
                                 <td>@user.UserId</td>
                                 <td>@user.CreatedOn</td>
@@ -47,9 +47,8 @@
                                 <td>@user.EndTime</td>
                                 <td>
                                     <form>
-                                        <input type="hidden" id="UserId" value="@user.Id">
-                                        @id = @user.Id
-                                            <button @onclick="DeleteReservering" type="button" class="btn btn-danger">Vrij geven</button>
+                                            <input type="hidden" id="UserId" value="@user.ReservationId">
+                                            <button @onclick="() => DeleteReservering(user)" type="button" class="btn btn-danger">Vrij geven</button>
                                     </form>
                                 </td>
                             </tr>
@@ -95,8 +94,8 @@
 
     private static int id { get; set; } = 0;
 
-    private static async Task DeleteReservering()
+    private static async Task DeleteReservering(UserModel user)
     {
-        await UserService.DeleteReservering(id);
+        await UserService.DeleteReservation(user.ReservationId);
     }
 }
