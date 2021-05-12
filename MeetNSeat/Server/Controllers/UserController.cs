@@ -21,10 +21,8 @@ namespace MeetNSeat.Server.Controllers
             var user = _manageUser.GetReservationByUser("Rik Leemans");
             return Ok(user);
         }
-
-<<<<<<< HEAD
+        
         [HttpDelete("{id:int}")]
-=======
         [HttpPost]
         public void CreateReservation([FromBody] ReservationModel reservationModel)
         {
@@ -32,7 +30,6 @@ namespace MeetNSeat.Server.Controllers
         }
 
         [HttpPost]
->>>>>>> 6c626a5cc3ed86aa59e73de195f5fa62b81992de
         public bool DeleteResult(int id)
         {
             return _manageUser.DeleteReservation(id);
