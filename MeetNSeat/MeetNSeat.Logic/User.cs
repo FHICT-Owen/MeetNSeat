@@ -49,7 +49,7 @@ namespace MeetNSeat.Logic
             var roomId = 0;
 
             var reservationObject = new Reservation();
-            var reservations = reservationObject.GetAllReservations();
+            var dbReservations = reservationObject.GetAllReservations();
 
             //TODO: Check if any room is available on given date
             // Loop trough reservations with given room id
@@ -57,29 +57,21 @@ namespace MeetNSeat.Logic
 
             foreach (var room in rooms)
             {
-                foreach (var resDb in reservations)
+                foreach (var dbReservation in dbReservations)
                 {
-                    if (resDb.RoomId == room.RoomID)
-                    {
-                        if (resDb.StartTime < startTime && startTime < resDb.EndTime || 
-                            resDb.StartTime < endTime && endTime < resDb.EndTime ||
-                            resDb.StartTime > startTime && endTime > resDb.EndTime)
-                        {
-                            isAvailable = false;
-                        }
-                    }
+                    if (dbReservation.RoomId == room.RoomID &&
+                        dbReservation.StartTime < startTime && startTime < dbReservation.EndTime ||
+                        dbReservation.StartTime < endTime && endTime < dbReservation.EndTime ||
+                        dbReservation.StartTime > startTime && endTime > dbReservation.EndTime)
+                        
+                        isAvailable = false;
                 }
-
                 roomId = room.RoomID;
             }
-            if (isAvailable)
-            {
-                var createReservationDto = new CreateReservationDto(roomId, userId, attendees, startTime, endTime);
-                return _dal.AddReservation(createReservationDto);
-            }
-
-
-            return false;
+            if (!isAvailable) return false;
+            
+            var createReservationDto = new CreateReservationDto(roomId, userId, attendees, startTime, endTime);
+            return _dal.AddReservation(createReservationDto);
         }
 
         public bool DeleteReservation(int id)
