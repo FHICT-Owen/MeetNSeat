@@ -13,5 +13,6 @@ namespace MeetNSeat.Server.Models
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public DateTime IsConfirmed { get; set; }
+        public DateTime DeletedAt { get; set; }
     }
 }

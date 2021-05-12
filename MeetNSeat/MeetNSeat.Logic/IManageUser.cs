@@ -7,6 +7,7 @@ namespace MeetNSeat.Logic
     {
         IReadOnlyCollection<Reservation> GetAllReservations();
         List<ManageReservationDto> GetReservationByUser(string userId);
+        bool DeleteReservation(int id);
 
     }
 }

@@ -57,5 +57,10 @@ namespace MeetNSeat.Logic
             return dal.AddReservation(reservationDto);
             // Room available
         }
+
+        public bool DeleteReservation(int id)
+        {
+            return dal.RemoveReservation(id);
+        }
     }
 }

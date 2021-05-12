@@ -22,5 +22,11 @@ namespace MeetNSeat.Server.Controllers
             return Ok(user);
         }
 
+        [HttpPost]
+        public bool DeleteResult(int id)
+        {
+            return _manageUser.DeleteReservation(id);
+        }
+
     }
 }

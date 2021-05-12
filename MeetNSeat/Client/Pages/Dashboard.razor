@@ -2,6 +2,7 @@
 @inject UserService _userService
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Server.Models
+@using System.Text.Encodings.Web
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto
@@ -25,6 +26,7 @@
                         <th scope="col">Gemaakt op</th>
                         <th scope="col">Starttijd</th>
                         <th scope="col">Eindtijd</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,18 +34,25 @@
                     {
                         foreach (var user in User)
                         {
-                    <tr>
-                        <td>@user.CreatedOn</td>
-                        <td>@user.RoomId</td>
-                        <td>@user.RoomId</td>
-                        <td>@user.RoomId</td>
-                        <td>@user.Id</td>
-                        <td>@user.FeedbackId</td>
-                        <td>@user.Id</td>
-                        <td>@user.CreatedOn</td>
-                        <td>@user.StartTime</td>
-                        <td>@user.EndTime</td>
-                    </tr>
+                            <tr>
+                                <td>@user.CreatedOn</td>
+                                <td>@user.RoomId</td>
+                                <td>@user.RoomId</td>
+                                <td>@user.RoomId</td>
+                                <td>@user.Id</td>
+                                <td>@user.FeedbackId</td>
+                                <td>@user.UserId</td>
+                                <td>@user.CreatedOn</td>
+                                <td>@user.StartTime</td>
+                                <td>@user.EndTime</td>
+                                <td>
+                                    <form>
+                                        <input type="hidden" id="UserId" value="@user.Id">
+                                        @id = @user.Id
+                                            <button @onclick="DeleteReservering" type="button" class="btn btn-danger">Vrij geven</button>
+                                    </form>
+                                </td>
+                            </tr>
                         }
                     }
                 </tbody>
@@ -74,14 +83,20 @@
     </div>
 
 </main>
-
 @code{
 
 
-        List<UserModel> User { get; set; } = new();
-        protected override async Task OnInitializedAsync()
+    List<UserModel> User { get; set; } = new();
+    protected override async Task OnInitializedAsync()
 
-        {
-            User = (await _userService.GetAllReservations()).ToList();
-        }
+    {
+        User = (await _userService.GetAllReservations()).ToList();
+    }
+
+    private static int id { get; set; } = 0;
+
+    private static async Task DeleteReservering()
+    {
+        await UserService.DeleteReservering(id);
+    }
 }
