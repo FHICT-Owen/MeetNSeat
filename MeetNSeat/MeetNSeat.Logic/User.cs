@@ -9,11 +9,16 @@ namespace MeetNSeat.Logic
 {
     public class User : IManageUser
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         private List<Reservation> reservations = new List<Reservation>();
         private IReservationDal dal;
 
+        public User(UserDto userDto)
+        {
+            Id = userDto.Id;
+        }
+        
         public User()
         {
             // Factory
@@ -56,7 +61,7 @@ namespace MeetNSeat.Logic
                 {
                     if (resDb.RoomId == room.RoomID)
                     {
-                        if (resDb.StartTime < startTime && startTime < resDb.EndTime || resDb.StartTime < endTime && endTime < resDb.EndTime)
+                        if (resDb.StartTime < startTime && startTime < resDb.EndTime || resDb.StartTime < endTime && endTime < resDb.EndTime) //TODO: missing a check
                         {
                             isAvailable = false;
                         }
@@ -78,6 +83,11 @@ namespace MeetNSeat.Logic
         public bool DeleteReservation(int id)
         {
             return dal.RemoveReservation(id);
+        }
+        
+        public UserDto ConvertToDto()
+        {
+            return new UserDto(Id);
         }
     }
 }

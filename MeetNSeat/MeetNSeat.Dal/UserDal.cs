@@ -19,5 +19,18 @@ namespace MeetNSeat.Dal
             var query = connection.Query<FeedbackDto>("dbo.GetFeedbackByUser @id;", parameters).ToList();
             return query;
         }
+        
+        public List<UserDto> GetAllUsers()
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+            var output = connection.Query<UserDto>("dbo.GetAllIssues").ToList();
+            return output;
+        }
+        
+        public void AddNewUser(UserDto userDto)
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+            connection.Execute("dbo.InsertIssue @UserId", userDto);
+        }
     }
 }

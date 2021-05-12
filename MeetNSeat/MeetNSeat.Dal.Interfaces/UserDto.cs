@@ -2,15 +2,13 @@
 {
     public class UserDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Email { get; set; }
         public string Auth0Id { get; set; }
 
-        public UserDto(int userId, string name, string email, string auth0Id)
+        public UserDto(string userId)
         {
             Id = userId;
-            Email = email;
-            Auth0Id = auth0Id;
         }
     }
 }
