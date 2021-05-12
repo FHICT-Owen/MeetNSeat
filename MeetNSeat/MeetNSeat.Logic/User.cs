@@ -49,18 +49,14 @@ namespace MeetNSeat.Logic
             //TODO: Check if any room is available on given date
             // Loop trough reservations with given room id
             // Check if there is no reservation in given start and end
+
             foreach (var room in rooms)
             {
-                foreach (var reservation in reservations)
+                foreach (var resDb in reservations)
                 {
-                    if (reservation.RoomId == room.RoomID)
+                    if (resDb.RoomId == room.RoomID)
                     {
-                        // begin < 1 < end && begin < 2 < end
-
-                        // reservation.StartTime < startTime && startTime < reservation.EndTime && reservation.StartTime < endTime && endTime < reservation.EndTime
-                        // reservation.StartTime < endTime && endTime < reservation.EndTime
-
-                        if (reservation.StartTime < startTime && startTime < reservation.EndTime && reservation.StartTime < endTime && endTime < reservation.EndTime)
+                        if (resDb.StartTime < startTime && startTime < resDb.EndTime || resDb.StartTime < endTime && endTime < resDb.EndTime)
                         {
                             isAvailable = false;
                         }
