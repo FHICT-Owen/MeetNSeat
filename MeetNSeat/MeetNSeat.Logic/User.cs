@@ -62,7 +62,9 @@ namespace MeetNSeat.Logic
                 {
                     if (resDb.RoomId == room.RoomID)
                     {
-                        if (resDb.StartTime < startTime && startTime < resDb.EndTime || resDb.StartTime < endTime && endTime < resDb.EndTime) //TODO: missing a check
+                        if (resDb.StartTime < startTime && startTime < resDb.EndTime || 
+                            resDb.StartTime < endTime && endTime < resDb.EndTime ||
+                            resDb.StartTime > startTime && endTime > resDb.EndTime)
                         {
                             isAvailable = false;
                         }
