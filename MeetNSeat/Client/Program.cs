@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MeetNSeat.Client.Utils;
 
 namespace MeetNSeat.Client
 {
@@ -28,6 +29,7 @@ namespace MeetNSeat.Client
             builder.Services.AddHttpClient<FeedbackService>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
             builder.Services.AddHttpClient<UserService>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
             builder.Services.AddScoped<IApiClientService, ApiClientService>();
+            builder.Services.AddScoped<IUserUtils, UserUtils>();
 
             await builder.Build().RunAsync();
         }
