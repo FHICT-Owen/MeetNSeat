@@ -45,7 +45,5 @@ namespace MeetNSeat.Dal.Interfaces
             StartTime = startTime;
             EndTime = endTime;
         }
-
-
     }
 }

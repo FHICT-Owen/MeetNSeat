@@ -9,10 +9,10 @@ namespace MeetNSeat.Dal
 {
     public class ReservationDal : IReservationDal
     {
-        public bool AddReservation(ReservationDto reservationDto)
+        public bool AddReservation(CreateReservationDto createReservationDto)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
-            connection.Execute("dbo.CreateReservation @RoomId, @UserId, @Attendees, @CreatedOn, @StartTime, @EndTime, @IsConfirmed", reservationDto);
+            connection.Execute("dbo.CreateReservation @RoomId, @UserId, @Attendees, @StartTime, @EndTime", createReservationDto);
             //TODO: Iets anders voor bedenken
             return true;
         }
