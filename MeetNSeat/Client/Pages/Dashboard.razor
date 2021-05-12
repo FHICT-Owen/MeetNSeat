@@ -1,4 +1,7 @@
 ﻿@page "/dashboard"
+@inject UserService _userService
+@using MeetNSeat.Client.Services
+@using MeetNSeat.Server.Models
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto
@@ -16,30 +19,37 @@
                         <th scope="col">Locatie</th>
                         <th scope="col">Kamer</th>
                         <th scope="col">Soort</th>
+                        <th scope="col">Gebruiker</th>
+                        <th scope="col">Feedbackid</th>
+                        <th scope="col">Rol</th>
+                        <th scope="col">Gemaakt op</th>
+                        <th scope="col">Starttijd</th>
+                        <th scope="col">Eindtijd</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @if (User.Count > 0)
+                    {
+                        foreach (var user in User)
+                        {
                     <tr>
-                        <td>12:00 - 13:00</td>
-                        <td>Eindhoven</td>
-                        <td>2.20</td>
-                        <td>Werkplek</td>
+                        <td>@user.CreatedOn</td>
+                        <td>@user.RoomId</td>
+                        <td>@user.RoomId</td>
+                        <td>@user.RoomId</td>
+                        <td>@user.Id</td>
+                        <td>@user.FeedbackId</td>
+                        <td>@user.Id</td>
+                        <td>@user.CreatedOn</td>
+                        <td>@user.StartTime</td>
+                        <td>@user.EndTime</td>
                     </tr>
-                    <tr>
-                        <td>09:00 - 11:00</td>
-                        <td>Amsterdam</td>
-                        <td>1.15</td>
-                        <td>Werkplek</td>
-                    </tr>
-                    <tr>
-                        <td>09:00 - 15:00</td>
-                        <td>Helmond</td>
-                        <td>2.01</td>
-                        <td>Vergaderruimte</td>
-                    </tr>
+                        }
+                    }
                 </tbody>
             </table>
         </div>
+        &nbsp;
         <div class="col-md-6">
             <h1 class="h3">Schandpaal</h1>
             <table class="table table-striped red">
@@ -64,3 +74,14 @@
     </div>
 
 </main>
+
+@code{
+
+
+        List<UserModel> User { get; set; } = new();
+        protected override async Task OnInitializedAsync()
+
+        {
+            User = (await _userService.GetAllReservations()).ToList();
+        }
+}

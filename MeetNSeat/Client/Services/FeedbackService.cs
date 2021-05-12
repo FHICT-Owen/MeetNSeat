@@ -19,5 +19,11 @@ namespace MeetNSeat.Client.Services
         {
             return await _http.GetFromJsonAsync<List<FeedbackModel>>("api/feedback");
         }
+
+        public static async Task AddFeedback(FeedbackModel feedback)
+        {
+            using var client = new HttpClient();
+            await client.PostAsJsonAsync("https://localhost:5001/api/feedback", feedback);
+        }
     }
 }

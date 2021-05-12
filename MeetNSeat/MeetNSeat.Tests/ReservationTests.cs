@@ -9,11 +9,18 @@ namespace MeetNSeat.Tests
     public class ReservationsTests
     {
         [TestMethod]
+        public void GetAllReservationsbyuser()
+        {
+            var u = new User();
+
+            Assert.IsNotNull(u.GetReservationByUser("test"));
+        }
+        [TestMethod]
         public void GetAllReservations()
         {
             var u = new User();
 
-            Assert.IsNotNull(u.GetReservationByUser(1));
+            Assert.IsNotNull(u.GetAllReservations());
         }
     }
 }

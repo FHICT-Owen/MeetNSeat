@@ -23,6 +23,6 @@
     {
         await SignOutManager.SetSignOutState();
         Navigation.NavigateTo("authentication/logout");
-        await Storage.RemoveItemAsync("userId");
+        await Storage.ClearAsync();
     }
 }

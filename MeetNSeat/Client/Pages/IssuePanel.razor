@@ -1,6 +1,4 @@
-﻿@inject IssueService _issueService;
-
-@page "/issuePanel"
+﻿@page "/issue-panel"
 @using MeetNSeat.Client.Models
 @using MeetNSeat.Client.Services
 @attribute [Authorize]
@@ -45,6 +43,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Issues = (await _issueService.GetAllIssues()).ToList();
+        Issues = (await IssueService.GetAllIssues()).ToList();
     }
 }
