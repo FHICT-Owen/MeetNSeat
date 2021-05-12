@@ -17,12 +17,22 @@ namespace MeetNSeat.Dal
             return true;
         }
 
-        public void RemoveReservation(ReservationDto reservationDto)
+        public bool RemoveReservation(int id)
         {
-            // var entry = context.Reservations.SingleOrDefault(result => result.Id == reservationDto.Id);
-            // if (entry == null) return;
-            // context.Reservations.Remove(entry);
-            // context.SaveChanges();
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString("DefaultConnection"));
+            DynamicParameters parameter = new DynamicParameters();
+            parameter.Add("@id", id);
+
+            var result = connection.Execute("dbo.DeleteReservation @id", parameter);
+            if (result > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
         public void UpdateReservation(ReservationDto reservationDto)

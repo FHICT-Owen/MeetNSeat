@@ -16,7 +16,7 @@ namespace MeetNSeat.Dal.Interfaces
         public DateTime EndTime { get; }
         public DateTime IsConfirmed { get; set; }
 
-        public ManageReservationDto(int reservationId, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime confirmed){
+        public ManageReservationDto(int reservationId, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime confirmed, DateTime deletedAt){
             ReservationId = reservationId;
             RoomId = roomId;
             UserId = userId;

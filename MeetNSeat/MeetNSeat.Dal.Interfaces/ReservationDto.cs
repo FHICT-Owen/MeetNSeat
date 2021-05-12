@@ -16,11 +16,13 @@ namespace MeetNSeat.Dal.Interfaces
         public DateTime StartTime { get; }
         public DateTime EndTime { get; }
         public DateTime IsConfirmed { get; }
+        public DateTime DeletedAt { get; }
+
         #endregion
         public ReservationDto(
 
 
-            int reservationId, int roomId, string userId, System.Int32 feedbackId, System.Int32 attendees, System.DateTime createdOn, System.DateTime startTime, System.DateTime endTime, System.DateTime confirmed
+            int reservationId, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime confirmed
 
         )
         {

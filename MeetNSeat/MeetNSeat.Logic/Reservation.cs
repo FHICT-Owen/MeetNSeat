@@ -18,8 +18,9 @@ namespace MeetNSeat.Logic
         public DateTime StartTime { get; private set; }
         public DateTime EndTime { get; private set; }
         public DateTime IsConfirmed { get; private set; }
+        public DateTime DeletedAt { get; private set; }
         #endregion Properties
-        
+
         // Optional
         public enum Facilities
         {
