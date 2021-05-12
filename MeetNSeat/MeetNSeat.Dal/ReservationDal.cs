@@ -9,20 +9,30 @@ namespace MeetNSeat.Dal
 {
     public class ReservationDal : IReservationDal
     {
-        public bool AddReservation(ReservationDto reservationDto)
+        public bool AddReservation(CreateReservationDto createReservationDto)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-            connection.Execute("dbo.CreateReservation @RoomId, @UserId, @Attendees, @CreatedOn, @StartTime, @EndTime, @IsConfirmed", reservationDto);
+            connection.Execute("dbo.CreateReservation @RoomId, @UserId, @Attendees, @StartTime, @EndTime", createReservationDto);
             //TODO: Iets anders voor bedenken
             return true;
         }
 
-        public void RemoveReservation(ReservationDto reservationDto)
+        public bool RemoveReservation(int id)
         {
-            // var entry = context.Reservations.SingleOrDefault(result => result.Id == reservationDto.Id);
-            // if (entry == null) return;
-            // context.Reservations.Remove(entry);
-            // context.SaveChanges();
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+            DynamicParameters parameter = new DynamicParameters();
+            parameter.Add("@id", id);
+
+            var result = connection.Execute("dbo.DeleteReservation @id", parameter);
+            if (result > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
         public void UpdateReservation(ReservationDto reservationDto)
@@ -33,24 +43,24 @@ namespace MeetNSeat.Dal
             // context.SaveChanges();
         }
 
-        public List<ReservationDto> GetReservationByUser(int id)
+        public List<ManageReservationDto> GetReservationByUser(string id)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@UserId", id);
 
-            var output = connection.Query<ReservationDto>("dbo.GetAllUserReservations @UserId",parameters).ToList();
+            var output = connection.Query<ManageReservationDto>("dbo.GetAllUserReservations @UserId",parameters).ToList();
             return output;
             
         }
 
 
-        public List<ReservationDto> GetAllReservations()
+        public List<ManageReservationDto> GetAllReservations()
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             
-            var output = connection.Query<ReservationDto>("dbo.GetAllReservations").ToList();
+            List<ManageReservationDto> output = connection.Query<ManageReservationDto>("dbo.GetAllReservations").ToList();
             return output;
         }
     }

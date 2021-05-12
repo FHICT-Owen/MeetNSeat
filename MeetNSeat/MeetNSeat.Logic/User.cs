@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace MeetNSeat.Logic
 {
-    public class User : IManageReservation
+    public class User : IManageUser
     {
         public int Id { get; set; }
 
@@ -20,23 +20,26 @@ namespace MeetNSeat.Logic
             dal = ReservationFactory.CreateReservationDal();
         }
 
-        public List<ReservationDto> GetAllReservations()
+        public IReadOnlyCollection<Reservation> GetAllReservations()
         {
-            return dal.GetAllReservations();
-            
+            reservations.Clear();
+            dal.GetAllReservations().ForEach(
+                dto => reservations.Add(new Reservation(dto)));
+            return reservations.AsReadOnly();
+
         }
 
-        public List<ReservationDto> GetReservationByUser(int userId)
+        public List<ManageReservationDto> GetReservationByUser(string userId)
         {
             return dal.GetReservationByUser(userId);
         }
 
-        public bool AddReservation(int roomId, string type, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
+        public bool AddReservation(string type, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
         {
 
             // Retrieve rooms by type and location
-            Room room = new Room();
-            var rooms = room.GetAvailableRooms(type, locationId);
+            Room roomObject = new Room();
+            var rooms = roomObject.GetAvailableRooms(type, locationId);
 
             Reservation reservation = new Reservation();
             var reservations = reservation.GetAllReservations();
@@ -44,15 +47,24 @@ namespace MeetNSeat.Logic
             //TODO: Check if any room is available on given date
             // Loop trough reservations with given room id
             // Check if there is no reservation in given start and end
-
-            if (reservations.Where(r => r.RoomId == roomId).Any(r => startTime > r.StartTime || endTime < r.EndTime))
+            foreach (var room in rooms)
             {
-                return false;
+                if (!reservations.Where(r => r.RoomId == room.RoomID).Any(r => startTime > r.StartTime || endTime < r.EndTime))
+                {
+                    return false;
+                }
+                else
+                {
+                    CreateReservationDto createReservationDto = new CreateReservationDto(room.RoomID, userId, attendees, startTime, endTime);
+                    return dal.AddReservation(createReservationDto);
+                }
             }
-            //TODO: Set reservation
-            ReservationDto reservationDto = new ReservationDto(roomId, userId, attendees, startTime, endTime);
-            return dal.AddReservation(reservationDto);
-            // Room available
+            return false;
+        }
+
+        public bool DeleteReservation(int id)
+        {
+            return dal.RemoveReservation(id);
         }
     }
 }

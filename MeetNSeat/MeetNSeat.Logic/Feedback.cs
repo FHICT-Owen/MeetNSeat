@@ -1,31 +1,41 @@
-﻿using MeetNSeat.Dal.Interfaces;
+﻿using System.Collections.Generic;
+using MeetNSeat.Dal;
+using MeetNSeat.Dal.Interfaces;
 
 namespace MeetNSeat.Logic
 {
     public class Feedback
     {
-        public int Id { get;  }
-        public string Description { get;  }
-        public int FeedbackState { get;  }
+        public int FeedbackId { get; }
+        public string? Description { get;  }
+        public int? FeedbackState { get; }
 
         public Feedback(int id, string description, int feedbackState)
         {
-            Id = id;
+            FeedbackId = id;
             Description = description;
             FeedbackState = feedbackState;
         }
 
         public Feedback(FeedbackDto dto)
         {
-            Id = dto.Id;
+            FeedbackId = dto.FeedbackId;
             Description = dto.Description;
             FeedbackState = dto.FeedbackState;
         }
 
+        public Feedback(string description, int? feedbackState)
+        {
+            Description = description;
+            FeedbackState = feedbackState;
+        }
+
         public FeedbackDto ConvertToDto()
         {
-            return new FeedbackDto(Id, Description, FeedbackState);
+            return new FeedbackDto(FeedbackId, Description, FeedbackState);
         }
+
+
 
     }
 }

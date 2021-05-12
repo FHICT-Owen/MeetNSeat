@@ -9,7 +9,9 @@ using Microsoft.Identity.Client;
 
 namespace MeetNSeat.Server.Controllers
 {
-    public class ReservationController
+    [Route("api/reservation")]
+    [ApiController]
+    public class ReservationController : ControllerBase
     {
         private IManageReservation _manageReservation;
 
@@ -18,11 +20,10 @@ namespace MeetNSeat.Server.Controllers
             _manageReservation = manageReservation;
         }
 
-        [HttpPost("api")]
+        [HttpPost]
         public void CreateReservation()
         {
-            //int reservationId, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime
-            //_manageReservation.AddReservation(1, "1", 1, 5, DateTime.Now, DateTime.Now);
+
         }
 
         //manageReservation = ReservationFactory.AddReservation();

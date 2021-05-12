@@ -1,5 +1,4 @@
-﻿@inject FeedbackService _feedbackService;
-@page "/feedback"
+﻿@page "/feedback"
 @using MeetNSeat.Client.Models
 @using MeetNSeat.Client.Services
 @attribute [Authorize]
@@ -25,7 +24,7 @@
                         foreach (var feedback in Feedback)
                         {
                             <tr class="color:red">
-                                <td>@feedback.Id</td>
+                                <td>@feedback.FeedbackId</td>
                                 <td>@feedback.Description</td>
                                 <td>@feedback.FeedbackState</td>
                             </tr>
@@ -41,6 +40,6 @@
         protected override async Task OnInitializedAsync()
 
         {
-            Feedback = (await _feedbackService.GetAllFeedback()).ToList();
+            Feedback = (await FeedbackService.GetAllFeedback()).ToList();
         }
 }

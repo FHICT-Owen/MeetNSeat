@@ -1,54 +1,58 @@
 ﻿@page "/reservation"
-@using System.Runtime.CompilerServices
+@using MeetNSeat.Client.Models
+@using MeetNSeat.Client.Services
+@using Blazored.SessionStorage
+@inject ISessionStorageService Storage
 @attribute [Authorize]
 
+<main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2>Create reservation</h2>
+    </div>
+    <div>
+        <form>
+            <div class="mb-3">
+                <label for="Location" class="form-label">Location</label>
+                <select class="form-control" @bind="Location" aria-label="Default select example">
+                    <option disabled selected placeholder="Select a location here">Select a location</option>
+                    <option value="1">Eindhoven</option>
+                    <option value="2">Sommeren</option>
+                    <option value="3">Maaskantje</option>
+                </select>
 
-<h1>Reserveren</h1>
+                <label for="Room" class="form-label">Room type</label>
+                <select class="form-control" @bind="Room" aria-label="Default select example">
+                    <option disabled selected placeholder="Select a location here">Select a room type</option>
+                    <option value="1">Conference</option>
+                    <option value="2">Workplace</option>
+                </select>
 
-@code
-{
-    // private IManageReservation manageReservation;
-    //
-    // protected override Task OnInitializedAsync()
-    // {
-    //     manageReservation = ReservationFactory.AddReservation();
-    //     manageReservation.AddReservation(1, "1", 1, DateTime.Now, DateTime.Now);
-    //     return null;
-    // }
-}
+                <label for="Attendees" class="form-label">Attendees</label>
+                <input type="number" class="form-control" id="Attendees" placeholder="Attendees">
 
-@* <!--<div class="row"> *@
-@*     <div class="col-md-4"> *@
-@*         <form> *@
-@*             <div class="form-group"> *@
-@*                 <label for="Type" class="control-label">Type</label> *@
-@*                 <input for="Type" class="form-control" @bind-value="@Attendees" /> *@
-@*                 <label for="Seeding" class="control-label">Seeding</label> *@
-@*                 <input type="datetime" for="Seeding" class="form-control" @bind-value="@StartTime" /> *@
-@*                 <label for="Time" class="control-label">Time</label> *@
-@*                 <input type="datetime" for="Time" class="form-control" @bind-value="@EndTime" /> *@
-@*             </div> *@
-@*             <div class="form-group"> *@
-@*                 <button type="button" class="btn btn-primary" @onclick="CreateReservation">Save</button>--> *@
-@*                 $1$<button type="button" class="btn btn-danger" @onclick="Cancel">Cancel</button>#1# *@
-@*             <!--</div> *@
-@*         </form> *@
-@*     </div> *@
-@* </div> *@
+                <input type="datetime-local" value="@StartDate" />
+                <input type="datetime-local" value="@EndDate" />
+            </div>
+            <button @onclick="AddReservation" type="button" disabled="@IsDisabled" class="btn btn-primary">Meld probleem</button>
+        </form>
+    </div>
+</main>
 
 @code {
-    // private string Attendees;
-    // private DateTime StartTime;
-    // private DateTime EndTime;
-
-    // protected void CreateReservation()
-    // {
-    //     manageReservation.AddReservation(1, 1, Convert.ToInt32(Attendees), StartTime, EndTime);
-    // }
 
 
-    //void Cancel()
-    //{
-    //    NavigationManager.NavigateTo("/");
-    //}
+    private int Location { get; set; } 
+
+    private int Room { get; set; }
+
+    private bool IsDisabled { get; set; } = true;
+
+    private DateTime StartDate { get; set; }
+    private DateTime EndDate { get; set; }
+
+    private async Task AddReservation()
+    {
+        var storedUserId = await Storage.GetItemAsync<string>("userId");
+        await UserService.CreateReservation(new ReservationModel(storedUserId, Location, Room, StartDate, EndDate));
+    }
 }

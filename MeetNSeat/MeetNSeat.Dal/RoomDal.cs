@@ -17,7 +17,7 @@ namespace MeetNSeat.Dal
             parameters.Add("@LocationID", locationId);
             parameters.Add("@Type", type);
 
-            var output = connection.Query<RoomDto>("dbo.GetAllRoomsByType @LocationID, @Type", parameters).ToList();
+            var output = connection.Query<RoomDto>("dbo.GetAllRoomsByType @Type, @LocationID", parameters).ToList();
             return output;
         }
     }

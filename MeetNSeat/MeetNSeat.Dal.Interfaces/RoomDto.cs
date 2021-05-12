@@ -2,7 +2,7 @@
 {
     public class RoomDto
     {
-        public int Id { get; set; }
+        public int RoomID { get; set; }
         public int LocationId { get; set; }
         public string Type { get; set; }
         public int Floor { get; set; }

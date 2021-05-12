@@ -18,8 +18,14 @@ namespace MeetNSeat.Server.Controllers
         [HttpGet]
         public ActionResult GetAllFeedback()
         {
-            var allFeedback = _manageFeedback.GetAllFeedback();
+            var allFeedback = _manageFeedback.GetFeedbackByUser("Rik Leemans");
             return Ok(allFeedback);
+        }
+        public void AddFeedback([FromBody] FeedbackModel feedbackModel)
+        {
+            var newFeedback = new Feedback(feedbackModel.Description, feedbackModel.FeedbackState);
+            _manageFeedback.AddFeedback(newFeedback);
+
         }
     }
 }

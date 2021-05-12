@@ -1,6 +1,9 @@
-﻿@page "/issue"
+﻿@inject IUserUtils _userUtils;
+
+@page "/issue"
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Client.Models
+@using MeetNSeat.Client.Utils
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
@@ -16,8 +19,8 @@
             </div>
             <div class="mb-3">
                 <label for="room" class="form-label">Room</label>
-                <select class="form-control" @bind="Room" aria-label="Default select example">
-                    <option disabled selected placeholder="If the problem is related to a room u can select it here" >Selecteer een kamer</option>
+                <select class="form-control" @bind="Room" @bind:event="oninput" aria-label="Default select example">
+                    <option disabled selected placeholder="If the problem is related to a room u can select it here">Selecteer een kamer</option>
                     <option value="1">Kamer 1</option>
                     <option value="2">Kamer 2</option>
                     <option value="3">Kamer 3</option>
@@ -33,12 +36,12 @@
 @code {
 	private static string Description { get; set; } = string.Empty;
 
-    private string Room { get; set; } = string.Empty;
+    private int Room { get; set; }
     
     private bool IsDisabled { get; set; } = true;
-    
-    private static async Task AddIssue()
+
+    private async Task AddIssue()
     {
-        await IssueService.AddIssue(new IssueModel(Description));
+        await IssueService.AddIssue(new IssueModel(Description, Room, _userUtils.GetUserId().ToString()));
     }
 }

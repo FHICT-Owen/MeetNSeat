@@ -1,4 +1,5 @@
 using System;
+using MeetNSeat.Client.Shared;
 
 namespace MeetNSeat.Client.Models
 {
@@ -10,11 +11,11 @@ namespace MeetNSeat.Client.Models
 		public DateTime CreatedOn { get; set; }
 		public bool IsResolved { get; set; }
 
-		public IssueModel(string description)
+		public IssueModel(string description, int roomId,string userId)
 		{
 			Description = description;
-			RoomId = 1;
-			UserId = "test";
+			RoomId = roomId;
+			UserId = userId;
 		}
 	}
 }

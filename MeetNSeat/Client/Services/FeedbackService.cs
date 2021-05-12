@@ -8,16 +8,24 @@ namespace MeetNSeat.Client.Services
 {
     public class FeedbackService
     {
-        private readonly HttpClient _http;
-
-        public FeedbackService(HttpClient http)
+        public static async Task<IEnumerable<FeedbackModel>> GetAllFeedback()
         {
-            _http = http;
+            using var client = new HttpClient();
+            return await client.GetFromJsonAsync<List<FeedbackModel>>("https://localhost:5001/api/feedback");
         }
 
-        public async Task<IEnumerable<FeedbackModel>> GetAllFeedback()
+        public static async Task<string> AddFeedback(FeedbackModel feedback)
         {
-            return await _http.GetFromJsonAsync<List<FeedbackModel>>("api/feedback");
+            using var client = new HttpClient();
+            var response = await client.PostAsJsonAsync("https://localhost:5001/api/feedback", feedback);
+            if (response.IsSuccessStatusCode)
+            {
+                return "Feedback is Send!";
+            }
+            else
+            {
+                return "Error! Something went wrong :(, please try again!";
+            }
         }
     }
 }
