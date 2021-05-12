@@ -23,7 +23,15 @@ namespace MeetNSeat.Client.Services
         public static async Task AddFeedback(FeedbackModel feedback)
         {
             using var client = new HttpClient();
-            await client.PostAsJsonAsync("https://localhost:5001/api/feedback", feedback);
+            var response = await client.PostAsJsonAsync("https://localhost:5001/api/feedback", feedback);
+            if (response.IsSuccessStatusCode)
+            {
+                
+            }
+            else
+            {
+                
+            }
         }
     }
 }

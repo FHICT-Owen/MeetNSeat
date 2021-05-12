@@ -20,7 +20,6 @@ namespace MeetNSeat.Client.Services
         {
             return await _http.GetFromJsonAsync<List<UserModel>>("api/user");
         }
-
         public static async Task CreateReservation(ReservationModel reservation)
         {
             using var client = new HttpClient();
@@ -29,7 +28,7 @@ namespace MeetNSeat.Client.Services
         public static async Task DeleteReservering(int id)
         {
             using var client = new HttpClient();
-            await client.PostAsJsonAsync("https://localhost:5001/api/user/delete", id);
+            await client.DeleteAsync("https://localhost:5001/api/user/" + id);
         }
     }
 }

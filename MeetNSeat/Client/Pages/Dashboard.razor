@@ -32,15 +32,24 @@
                     {
                         foreach (var user in User)
                         {
-                    <tr>
-                        <td>@user.CreatedOn</td>
-                        <td>@user.Id</td>
-                        <td>@user.FeedbackId</td>
-                        <td>@user.Id</td>
-                        <td>@user.CreatedOn</td>
-                        <td>@user.StartTime</td>
-                        <td>@user.EndTime</td>
-                    </tr>
+                            <tr>
+                                <td>@user.CreatedOn</td>
+                                <td>@user.RoomId</td>
+                                <td>@user.RoomId</td>
+                                <td>@user.RoomId</td>
+                                <td>@user.ReservationId</td>
+                                <td>@user.FeedbackId</td>
+                                <td>@user.UserId</td>
+                                <td>@user.CreatedOn</td>
+                                <td>@user.StartTime</td>
+                                <td>@user.EndTime</td>
+                                <td>
+                                    <form>
+                                            <input type="hidden" id="UserId" value="@user.ReservationId">
+                                            <button @onclick="() => DeleteReservering(user)" type="button" class="btn btn-danger">Vrij geven</button>
+                                    </form>
+                                </td>
+                            </tr>
                         }
                     }
                 </tbody>
@@ -78,7 +87,14 @@
         List<UserModel> User { get; set; } = new();
         protected override async Task OnInitializedAsync()
 
-        {
-            User = (await _userService.GetAllReservations()).ToList();
-        }
+    {
+        User = (await _userService.GetAllReservations()).ToList();
+    }
+
+    private static int id { get; set; } = 0;
+
+    private static async Task DeleteReservering(UserModel user)
+    {
+        await UserService.DeleteReservering(id);
+    }
 }
