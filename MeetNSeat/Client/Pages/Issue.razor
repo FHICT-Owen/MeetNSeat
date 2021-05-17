@@ -42,6 +42,6 @@
 
     private async Task AddIssue()
     {
-        await IssueService.AddIssue(new IssueModel(Description, Room, _userUtils.GetUserId().ToString()));
+        await IssueService.AddIssue(new IssueModel(Description, Room, await _userUtils.GetUserId()));
     }
 }

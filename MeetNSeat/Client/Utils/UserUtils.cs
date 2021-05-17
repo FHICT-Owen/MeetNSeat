@@ -14,8 +14,7 @@ namespace MeetNSeat.Client.Utils
 
         public async Task<string> GetUserId()
         {
-            var storedUserId = await _storage.GetItemAsync<string>("userId");
-            return storedUserId.Split(" ")[2];
+            return await _storage.GetItemAsync<string>("userId");
         }
     }
 }

@@ -16,12 +16,12 @@ namespace MeetNSeat.Client.Services
 			return await client.GetFromJsonAsync<List<IssueModel>>("https://localhost:5001/api/issues");
 		}
 		
-		public static async Task<string> AddIssue(IssueModel issue)
+		public static async Task AddIssue(IssueModel issue)
 		{
 			using var client = new HttpClient();
 			var response = await client.PostAsJsonAsync("https://localhost:5001/api/issues", issue);
-			if (response.IsSuccessStatusCode) return "worked!";
-			return "Sorry something went wrong :(";
+			// if (response.IsSuccessStatusCode) return "worked!";
+			// return "Sorry something went wrong :(";
 		}
 	}
 }
