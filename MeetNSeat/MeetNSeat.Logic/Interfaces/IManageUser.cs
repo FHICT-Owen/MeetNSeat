@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MeetNSeat.Dal.Interfaces.Dtos;
 
-namespace MeetNSeat.Logic
+namespace MeetNSeat.Logic.Interfaces
 {
     public interface IManageUser
     {
