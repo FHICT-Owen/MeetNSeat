@@ -10,7 +10,7 @@ namespace MeetNSeat.Logic
         public int FeedbackId { get; }
         public string? Description { get;  }
         public int? FeedbackState { get; }
-
+        
         public Feedback(int id, string description, int feedbackState)
         {
             FeedbackId = id;

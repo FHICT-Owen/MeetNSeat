@@ -8,22 +8,40 @@ using MeetNSeat.Dal.Interfaces.Dtos;
 
 namespace MeetNSeat.Logic
 {
+    public enum Role
+    {
+        User = 0,
+        FacilityManager,
+        Admin
+    }
+    
     public class User : IManageUser
     {
         public string Id { get; set; }
+        public string Nickname { get; set; }
+        public Role Role { get; set; }
 
         private readonly List<Reservation> _reservations = new List<Reservation>();
         private readonly IReservationDal _dal;
 
         public User(UserDto userDto)
         {
-            Id = userDto.Id;
+            Id = userDto.UserId;
+            Nickname = userDto.Nickname;
+            Role = (Role)userDto.RoleId;
         }
         
         public User()
         {
             // Factory
             _dal = ReservationFactory.CreateReservationDal();
+        }
+
+        public User(string id, string nickname, Role role)
+        {
+            Id = id;
+            Nickname = nickname;
+            Role = role;
         }
 
         public IReadOnlyCollection<Reservation> GetAllReservations()
@@ -81,7 +99,7 @@ namespace MeetNSeat.Logic
         
         public UserDto ConvertToDto()
         {
-            return new UserDto(Id);
+            return new UserDto(Id, Nickname, (int)Role);
         }
     }
 }

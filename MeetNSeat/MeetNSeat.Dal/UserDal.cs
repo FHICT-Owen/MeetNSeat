@@ -24,14 +24,14 @@ namespace MeetNSeat.Dal
         public List<UserDto> GetAllUsers()
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-            var output = connection.Query<UserDto>("dbo.GetAllIssues").ToList();
+            var output = connection.Query<UserDto>("dbo.GetAllUsers").ToList();
             return output;
         }
         
         public void AddNewUser(UserDto userDto)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-            connection.Execute("dbo.InsertIssue @UserId", userDto);
+            connection.Execute("dbo.InsertUser @UserId, @Nickname, @RoleId", userDto);
         }
     }
 }

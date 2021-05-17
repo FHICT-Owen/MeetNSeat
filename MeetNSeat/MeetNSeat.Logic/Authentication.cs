@@ -3,10 +3,11 @@ using System.IO;
 using System.Linq;
 using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
+using MeetNSeat.Logic.Interfaces;
 
 namespace MeetNSeat.Logic
 {
-    public class Authentication
+    public class Authentication : IManageAuthentication
     {
         private readonly List<User> _users = new List<User>();
         private readonly IUserDal _dal;
@@ -16,25 +17,19 @@ namespace MeetNSeat.Logic
             _dal = UserFactory.CreateUserDal();
         }
         
-        // private IReadOnlyList<User> GetAllUsers() 
-        // {
-        //     _users.Clear();
-        //
-        //     _dal.GetAllUsers().ForEach(
-        //         dto => _users.Add(new User(dto)));
-        //     return _users.
-        // }
-        //
-        // public bool CheckIfUserExist(string userId)
-        // {
-        //     _dal.GetAllUsers().SingleOrDefault(user => user.Id == userId);
-        //     return
-        // }
-        //
-        // public void AddUser(string userId)
-        // {
-        //     var exists = _dal.GetAllUsers();
-        //     _dal.AddNewUser(User.ConvertToDto());
-        // }
+        public List<User> GetAllUsers() 
+        {
+            _dal.GetAllUsers().ForEach(
+                dto => _users.Add(new User(dto)));
+            
+            return _users;
+        }
+        
+        public void AddUserIfNonExistent(User newUser)
+        {
+            var exists = _users.Exists(user => user.Id == newUser.Id);
+            if (exists) return;
+            _dal.AddNewUser(newUser.ConvertToDto());
+        }
     }
 }

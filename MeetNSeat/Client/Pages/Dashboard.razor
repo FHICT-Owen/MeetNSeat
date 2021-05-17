@@ -1,7 +1,7 @@
 ﻿@page "/dashboard"
 @inject UserService _userService
 @using MeetNSeat.Client.Services
-@using MeetNSeat.Server.Models
+@using MeetNSeat.Client.Models
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto
@@ -34,16 +34,16 @@
                         foreach (var user in User)
                         {
                             <tr>
-                                <td>@user.CreatedOn</td>
-                                <td>@user.RoomId</td>
-                                <td>@user.RoomId</td>
-                                <td>@user.RoomId</td>
-                                <td>@user.ReservationId</td>
-                                <td>@user.FeedbackId</td>
-                                <td>@user.UserId</td>
-                                <td>@user.CreatedOn</td>
-                                <td>@user.StartTime</td>
-                                <td>@user.EndTime</td>
+                                @* <td>@user.CreatedOn</td> *@
+                                @* <td>@user.RoomId</td> *@
+                                @* <td>@user.RoomId</td> *@
+                                @* <td>@user.RoomId</td> *@
+                                @* <td>@user.ReservationId</td> *@
+                                @* <td>@user.FeedbackId</td> *@
+                                @* <td>@user.UserId</td> *@
+                                @* <td>@user.CreatedOn</td> *@
+                                @* <td>@user.StartTime</td> *@
+                                @* <td>@user.EndTime</td> *@
                                 <td>
                                     <form>
                                             <button @onclick="() => DeleteReservation(user)" type="button" class="btn btn-danger">Vrij geven</button>
@@ -98,7 +98,7 @@
     private static async Task DeleteReservation(UserModel user)
     {
         
-        msg = await UserService.DeleteReservation(user.ReservationId);
+        // msg = await UserService.DeleteReservation(user.ReservationId);
 
     }
 }

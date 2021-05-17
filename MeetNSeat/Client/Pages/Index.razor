@@ -1,5 +1,7 @@
 ﻿@page "/"
 @using Blazored.SessionStorage
+@using MeetNSeat.Client.Models
+@using MeetNSeat.Client.Services
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject ISessionStorageService Storage
@@ -10,7 +12,7 @@ Welcome to your new app.
 
 @code
 {
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
         await GetUserId();
         await base.OnParametersSetAsync();
@@ -23,11 +25,12 @@ Welcome to your new app.
 
         if (user.Identity.IsAuthenticated)
         {
-            var userId = $"User Id: {user.FindFirst(c => c.Type == "sub")?.Value.Split("|")[1]}";
+            var userId = $"{user.FindFirst(c => c.Type == "sub")?.Value.Split("|")[1]}";
             if (userId != "")
             {
                 await Storage.SetItemAsync("userId", userId);
-                var nickname = user.Identity.Name;
+                var nickname = user.Identity?.Name;
+                await AuthService.AddIssue(new UserModel(userId,nickname,0));
             }
         }
     }
