@@ -1,8 +1,9 @@
-﻿@page "/reservation"
+﻿@inject ISessionStorageService SessionStorage;
+@page "/reservation"
 @using MeetNSeat.Client.Models
 @using MeetNSeat.Client.Services
+@using MeetNSeat.Client.Utils
 @using Blazored.SessionStorage
-@inject ISessionStorageService Storage
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
@@ -13,7 +14,7 @@
         <form>
             <div class="mb-3">
                 <label for="Location" class="form-label">Location</label>
-                <select class="form-control" @bind="Location" aria-label="Default select example">
+                <select class="form-control" @bind="Location" @bind:event="oninput" aria-label="Default select example">
                     <option disabled selected placeholder="Select a location here">Select a location</option>
                     <option value="1">Eindhoven</option>
                     <option value="2">Sommeren</option>
@@ -21,7 +22,7 @@
                 </select>
 
                 <label for="Room" class="form-label">Room type</label>
-                <select class="form-control" @bind="Room" aria-label="Default select example">
+                <select class="form-control" @bind="Room" @bind:event="oninput" aria-label="Default select example">
                     <option disabled selected placeholder="Select a location here">Select a room type</option>
                     <option value="1">Conference</option>
                     <option value="2">Workplace</option>
@@ -30,29 +31,30 @@
                 <label for="Attendees" class="form-label">Attendees</label>
                 <input type="number" class="form-control" id="Attendees" placeholder="Attendees">
 
-                <input type="datetime-local" value="@StartDate" />
-                <input type="datetime-local" value="@EndDate" />
+                <input type="datetime-local" @bind="@StartDate" @bind:format="yyyy-MM-ddTHH:mm"/>
+                <input type="datetime-local" @bind="@EndDate" @bind:format="yyyy-MM-ddTHH:mm"/>
             </div>
-            <button @onclick="AddReservation" type="button" disabled="@IsDisabled" class="btn btn-primary">Meld probleem</button>
+            <button @onclick="AddReservation" type="button" disabled="@IsDisabled" class="btn btn-primary">Maak reservering</button>
         </form>
     </div>
 </main>
 
 @code {
-
-
-    private int Location { get; set; } 
+    private int Location { get; set; }
 
     private int Room { get; set; }
 
-    private bool IsDisabled { get; set; } = true;
+    private bool IsDisabled { get; set; } = false;
+
 
     private DateTime StartDate { get; set; }
     private DateTime EndDate { get; set; }
 
     private async Task AddReservation()
     {
-        var storedUserId = await Storage.GetItemAsync<string>("userId");
-        await UserService.CreateReservation(new ReservationModel(storedUserId, Location, Room, StartDate, EndDate));
+        var userId = await SessionStorage.GetItemAsync<string>("userId");
+        await UserService.CreateReservation(new ReservationModel(userId, Location, Room, StartDate, EndDate));
     }
+
+
 }

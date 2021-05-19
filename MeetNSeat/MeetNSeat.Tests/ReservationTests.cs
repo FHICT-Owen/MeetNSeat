@@ -26,7 +26,7 @@ namespace MeetNSeat.Tests
         public void CreateReservation()
         {
             var u = new User();
-            u.AddReservation("Conference", 1, "test", 12, 
+            u.AddReservation("Conference", 1, "108105466526811947195", 12, 
                 Convert.ToDateTime("2021-01-01T12:29"),
                 Convert.ToDateTime("2021-01-01T17:00"));
         }

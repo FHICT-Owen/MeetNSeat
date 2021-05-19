@@ -21,5 +21,11 @@ namespace MeetNSeat.Dal
             var output = connection.Query<RoomDto>("dbo.GetAllRoomsByType @Type, @LocationID", parameters).ToList();
             return output;
         }
+
+        public void AddNewRoom(RoomDto roomDto)
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+            connection.Execute("dbo.InsertRoom @RoomId, @LocationId, @Floor, @Type, @Spots, @Facilities", roomDto);
+        }
     }
 }
