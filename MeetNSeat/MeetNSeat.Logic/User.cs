@@ -77,14 +77,14 @@ namespace MeetNSeat.Logic
             {
                 foreach (var dbReservation in dbReservations)
                 {
-                    if (dbReservation.RoomId == room.RoomID &&
+                    if (dbReservation.RoomId == room.Id &&
                         dbReservation.StartTime < startTime && startTime < dbReservation.EndTime ||
                         dbReservation.StartTime < endTime && endTime < dbReservation.EndTime ||
                         dbReservation.StartTime > startTime && endTime > dbReservation.EndTime)
                         
                         isAvailable = false;
                 }
-                roomId = room.RoomID;
+                roomId = room.Id;
             }
             if (!isAvailable) return false;
             
