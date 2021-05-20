@@ -27,5 +27,13 @@ namespace MeetNSeat.Dal
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             connection.Execute("dbo.InsertRoom @RoomId, @LocationId, @Floor, @Type, @Spots, @Facilities", roomDto);
         }
+
+        public IReadOnlyCollection<RoomDto> GetAllRoomTypes()
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+
+            var output = connection.Query<RoomDto>("dbo.GetAllRoomTypes").ToList();
+            return output;
+        }
     }
 }

@@ -7,7 +7,7 @@
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h2>Create reservation</h2>
+        <h2>Plan a reservation</h2>
     </div>
     <div>
         <form>
@@ -15,23 +15,30 @@
                 <label for="Location" class="form-label">Location</label>
                 <select class="form-control" @bind="Location" @bind:event="oninput" aria-label="Default select example">
                     <option disabled selected placeholder="Select a location here">Select a location</option>
+                    @foreach (var location in Locations)
+                    {
+                        <option value="@location.LocationId">@location.Name, @location.City</option>
+                    }
+
                     <option value="1">Eindhoven</option>
-                    <option value="2">Sommeren</option>
+                    <option value="2">Someren</option>
                     <option value="3">Maaskantje</option>
                 </select>
 
                 <label for="Room" class="form-label">Room type</label>
                 <select class="form-control" @bind="Room" @bind:event="oninput" aria-label="Default select example">
                     <option disabled selected placeholder="Select a location here">Select a room type</option>
-                    <option value="1">Conference</option>
-                    <option value="2">Workplace</option>
+                    @foreach (var room in Rooms)
+                    {
+                        <option value="@room.Type">@room.Type</option>
+                    }
                 </select>
 
                 <label for="Attendees" class="form-label">Attendees</label>
                 <input type="number" class="form-control" id="Attendees" placeholder="Attendees">
 
-                <input type="datetime-local" @bind="@StartDate" @bind:format="yyyy-MM-ddTHH:mm"/>
-                <input type="datetime-local" @bind="@EndDate" @bind:format="yyyy-MM-ddTHH:mm"/>
+                <input type="datetime-local" @bind="@StartDate" @bind:format="yyyy-MM-ddTHH:mm" />
+                <input type="datetime-local" @bind="@EndDate" @bind:format="yyyy-MM-ddTHH:mm" />
             </div>
             <button @onclick="AddReservation" type="button" disabled="@IsDisabled" class="btn btn-primary">Maak reservering</button>
         </form>
@@ -48,6 +55,17 @@
 
     private DateTime StartDate { get; set; }
     private DateTime EndDate { get; set; }
+
+
+    IReadOnlyCollection<LocationModel> Locations { get; set; }
+    IReadOnlyCollection<RoomModel> Rooms { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Locations = (await LocationService.GetAllLocations()).ToList();
+        Rooms = (await RoomService.GetAllRoomTypes()).ToList();
+    }
 
     private async Task AddReservation()
     {

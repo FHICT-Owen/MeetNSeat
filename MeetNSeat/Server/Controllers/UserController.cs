@@ -34,5 +34,18 @@ namespace MeetNSeat.Server.Controllers
             return _manageUser.DeleteReservation(id);
         }
 
+        //[HttpGet]
+        //public ActionResult GetAllLocations()
+        //{
+        //    var locations = _manageUser.GetAllLocations();
+        //    return Ok(locations);
+        //}
+
+        [HttpGet]
+        public ActionResult GetAllRoomTypes()
+        {
+            var rooms = _manageUser.GetAllRoomTypes();
+            return Ok(rooms);
+        }
     }
 }

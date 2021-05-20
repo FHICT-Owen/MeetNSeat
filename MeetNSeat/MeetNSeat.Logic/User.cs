@@ -51,6 +51,12 @@ namespace MeetNSeat.Logic
             return _reservations.AsReadOnly();
         }
 
+        public IReadOnlyCollection<Room> GetAllRoomTypes()
+        {
+            var room = new Room();
+            return room.GetRoomTypes().Select(roomDto => new Room(roomDto)).ToList();
+        }
+
         public List<ManageReservationDto> GetReservationByUser(string userId)
         {
             return _dal.GetReservationByUser(userId);

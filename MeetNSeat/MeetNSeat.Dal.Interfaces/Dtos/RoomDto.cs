@@ -9,9 +9,9 @@
         public int Spots { get; set; }
         public string Facilities { get; set; }
 
-        public RoomDto()
+        public RoomDto(string type)
         {
-            
+            Type = type;
         }
     }
 }
