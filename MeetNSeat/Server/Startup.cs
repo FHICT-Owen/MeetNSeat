@@ -23,6 +23,7 @@ namespace MeetNSeat.Server
         {
             services.AddTransient<IManageIssue, IssueCollection>();
             services.AddTransient<IManageFeedback, FeedbackCollection>();
+            services.AddTransient<IManageLocation, LocationCollection>();
             services.AddTransient<IManageUser, User>();
             services.AddTransient<IManageAuthentication, Authentication>();
             services.AddControllersWithViews();

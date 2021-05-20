@@ -13,7 +13,7 @@ namespace MeetNSeat.Client.Services
         public static async Task<IEnumerable<LocationModel>> GetAllLocations()
         {
             using var client = new HttpClient();
-            return await client.GetFromJsonAsync<List<LocationModel>>("https://localhost:5001/api/user");
+            return await client.GetFromJsonAsync<List<LocationModel>>("https://localhost:5001/api/location");
         }
 	}
 }

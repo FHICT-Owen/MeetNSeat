@@ -41,7 +41,7 @@ namespace MeetNSeat.Server.Controllers
         //    return Ok(locations);
         //}
 
-        [HttpGet]
+        [HttpGet("types")]
         public ActionResult GetAllRoomTypes()
         {
             var rooms = _manageUser.GetAllRoomTypes();
