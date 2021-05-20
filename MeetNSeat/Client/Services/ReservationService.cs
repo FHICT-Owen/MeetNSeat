@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using MeetNSeat.Client.Models;
@@ -8,12 +7,6 @@ namespace MeetNSeat.Client.Services
 {
     public class ReservationService
     {
-        private readonly HttpClient _http;
-        public ReservationService(HttpClient http)
-        {
-            _http = http;
-        }
-
         public static async Task<string> DeleteReservation(int id)
         {
             using var client = new HttpClient();
