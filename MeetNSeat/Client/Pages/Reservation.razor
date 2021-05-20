@@ -15,7 +15,7 @@
                 <label for="Location" class="form-label">Location</label>
                 <select class="form-control" @bind="Location" aria-label="Default select example">
                     <option disabled selected placeholder="Select a location here">Select a location</option>
-                    @if (Locations.Count > 0)
+                    @if (Locations.Any())
                     {
                         @foreach (var location in Locations)
                         {
@@ -27,10 +27,13 @@
                 <label for="Room" class="form-label">Room type</label>
                 <select class="form-control" @bind="Room" @bind:event="oninput" aria-label="Default select example">
                     <option disabled selected placeholder="Select a location here">Select a room type</option>
-                    @foreach (var room in Rooms)
+                    @if (Rooms.Any())
                     {
-                        <option value="@room.Type">@room.Type</option>
-                    }*
+                        @foreach (var room in Rooms)
+                        {
+                            <option value="@room.Type">@room.Type</option>
+                        }
+                    }
                 </select>
 
                 <label for="Attendees" class="form-label">Attendees</label>

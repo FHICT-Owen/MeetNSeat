@@ -17,7 +17,7 @@
 
     <p>@authMessage</p>
 
-    @if (claims.Count() > 0)
+    @if (claims.Any())
     {
         <table class="table">
             @foreach (var claim in claims)
