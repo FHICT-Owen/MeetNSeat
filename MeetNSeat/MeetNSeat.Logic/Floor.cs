@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using MeetNSeat.Dal.Factories;
+﻿using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
 using MeetNSeat.Dal.Interfaces.Dtos;
-using MeetNSeat.Logic.Interfaces;
 
 namespace MeetNSeat.Logic
 {

@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using MeetNSeat.Client.Utils;
 
 namespace MeetNSeat.Client
 {
@@ -27,8 +26,6 @@ namespace MeetNSeat.Client
                 options.BaseAddress = new Uri("https://jsonip.com");
             });
             builder.Services.AddScoped<IApiClientService, ApiClientService>();
-            builder.Services.AddScoped<IUserUtils, UserUtils>();
-
             await builder.Build().RunAsync();
         }
     }
