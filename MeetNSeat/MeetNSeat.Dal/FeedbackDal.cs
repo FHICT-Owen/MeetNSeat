@@ -10,6 +10,13 @@ namespace MeetNSeat.Dal
 {
     public class FeedbackDal : IFeedbackDal
     {
+        public List<FeedbackDto> GetAllFeedback()
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+            var output = connection.Query<FeedbackDto>("dbo.GetAllFeedback").ToList();
+            return output;
+        }
+        
         public bool DeleteFeedback(int id)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
@@ -25,21 +32,18 @@ namespace MeetNSeat.Dal
                 return false;
             }
         }
-        public List<FeedbackDto> GetAllFeedback()
-        {
-            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-            var query = connection.Query<FeedbackDto>("dbo.GetAllFeedback;").ToList();
-            return query;
-        }
+        
         public FeedbackDto GetFeedbackDtoById(int id)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-            DynamicParameters parameter = new DynamicParameters();
-
+            
+            var parameter = new DynamicParameters();
             parameter.Add("@id", id);
-            var feedbackDto = connection.Query<FeedbackDto>(@"dbo.GetFeedbackByID @id;", parameter).First();
+            
+            var feedbackDto = connection.Query<FeedbackDto>("dbo.GetFeedbackByID @id", parameter).First();
             return feedbackDto;
         }
+        
         public bool InsertFeedback(FeedbackDto feedbackDto)
         {
 

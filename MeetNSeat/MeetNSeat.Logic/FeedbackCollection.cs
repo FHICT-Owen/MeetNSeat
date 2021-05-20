@@ -13,7 +13,6 @@ namespace MeetNSeat.Logic
         private readonly IFeedbackDal _dal;
         private readonly IReservationDal dalReservationDal;
 
-
         public FeedbackCollection()
         {
             _dal = FeedbackFactory.CreateFeedbackDal();
@@ -32,6 +31,7 @@ namespace MeetNSeat.Logic
                 dto => _feedback.Add(new  Feedback(dto)));
             return _feedback.AsReadOnly();
         }
+        
         public List<FeedbackDto> GetFeedbackByUser(string userId)
         {
             FeedbackDal feedbackDal = new FeedbackDal();

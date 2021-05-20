@@ -1,4 +1,4 @@
-﻿@inject ISessionStorageService SessionStorage;
+﻿@inject ISessionStorageService _sessionStorage;
 @page "/reservation"
 @using MeetNSeat.Client.Models
 @using MeetNSeat.Client.Services
@@ -68,7 +68,7 @@
 
     private async Task AddReservation()
     {
-        var userId = await SessionStorage.GetItemAsync<string>("userId");
+        var userId = await _sessionStorage.GetItemAsync<string>("userId");
         await UserService.CreateReservation(new ReservationModel(userId, Location, Room, StartDate, EndDate));
     }
 

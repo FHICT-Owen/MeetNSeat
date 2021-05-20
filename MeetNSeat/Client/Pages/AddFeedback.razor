@@ -8,7 +8,7 @@
         <h2>Add new feedback</h2>
     </div>
     <div>
-        <p>@msg</p>
+        <p>@Msg</p>
         <form>
             <div class="form-group">
                 <label for="feedback">Feedback</label>
@@ -30,13 +30,13 @@
 @code {
     private static string Description { get; set; } = null;
     private static int? FeedbackState { get; set; } = null;
-    private static string msg { get; set; }
+    private static string Msg { get; set; }
     private static async Task AddNewFeedback()
     {
-        msg = await FeedbackService.AddFeedback(new FeedbackModel(Description, FeedbackState));
+        Msg = await FeedbackService.AddFeedback(new FeedbackModel(Description, FeedbackState));
     }
     protected override async Task OnInitializedAsync()
     {
-        msg = msg;
+        Msg = Msg;
     }
 }

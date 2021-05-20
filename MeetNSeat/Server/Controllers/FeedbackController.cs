@@ -21,11 +21,12 @@ namespace MeetNSeat.Server.Controllers
             var allFeedback = _manageFeedback.GetFeedbackByUser("Rik Leemans");
             return Ok(allFeedback);
         }
+        
+        [HttpPost]
         public void AddFeedback([FromBody] FeedbackModel feedbackModel)
         {
             var newFeedback = new Feedback(feedbackModel.Description, feedbackModel.FeedbackState);
             _manageFeedback.AddFeedback(newFeedback);
-
         }
     }
 }

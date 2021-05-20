@@ -5,8 +5,10 @@ namespace MeetNSeat.Logic
     public class Feedback
     {
         public int FeedbackId { get; }
+        #nullable enable
         public string? Description { get;  }
         public int? FeedbackState { get; }
+        #nullable disable
         
         public Feedback(int id, string description, int feedbackState)
         {
@@ -32,8 +34,5 @@ namespace MeetNSeat.Logic
         {
             return new FeedbackDto(FeedbackId, Description, FeedbackState);
         }
-
-
-
     }
 }

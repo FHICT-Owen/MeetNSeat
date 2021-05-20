@@ -6,7 +6,7 @@ using MeetNSeat.Client.Models;
 
 namespace MeetNSeat.Client.Services
 {
-    public class FeedbackService
+    public static class FeedbackService
     {
         public static async Task<IEnumerable<FeedbackModel>> GetAllFeedback()
         {

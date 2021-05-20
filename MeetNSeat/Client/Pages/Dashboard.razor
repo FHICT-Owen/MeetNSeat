@@ -1,5 +1,4 @@
 ﻿@page "/dashboard"
-@inject UserService _userService
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Client.Models
 @attribute [Authorize]
@@ -12,7 +11,7 @@
     <div class="row">
         <div class="col-md-6">
             <h1 class="h3">Reserveringen</h1>
-            <p>@msg</p>
+            <p>@Msg</p>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -84,23 +83,23 @@
 
 @code{
 
-    private static string msg { get; set; }
-    private IpAddress ipAddress { get; set; }
+    private static string Msg { get; set; }
+    private IpAddress IpAddress { get; set; }
 
     List<ReservationModel> Reservation { get; set; } = new();
     protected override async Task OnInitializedAsync()
     {
-        Reservation = (await _userService.GetAllReservations()).ToList();
-        msg = msg;
+        Reservation = (await UserService.GetAllReservations()).ToList();
+        Msg = Msg;
     }
 
     private async Task ConfirmReservation(ReservationModel reservation)
     {
-        await _userService.ConfirmReservation(reservation.Id, ipAddress);
+        await UserService.ConfirmReservation(reservation.Id, IpAddress);
     }
 
     private static async Task DeleteReservation(ReservationModel reservation)
     {
-        msg = await ReservationService.DeleteReservation(reservation.Id);
+        Msg = await ReservationService.DeleteReservation(reservation.Id);
     }
 }

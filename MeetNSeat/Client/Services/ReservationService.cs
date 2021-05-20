@@ -5,7 +5,7 @@ using MeetNSeat.Client.Models;
 
 namespace MeetNSeat.Client.Services
 {
-    public class ReservationService
+    public static class ReservationService
     {
         public static async Task<string> DeleteReservation(int id)
         {

@@ -6,7 +6,7 @@ using MeetNSeat.Client.Models;
 
 namespace MeetNSeat.Client.Services
 {
-	public class IssueService
+	public static class IssueService
 	{
 		public static async Task<IEnumerable<IssueModel>> GetAllIssues()
 		{
@@ -17,9 +17,7 @@ namespace MeetNSeat.Client.Services
 		public static async Task AddIssue(IssueModel issue)
 		{
 			using var client = new HttpClient();
-			var response = await client.PostAsJsonAsync("https://localhost:5001/api/issues", issue);
-			// if (response.IsSuccessStatusCode) return "worked!";
-			// return "Sorry something went wrong :(";
+			await client.PostAsJsonAsync("https://localhost:5001/api/issues", issue);
 		}
 	}
 }

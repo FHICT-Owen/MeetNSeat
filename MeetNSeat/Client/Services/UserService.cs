@@ -6,15 +6,15 @@ using MeetNSeat.Client.Models;
 
 namespace MeetNSeat.Client.Services
 {
-    public class UserService
+    public static class UserService
     {
-        public async Task<IEnumerable<ReservationModel>> GetAllReservations()
+        public static async Task<IEnumerable<ReservationModel>> GetAllReservations()
         {
             using var client = new HttpClient();
             return await client.GetFromJsonAsync<List<ReservationModel>>("https://localhost:5001/api/user");
         }
 
-        public async Task<bool> ConfirmReservation(int id, IpAddress address)
+        public static async Task<bool> ConfirmReservation(int id, IpAddress address)
         {
             var client = new HttpClient();
             var response = await client.PostAsJsonAsync<ConfirmationModel>("https://localhost:5001/api/user/confirm", new ConfirmationModel(id, address.Ip));

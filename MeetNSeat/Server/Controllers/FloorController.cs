@@ -7,13 +7,14 @@ namespace MeetNSeat.Server.Controllers
     [ApiController]
     public class FloorController : ControllerBase
     {
-        private int LocationId { get; set; }
+        private int LocationId { get; set; } //This wont work
         private readonly IManageFloor _manageFloor;
 
         public FloorController(IManageFloor manageFloor)
         {
             _manageFloor = manageFloor;
         }
+        
         [HttpGet]
         public ActionResult GetAllFloorByLocation()
         {

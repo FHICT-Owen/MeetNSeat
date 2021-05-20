@@ -3,12 +3,12 @@
     public class FeedbackDto
     {
         public int Id { get; set; }
-
         #nullable enable
         public string? Description { get; set; }
         public int? FeedbackState { get; set; }
-
         #nullable disable
+
+        public FeedbackDto() { }
         public FeedbackDto(string description, int? feedbackState)
         {
             Description = description;

@@ -5,7 +5,7 @@ using MeetNSeat.Client.Models;
 
 namespace MeetNSeat.Client.Services
 {
-    public class AuthService
+    public static class AuthService
     {
         public static async Task AddUser(UserModel userModel)
         {
