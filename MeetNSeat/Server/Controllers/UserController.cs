@@ -41,6 +41,17 @@ namespace MeetNSeat.Server.Controllers
         //    return Ok(locations);
         //}
 
+        [HttpGet("confirm")]
+        public ActionResult ConfirmReservation([FromBody] int id, string ip)
+        {
+            var confirmed = _manageUser.ConfirmReservation(id, ip);
+            if (confirmed)
+            {
+                return Ok();
+            }
+            return Problem();
+        }
+
         [HttpGet("types")]
         public ActionResult GetAllRoomTypes()
         {

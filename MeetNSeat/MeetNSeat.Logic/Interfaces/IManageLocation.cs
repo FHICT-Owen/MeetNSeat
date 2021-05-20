@@ -5,6 +5,6 @@ namespace MeetNSeat.Logic.Interfaces
     public interface IManageLocation
     {
         IReadOnlyCollection<Location> GetAllLocations();
-        void AddLocation(Location location);
+        void AddLocation(int id, string name, string city, string ipAddress);
     }
 }

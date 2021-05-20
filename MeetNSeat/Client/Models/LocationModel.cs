@@ -7,9 +7,8 @@
         public string City { get; set; }
         public string IpAddress { get; set; }
 
-        public LocationModel(int id, string name, string city, string ipAddress)
+        public LocationModel(string name, string city, string ipAddress)
         {
-            Id = id;
             Name = name;
             City = city;
             IpAddress = ipAddress;

@@ -46,7 +46,8 @@
                                 @* <td>@user.EndTime</td> *@
                                 <td>
                                     <form>
-                                            <button @onclick="() => DeleteReservation(reservation)" type="button" class="btn btn-danger">Vrij geven</button>
+                                        <button @onclick="() => ConfirmReservation(reservation)" type="button" class="btn btn-danger">Bevestigen</button>
+                                        <button @onclick="() => DeleteReservation(reservation)" type="button" class="btn btn-danger">Vrij geven</button>
                                     </form>
                                 </td>
                             </tr>
@@ -84,21 +85,22 @@
 @code{
 
     private static string msg { get; set; }
+    private IpAddress ipAddress { get; set; }
 
     List<ReservationModel> Reservation { get; set; } = new();
     protected override async Task OnInitializedAsync()
-
     {
-
         Reservation = (await _userService.GetAllReservations()).ToList();
         msg = msg;
+    }
 
+    private async Task ConfirmReservation(ReservationModel reservation)
+    {
+        await _userService.ConfirmReservation(reservation.Id, ipAddress);
     }
 
     private static async Task DeleteReservation(ReservationModel reservation)
     {
-        
         msg = await ReservationService.DeleteReservation(reservation.Id);
-
     }
 }

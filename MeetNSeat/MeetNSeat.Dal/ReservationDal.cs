@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using Dapper;
 using MeetNSeat.Dal.Interfaces;
@@ -15,6 +16,16 @@ namespace MeetNSeat.Dal
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             connection.Execute("dbo.CreateReservation @RoomId, @UserId, @Attendees, @StartTime, @EndTime", createReservationDto);
             return true;
+        }
+        public bool ConfirmReservation(int id, DateTime confirmedTime)
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+            DynamicParameters parameter = new DynamicParameters();
+            parameter.Add("@id", id);
+            parameter.Add("@confirmed", confirmedTime);
+
+            var result = connection.Execute("dbo.ConfirmReservation @id, @confirmed", parameter);
+            return result > 0;
         }
 
         public bool RemoveReservation(int id)

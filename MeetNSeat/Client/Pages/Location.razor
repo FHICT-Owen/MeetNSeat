@@ -1,0 +1,30 @@
+@page "/Location"
+@using MeetNSeat.Client.Services
+@using MeetNSeat.Client.Models
+@attribute [Authorize]
+
+<main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2>Locations</h2>
+    </div>
+    <div>
+        <form>
+            <input class="form-control" @bind="@Name" @bind:event="oninput" placeholder="Name">
+            <input class="form-control" @bind="@City" @bind:event="oninput" placeholder="City">
+            <button @onclick="AddLocation" type="button" class="btn btn-primary">Add location</button>
+        </form>
+    </div>
+</main>
+
+@code {
+    private string Name { get; set; }
+
+    private string City { get; set; }
+
+    private string IpAddress { get; set; } = "0";
+    
+    private async Task AddLocation()
+    {
+        await LocationService.AddIssue(new LocationModel(Name, City, IpAddress));
+    }
+}

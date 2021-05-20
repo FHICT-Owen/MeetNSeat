@@ -97,6 +97,16 @@ namespace MeetNSeat.Logic
             return _dal.AddReservation(createReservationDto);
         }
 
+        public bool ConfirmReservation(int id, string ip)
+        {
+            var reservation = _reservations.SingleOrDefault(res => res.ReservationId == id);
+            var locations = LocationCollection.Instance.GetAllLocations();
+            var match = locations.Any(res => res.IpAddress == ip);
+            if (!match) return false;
+            reservation?.ConfirmReservation(id);
+            return true;
+        }
+
         public bool DeleteReservation(int id)
         {
             return _dal.RemoveReservation(id);
