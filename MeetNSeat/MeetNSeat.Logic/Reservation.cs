@@ -59,6 +59,12 @@ namespace MeetNSeat.Logic
             return dal.GetAllReservations();
         }
 
+        public void ConfirmReservation(int id)
+        {
+            IsConfirmed = DateTime.Now;
+            dal.ConfirmReservation(id, IsConfirmed);
+        }
+
         public bool EditReservation(Reservation reservation)
         {
             _reservation.Add(reservation);
