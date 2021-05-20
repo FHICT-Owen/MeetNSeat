@@ -1,7 +1,12 @@
+using MeetNSeat.Dal.Interfaces;
+
 namespace MeetNSeat.Dal.Factories
 {
-    public class LocationFactory
+    public static class LocationFactory
     {
-        
+        public static ILocationDal CreateIssueDal()
+        {
+            return new LocationDal();
+        }
     }
 }
