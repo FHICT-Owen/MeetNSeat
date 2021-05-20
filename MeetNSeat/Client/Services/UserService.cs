@@ -8,17 +8,18 @@ namespace MeetNSeat.Client.Services
 {
     public class UserService
     {
-        private readonly HttpClient _http;
-
-        public UserService(HttpClient http)
-        {
-            _http = http;
-        }
-
         public async Task<IEnumerable<ReservationModel>> GetAllReservations()
         {
-            return await _http.GetFromJsonAsync<List<ReservationModel>>("api/user");
+            using var client = new HttpClient();
+            return await client.GetFromJsonAsync<List<ReservationModel>>("https://localhost:5001/api/user");
         }
+        
+        public static async Task<IEnumerable<RoomModel>> GetAllRoomTypes()
+        {
+            using var client = new HttpClient();
+            return await client.GetFromJsonAsync<List<RoomModel>>("https://localhost:5001/api/user/types");
+        }
+        
         public static async Task CreateReservation(ReservationModel reservation)
         {
             using var client = new HttpClient();

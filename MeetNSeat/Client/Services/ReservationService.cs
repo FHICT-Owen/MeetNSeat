@@ -8,12 +8,6 @@ namespace MeetNSeat.Client.Services
 {
     public class ReservationService
     {
-        private readonly HttpClient _http;
-        public ReservationService(HttpClient http)
-        {
-            _http = http;
-        }
-
         public static async Task<string> DeleteReservation(int id)
         {
             using var client = new HttpClient();

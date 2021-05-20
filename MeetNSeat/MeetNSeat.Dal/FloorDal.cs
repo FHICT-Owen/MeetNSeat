@@ -15,8 +15,8 @@ namespace MeetNSeat.Dal
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@LocationID", locationId);
-            var output = connection.Query<FloorDto>("dbo.GetAllFloorsByLocation, @LocationID", parameters).ToList();
+            parameters.Add("@LocationId", locationId);
+            var output = connection.Query<FloorDto>("dbo.GetAllFloorsByLocation, @LocationId", parameters).ToList();
             return output;
         }
     }
