@@ -53,7 +53,6 @@
             authMessage = "The user is NOT authenticated.";
         }
 
-        var storedUserId = await Storage.GetItemAsync<string>("userId");
-        userId = storedUserId.Split(" ")[2];
+        userId = await Storage.GetItemAsync<string>("userId");
     }
 }

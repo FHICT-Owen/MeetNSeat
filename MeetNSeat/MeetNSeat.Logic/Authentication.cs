@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
 using MeetNSeat.Logic.Interfaces;
@@ -29,6 +27,7 @@ namespace MeetNSeat.Logic
         {
             var exists = _users.Exists(user => user.Id == newUser.Id);
             if (exists) return;
+            _users.Add(newUser);
             _dal.AddNewUser(newUser.ConvertToDto());
         }
     }

@@ -12,28 +12,31 @@
         <h1 class="h3">Schandpaal</h1>
         <table class="table table-striped red">
             <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">FeedbackState</th>
-                </tr>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Description</th>
+                <th scope="col">FeedbackState</th>
+            </tr>
             </thead>
             <tbody>
-                @if (Feedback.Count > 0)
-                    {
-                        foreach (var feedback in Feedback)
-                        {
-                            <tr class="color:red">
-                                <td>@feedback.FeedbackId</td>
-                                <td>@feedback.Description</td>
-                                <td>@feedback.FeedbackState</td>
-                            </tr>
-                        }
-                    }
+            @if (Feedback.Count > 0)
+            {
+                foreach (var feedback in Feedback)
+                {
+                    <tr class="color:red">
+                        <td>@feedback.FeedbackId</td>
+                        <td>@feedback.Description</td>
+                        <td>@feedback.FeedbackState</td>
+                    </tr>
+                }
+            }
             </tbody>
         </table>
     </div>
 </main>
+
+
+
 @code
 {
     List<FeedbackModel> Feedback { get; set; } = new();

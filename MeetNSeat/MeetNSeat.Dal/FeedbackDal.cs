@@ -47,6 +47,7 @@ namespace MeetNSeat.Dal
             DynamicParameters parameter = new DynamicParameters();
             parameter.Add("@Description", feedbackDto.Description);
             parameter.Add("@FeedbackState", feedbackDto.FeedbackState);
+            //TODO: 
             var result  = connection.Execute("dbo.InsertFeedback @Description, @FeedbackState", feedbackDto);
             if (result > 0)
             {

@@ -14,7 +14,6 @@ namespace MeetNSeat.Dal
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             connection.Execute("dbo.CreateReservation @RoomId, @UserId, @Attendees, @StartTime, @EndTime", createReservationDto);
-            //TODO: Iets anders voor bedenken
             return true;
         }
 

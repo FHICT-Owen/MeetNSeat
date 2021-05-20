@@ -1,7 +1,5 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MeetNSeat.Dal;
-using MeetNSeat.Dal.Interfaces;
 using MeetNSeat.Logic;
 namespace MeetNSeat.Tests
 {

@@ -7,7 +7,7 @@ namespace MeetNSeat.Logic
 {
   public class IssueCollection : IManageIssue
   {
-    private readonly List<Issue> _issues = new List<Issue>();
+    private readonly List<Issue> _issues = new();
     private readonly IIssueDal _dal;
 
     public IssueCollection()
