@@ -20,6 +20,12 @@ namespace MeetNSeat.Logic
         {
             _dal = FloorFactory.CreateFloorDal();
         }
+        
+        public Floor(string name, int locationId)
+        {
+            Name = name;
+            LocationId = locationId;
+        }
 
         public Floor(int id, string name, int locationId)
         {

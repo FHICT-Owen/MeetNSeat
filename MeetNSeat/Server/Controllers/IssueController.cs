@@ -26,8 +26,7 @@ namespace MeetNSeat.Server.Controllers
 		[HttpPost]
 		public void AddIssue([FromBody] IssueModel issueModel)
 		{
-			var newIssue = new Issue(issueModel.Description, issueModel.RoomId, issueModel.UserId);
-			_manageIssue.AddIssue(newIssue);
+			_manageIssue.AddIssue(issueModel.Description, issueModel.RoomId, issueModel.UserId);
 		}
 	}
 }

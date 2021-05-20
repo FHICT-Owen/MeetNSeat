@@ -5,12 +5,12 @@ namespace MeetNSeat.Logic
 {
     public class Issue
     {
-	    private int Id { get; }
-	    private int RoomId { get; }
-	    private string UserId { get; }
-	    private string Description { get; }
-	    private DateTime CreatedOn { get; }
-	    private bool IsResolved { get; set; }
+	    public int Id { get; }
+	    public int RoomId { get; }
+	    public string UserId { get; }
+	    public string Description { get; }
+	    public DateTime CreatedOn { get; }
+	    public bool IsResolved { get; set; }
 
 	    public Issue(string description, int roomId, string userId)
 	    {

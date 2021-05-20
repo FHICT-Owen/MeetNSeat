@@ -23,15 +23,13 @@
             @if (Issues.Count > 0)
             {
                 foreach (var issue in Issues)
-                {
-                    <tr>
-                        <td>@issue.Description</td>
-                        <td>@issue.RoomId</td>
-                        <td>@issue.UserId</td>
-                        <td>@issue.CreatedOn</td>
-                        <td>@issue.IsResolved</td>
-                    </tr>
-                }
+                {<tr>
+                     <td>@issue.Description</td>
+                     <td>@issue.RoomId</td>
+                     <td>@issue.UserId</td>
+                     <td>@issue.CreatedOn</td>
+                     <td>@issue.IsResolved</td>
+                     </tr>}
             }
             </tbody>
         </table>

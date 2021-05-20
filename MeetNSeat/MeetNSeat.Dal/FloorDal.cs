@@ -11,7 +11,7 @@ namespace MeetNSeat.Dal
 {
     public class FloorDal : IFloorDal
     {
-        public List<FloorDto> GetAllFloorsByLocation(int locationId)
+        public List<FloorDto> GetAllFloorsByLocationId(int locationId)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 

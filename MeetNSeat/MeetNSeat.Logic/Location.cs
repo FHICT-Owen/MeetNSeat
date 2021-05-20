@@ -12,7 +12,6 @@ namespace MeetNSeat.Logic
         private readonly IFloorDal _floorDal;
         private readonly IRoomDal _roomDal;
 
-
         public int Id { get; set; }
         public string Name { get; set; }
         public string City { get; set; }
@@ -39,30 +38,34 @@ namespace MeetNSeat.Logic
             City = locationDto.City;
             IpAddress = locationDto.IpAddress;
         }
-
-        public IReadOnlyCollection<RoomDto> GetAvailableRooms(string type, int locationId)
-        {
-            return _roomDal.GetAllRoomsByType(type, locationId).AsReadOnly();
-        }
-
+        
         public IReadOnlyCollection<Floor> GetAllFloorsByLocation(int locationId)
         {
             _floors.Clear();
 
-            _floorDal.GetAllFloorsByLocation(locationId).ForEach(
+            _floorDal.GetAllFloorsByLocationId(locationId).ForEach(
                 dto => _floors.Add(new Floor(dto)));
 
             return _floors.AsReadOnly();
         }
 
+        public void AddFloor(string name, int locationId)
+        {
+            var floor = new Floor(name, locationId);
+            _floors.Add(floor);
+            _floorDal.AddFloor(floor.ConvertToDto());
+        }
+        
+        
+        
+        public IReadOnlyCollection<RoomDto> GetAvailableRooms(string type, int locationId)
+        {
+            return _roomDal.GetAllRoomsByType(type, locationId).AsReadOnly();
+        }
+
         public LocationDto ConvertToDto()
         {
             return new (Id, Name, City, IpAddress);
-        }
-
-        public void AddFloor(Floor floor)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

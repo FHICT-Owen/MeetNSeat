@@ -7,7 +7,6 @@
         public int LocationId { get; set; }
 
         public FloorDto() { }
-
         public FloorDto(int id, string name, int locationId)
         {
             Id = id;

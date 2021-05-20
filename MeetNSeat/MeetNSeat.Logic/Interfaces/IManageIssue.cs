@@ -5,6 +5,6 @@ namespace MeetNSeat.Logic.Interfaces
 	public interface IManageIssue
 	{
 		IReadOnlyCollection<Issue> GetAllIssues();
-		void AddIssue(Issue issue);
+		void AddIssue(string description, int roomId, string userId);
 	}
 }

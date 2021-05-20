@@ -5,6 +5,6 @@ namespace MeetNSeat.Logic.Interfaces
     public interface IManageFloor
     {
         IReadOnlyCollection<Floor> GetAllFloorsByLocation(int locationId);
-        void AddFloor(Floor floor);
+        void AddFloor(string name, int locationId);
     }
 }

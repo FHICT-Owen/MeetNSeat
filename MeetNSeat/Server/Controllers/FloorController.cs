@@ -7,7 +7,7 @@ namespace MeetNSeat.Server.Controllers
     [ApiController]
     public class FloorController : ControllerBase
     {
-        public int LocationId { get; set; }
+        private int LocationId { get; set; }
         private readonly IManageFloor _manageFloor;
 
         public FloorController(IManageFloor manageFloor)
