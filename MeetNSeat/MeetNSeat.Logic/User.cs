@@ -20,7 +20,6 @@ namespace MeetNSeat.Logic
         public string Id { get; set; }
         public string Nickname { get; set; }
         public Role Role { get; set; }
-
         private readonly List<Reservation> _reservations = new List<Reservation>();
         private readonly IReservationDal _dal;
 

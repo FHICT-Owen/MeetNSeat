@@ -5,6 +5,7 @@
 @using MeetNSeat.Client.Utils
 @using Blazored.SessionStorage
 @attribute [Authorize]
+@inject IJSRuntime JsRuntime;
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -30,9 +31,8 @@
 
                 <label for="Attendees" class="form-label">Attendees</label>
                 <input type="number" class="form-control" id="Attendees" placeholder="Attendees">
-
-                <input type="datetime-local" @bind="@StartDate" @bind:format="yyyy-MM-ddTHH:mm"/>
-                <input type="datetime-local" @bind="@EndDate" @bind:format="yyyy-MM-ddTHH:mm"/>
+                <input type="datetime-local" @bind="@StartDate" @bind:format="yyyy-MM-ddTHH:mm" />
+                <input type="datetime-local" @bind="@EndDate" @bind:format="yyyy-MM-ddTHH:mm" />
             </div>
             <button @onclick="AddReservation" type="button" disabled="@IsDisabled" class="btn btn-primary">Maak reservering</button>
         </form>
@@ -52,8 +52,19 @@
 
     private async Task AddReservation()
     {
-        var userId = await SessionStorage.GetItemAsync<string>("userId");
-        await UserService.CreateReservation(new ReservationModel(userId, Location, Room, StartDate, EndDate));
+        if (StartDate >= DateTime.Now)
+        {
+            var userId = await SessionStorage.GetItemAsync<string>("userId");
+            await UserService.CreateReservation(new ReservationModel(userId, Location, Room, StartDate, EndDate));
+        }
+        else
+        {
+            // show message.
+            var alert = await JsRuntime.InvokeAsync<string>("alert", "Can't schedule reservation in the past.");
+
+            // prevent form from submitting to form.
+            return;
+        }
     }
 
 
