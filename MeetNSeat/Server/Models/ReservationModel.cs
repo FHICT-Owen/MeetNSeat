@@ -1,8 +1,5 @@
 ﻿using MeetNSeat.Logic;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MeetNSeat.Server.Models
 {

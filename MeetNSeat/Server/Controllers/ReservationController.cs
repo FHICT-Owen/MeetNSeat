@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MeetNSeat.Server.Models;
-using MeetNSeat.Logic;
+﻿using MeetNSeat.Server.Models;
 using MeetNSeat.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 
 namespace MeetNSeat.Server.Controllers
 {
