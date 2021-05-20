@@ -10,15 +10,26 @@ namespace MeetNSeat.Dal
 {
     public class RoomDal : IRoomDal
     {
-        public List<RoomDto> GetAllRoomsByType(string type, int locationId)
+        public List<RoomDto> GetAllRoomsByType(string type, int floorId)
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@FloorId", floorId);
+            parameters.Add("@Type", type);
+
+            var output = connection.Query<RoomDto>("dbo.GetAllRoomsByType @Type, @FloorId", parameters).ToList();
+            return output;
+        }
+        
+        public List<RoomDto> GetAllRooms(int floorId)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@LocationID", locationId);
-            parameters.Add("@Type", type);
+            parameters.Add("@FloorId", floorId);
 
-            var output = connection.Query<RoomDto>("dbo.GetAllRoomsByType @Type, @FloorId", parameters).ToList();
+            var output = connection.Query<RoomDto>("dbo.GetAllRooms @FloorId", parameters).ToList();
             return output;
         }
 
@@ -31,7 +42,6 @@ namespace MeetNSeat.Dal
         public IReadOnlyCollection<RoomDto> GetAllRoomTypes()
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-
             var output = connection.Query<RoomDto>("dbo.GetAllRoomTypes").ToList();
             return output;
         }

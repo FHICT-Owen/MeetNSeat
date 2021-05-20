@@ -1,3 +1,4 @@
+using MeetNSeat.Dal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MeetNSeat.Tests
@@ -6,9 +7,10 @@ namespace MeetNSeat.Tests
     public class RoomUnitTests
     {
         [TestMethod]
-        public void IssueShouldBeAddedToTheDatabase()
+        public void Test()
         {
-            
+            var s = new RoomDal();
+            //s.GetAllRoomsByType();
         }
     }
 }

@@ -10,9 +10,8 @@ namespace MeetNSeat.Logic
         private IRoomDal dal;
 
         public int Id { get; set; }
-        public int LocationId { get; set; }
+        public int FloorId { get; set; }
         public string Type { get; set; }
-        public int Floor { get; set; }
         public int Spots { get; set; }
         public string Facilities { get; set; }
 
