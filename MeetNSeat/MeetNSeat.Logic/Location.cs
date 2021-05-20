@@ -10,16 +10,32 @@ namespace MeetNSeat.Logic
         private readonly List<Floor> _floors = new();
         private readonly IRoomDal _dal;
 
-        public List<Floor> Floors { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string City { get; set; }
+        public string IpAddress { get; set; }
         
         public Location()
         {
             _dal = RoomFactory.CreateRoomDal();
         }
 
+        public Location(LocationDto locationDto)
+        {
+            Id = locationDto.Id;
+            Name = locationDto.Name;
+            City = locationDto.City;
+            IpAddress = locationDto.IpAddress;
+        }
+
         public IReadOnlyCollection<RoomDto> GetAvailableRooms(string type, int locationId)
         {
             return _dal.GetAllRoomsByType(type, locationId).AsReadOnly();
+        }
+        
+        public LocationDto ConvertToDto()
+        {
+            return new (Id, Name, City, IpAddress);
         }
     }
 }

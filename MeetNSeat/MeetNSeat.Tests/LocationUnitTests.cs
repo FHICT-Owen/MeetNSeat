@@ -1,5 +1,6 @@
 using MeetNSeat.Dal;
 using MeetNSeat.Dal.Interfaces.Dtos;
+using MeetNSeat.Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MeetNSeat.Tests
@@ -17,7 +18,7 @@ namespace MeetNSeat.Tests
         [TestMethod]
         public void Test1()
         {
-            var s = new LocationDal();
+            var s = new LocationCollection();
             s.GetAllLocations();
         }
     }
