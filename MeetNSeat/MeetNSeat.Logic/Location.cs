@@ -2,13 +2,16 @@
 using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
 using MeetNSeat.Dal.Interfaces.Dtos;
+using MeetNSeat.Logic.Interfaces;
 
 namespace MeetNSeat.Logic
 {
-    public class Location
+    public class Location : IManageFloor
     {
-        private readonly List<Floor> _floors = new();
-        private readonly IRoomDal _dal;
+        private readonly List<Floor> _floors = new ();
+        private readonly IFloorDal _floorDal;
+        private readonly IRoomDal _roomDal;
+
 
         public int Id { get; set; }
         public string Name { get; set; }
@@ -17,7 +20,8 @@ namespace MeetNSeat.Logic
         
         public Location()
         {
-            _dal = RoomFactory.CreateRoomDal();
+            _roomDal = RoomFactory.CreateRoomDal();
+            _floorDal = FloorFactory.CreateFloorDal();
         }
 
         public Location(int id, string name, string city, string ipAddress)
@@ -38,12 +42,27 @@ namespace MeetNSeat.Logic
 
         public IReadOnlyCollection<RoomDto> GetAvailableRooms(string type, int locationId)
         {
-            return _dal.GetAllRoomsByType(type, locationId).AsReadOnly();
+            return _roomDal.GetAllRoomsByType(type, locationId).AsReadOnly();
         }
-        
+
+        public IReadOnlyCollection<Floor> GetAllFloorsByLocation(int locationId)
+        {
+            _floors.Clear();
+
+            _floorDal.GetAllFloorsByLocation(locationId).ForEach(
+                dto => _floors.Add(new Floor(dto)));
+
+            return _floors.AsReadOnly();
+        }
+
         public LocationDto ConvertToDto()
         {
             return new (Id, Name, City, IpAddress);
+        }
+
+        public void AddFloor(Floor floor)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

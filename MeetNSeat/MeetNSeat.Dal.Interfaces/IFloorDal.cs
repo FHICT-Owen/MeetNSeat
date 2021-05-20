@@ -6,5 +6,6 @@ namespace MeetNSeat.Dal.Interfaces
     public interface IFloorDal
     { 
         List<FloorDto> GetAllFloorsByLocation(int locationId);
+        void AddFloor(FloorDto floorDto);
     }
 }

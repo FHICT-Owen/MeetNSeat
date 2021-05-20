@@ -22,9 +22,17 @@
     private string City { get; set; }
 
     private string IpAddress { get; set; } = "0";
-    
+
     private async Task AddLocation()
     {
-        await LocationService.AddIssue(new LocationModel(Name, City, IpAddress));
+        await LocationService.AddLocation(new LocationModel(Name, City, IpAddress));
     }
+
+    List<FloorModel> Floors { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Floors = (await FloorService.GetAllFloorsByLocation(1)).ToList();
+    }
+
 }

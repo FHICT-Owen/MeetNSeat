@@ -2,24 +2,23 @@
 {
     public class FeedbackDto
     {
-        public int FeedbackId { get; set; }
+        public int Id { get; set; }
+
+        #nullable enable
         public string? Description { get; set; }
         public int? FeedbackState { get; set; }
 
+        #nullable disable
         public FeedbackDto(string description, int? feedbackState)
         {
             Description = description;
             FeedbackState = feedbackState;
         }
-        public FeedbackDto(int feedbackId, string description, int? feedbackState)
+        public FeedbackDto(int id, string description, int? feedbackState)
         {
-            FeedbackId = feedbackId;
+            Id = id;
             Description = description;
             FeedbackState = feedbackState;
-        }
-
-        public FeedbackDto()
-        {
         }
     }
 }

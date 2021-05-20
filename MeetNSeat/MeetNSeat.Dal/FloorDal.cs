@@ -1,10 +1,10 @@
-﻿using MeetNSeat.Dal.Interfaces;
+﻿using Dapper;
+using MeetNSeat.Dal.Interfaces;
+using MeetNSeat.Dal.Interfaces.Dtos;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using Dapper;
-using MeetNSeat.Dal.Interfaces.Dtos;
 
 namespace MeetNSeat.Dal
 {
@@ -16,8 +16,15 @@ namespace MeetNSeat.Dal
 
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@LocationId", locationId);
-            var output = connection.Query<FloorDto>("dbo.GetAllFloorsByLocation, @LocationId", parameters).ToList();
+            var output = connection.Query<FloorDto>(@"dbo.GetAllFloorsByLocation, @LocationId", parameters).ToList();
             return output;
+        }
+
+        public void AddFloor(FloorDto floorDto)
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+            connection.Execute("dbo.InsertFloor @Name, @LocationId", floorDto);
+
         }
     }
 }

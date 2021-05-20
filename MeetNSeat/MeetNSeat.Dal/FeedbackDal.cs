@@ -62,7 +62,7 @@ namespace MeetNSeat.Dal
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             DynamicParameters parameter = new DynamicParameters();
-            parameter.Add("@id", feedbackDto.FeedbackId);
+            parameter.Add("@id", feedbackDto.Id);
             parameter.Add("@description", feedbackDto.Description);
             parameter.Add("@feedbackstate", feedbackDto.FeedbackState);
 

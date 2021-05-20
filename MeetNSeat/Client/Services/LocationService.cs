@@ -14,7 +14,7 @@ namespace MeetNSeat.Client.Services
             return await client.GetFromJsonAsync<List<LocationModel>>("https://localhost:5001/api/location");
         }
         
-        public static async Task AddIssue(LocationModel location)
+        public static async Task AddLocation(LocationModel location)
         {
 	        using var client = new HttpClient();
 	        await client.PostAsJsonAsync("https://localhost:5001/api/location", location);

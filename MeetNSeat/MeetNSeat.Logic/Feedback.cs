@@ -17,7 +17,7 @@ namespace MeetNSeat.Logic
 
         public Feedback(FeedbackDto dto)
         {
-            FeedbackId = dto.FeedbackId;
+            FeedbackId = dto.Id;
             Description = dto.Description;
             FeedbackState = dto.FeedbackState;
         }

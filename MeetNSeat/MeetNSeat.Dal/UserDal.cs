@@ -29,7 +29,7 @@ namespace MeetNSeat.Dal
         public void AddNewUser(UserDto userDto)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-            connection.Execute("dbo.InsertUser @UserId, @Nickname, @RoleId", userDto);
+            connection.Execute("dbo.InsertUser @Id, @Nickname, @RoleId", userDto);
         }
     }
 }

@@ -7,18 +7,25 @@ namespace MeetNSeat.Server.Controllers
     [ApiController]
     public class FloorController : ControllerBase
     {
+        public int LocationId { get; set; }
         private readonly IManageFloor _manageFloor;
 
         public FloorController(IManageFloor manageFloor)
         {
             _manageFloor = manageFloor;
         }
-        //[HttpGet]
-        //public ActionResult GetAllFloorByLocation()
-        //{
-        //    var floors = _manageFloor.GetAllFloorsByLocation();
-        //    return Ok(floors);
-        //}
+        [HttpGet]
+        public ActionResult GetAllFloorByLocation()
+        {
+            var floors = _manageFloor.GetAllFloorsByLocation(LocationId);
+            return Ok(floors);
+        }
+
+        [HttpPost]
+        public void GetLocationId(int locationId)
+        {
+            LocationId = locationId;
+        }
 
     }
 }

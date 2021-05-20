@@ -26,6 +26,9 @@ namespace MeetNSeat.Server
             services.AddTransient<IManageLocation, LocationCollection>();
             services.AddTransient<IManageUser, User>();
             services.AddTransient<IManageAuthentication, Authentication>();
+
+            // Location manages floors.
+            services.AddTransient<IManageFloor, Location>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
