@@ -30,7 +30,7 @@ Welcome to your new app.
             {
                 await Storage.SetItemAsync("userId", userId);
                 var nickname = user.Identity?.Name;
-                await AuthService.AddIssue(new UserModel(userId,nickname,0));
+                await AuthService.AddUser(new UserModel(userId,nickname,0));
             }
         }
     }

@@ -7,7 +7,7 @@ namespace MeetNSeat.Client.Services
 {
     public class AuthService
     {
-        public static async Task AddIssue(UserModel userModel)
+        public static async Task AddUser(UserModel userModel)
         {
             using var client = new HttpClient();
             await client.PostAsJsonAsync("https://localhost:5001/api/auth", userModel);
