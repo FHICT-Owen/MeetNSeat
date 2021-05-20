@@ -38,7 +38,7 @@ namespace MeetNSeat.Logic
 
 	    public IssueDto ConvertToDto()
 	    {
-		    return new IssueDto(Id, RoomId, UserId, Description, CreatedOn, IsResolved);
+		    return new (Id, RoomId, UserId, Description, CreatedOn, IsResolved);
 	    }
     }
 }

@@ -9,7 +9,6 @@ namespace MeetNSeat.Logic
 {
     public class Room
     {
-        private IRoomDal dal;
         public int Id { get; set; }
         public int LocationId { get; set; }
         public string Type { get; set; }
@@ -17,15 +16,6 @@ namespace MeetNSeat.Logic
         public int Spots { get; set; }
         public string Facilities { get; set; }
 
-
-        public Room()
-        {
-            dal = RoomFactory.CreateRoomDal();
-        }
-
-        public List<RoomDto> GetAvailableRooms(string type, int locationId)
-        {
-            return dal.GetAllRoomsByType(type, locationId);
-        }
+        
     }
 }

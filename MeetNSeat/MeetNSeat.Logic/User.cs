@@ -61,7 +61,7 @@ namespace MeetNSeat.Logic
         {
             var isAvailable = true;
             // Retrieve rooms by type and location
-            var roomObject = new Room();
+            var roomObject = new Location();
             var rooms = roomObject.GetAvailableRooms(type, locationId);
 
             var roomId = 0;
