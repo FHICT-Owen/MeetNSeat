@@ -2,14 +2,14 @@
 {
     public class UserDto
     {
-        public string UserId { get; set; }
+        public string Id { get; set; }
         public string Nickname { get; set; }
         public int RoleId { get; set; }
 
         public UserDto() { }
         public UserDto(string userId, string nickname, int roleId)
         {
-            UserId = userId;
+            Id = userId;
             Nickname = nickname;
             RoleId = roleId;
         }

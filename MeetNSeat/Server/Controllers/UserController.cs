@@ -1,5 +1,4 @@
-﻿using MeetNSeat.Logic;
-using MeetNSeat.Logic.Interfaces;
+﻿using MeetNSeat.Logic.Interfaces;
 using MeetNSeat.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,6 +32,20 @@ namespace MeetNSeat.Server.Controllers
         public bool DeleteResult(int id)
         {
             return _manageUser.DeleteReservation(id);
+        }
+
+        //[HttpGet]
+        //public ActionResult GetAllLocations()
+        //{
+        //    var locations = _manageUser.GetAllLocations();
+        //    return Ok(locations);
+        //}
+
+        [HttpGet("types")]
+        public ActionResult GetAllRoomTypes()
+        {
+            var rooms = _manageUser.GetAllRoomTypes();
+            return Ok(rooms);
         }
     }
 }

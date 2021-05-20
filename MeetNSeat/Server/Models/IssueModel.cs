@@ -1,5 +1,3 @@
-using System;
-
 namespace MeetNSeat.Server.Models
 {
 	public class IssueModel

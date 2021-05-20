@@ -24,7 +24,7 @@ namespace MeetNSeat.Client.Services
             }
             else
             {
-                return "Error! Something went wrong :(, please try again!";
+                return "Error! Something went wrong, please try again!";
             }
         }
     }

@@ -1,6 +1,5 @@
 using MeetNSeat.Logic;
 using MeetNSeat.Logic.Interfaces;
-using MeetNSeat.Server.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +23,7 @@ namespace MeetNSeat.Server
         {
             services.AddTransient<IManageIssue, IssueCollection>();
             services.AddTransient<IManageFeedback, FeedbackCollection>();
+            services.AddTransient<IManageLocation, LocationCollection>();
             services.AddTransient<IManageUser, User>();
             services.AddTransient<IManageAuthentication, Authentication>();
             services.AddControllersWithViews();

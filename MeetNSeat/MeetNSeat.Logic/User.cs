@@ -25,7 +25,7 @@ namespace MeetNSeat.Logic
 
         public User(UserDto userDto)
         {
-            Id = userDto.UserId;
+            Id = userDto.Id;
             Nickname = userDto.Nickname;
             Role = (Role)userDto.RoleId;
         }
@@ -51,6 +51,12 @@ namespace MeetNSeat.Logic
             return _reservations.AsReadOnly();
         }
 
+        public IReadOnlyCollection<Room> GetAllRoomTypes()
+        {
+            var room = new Room();
+            return room.GetRoomTypes().Select(roomDto => new Room(roomDto)).ToList();
+        }
+
         public List<ManageReservationDto> GetReservationByUser(string userId)
         {
             return _dal.GetReservationByUser(userId);
@@ -60,7 +66,7 @@ namespace MeetNSeat.Logic
         {
             var isAvailable = true;
             // Retrieve rooms by type and location
-            var roomObject = new Room();
+            var roomObject = new Location();
             var rooms = roomObject.GetAvailableRooms(type, locationId);
 
             var roomId = 0;

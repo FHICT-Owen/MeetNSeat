@@ -12,5 +12,8 @@ namespace MeetNSeat.Logic.Interfaces
 
         bool AddReservation(string type, int locationId, string userId, int attendees, DateTime startTime,
             DateTime endTime);
+
+        IReadOnlyCollection<Room> GetAllRoomTypes();
+
     }
 }

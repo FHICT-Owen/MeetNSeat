@@ -1,5 +1,4 @@
 using System;
-using MeetNSeat.Client.Shared;
 
 namespace MeetNSeat.Client.Models
 {
