@@ -26,7 +26,7 @@ namespace MeetNSeat.Logic
 
         public User(UserDto userDto)
         {
-            Id = userDto.UserId;
+            Id = userDto.Id;
             Nickname = userDto.Nickname;
             Role = (Role)userDto.RoleId;
         }

@@ -7,14 +7,14 @@ namespace MeetNSeat.Client.Models
 {
     public class LocationModel
     {
-        public int LocationId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string City { get; set; }
         public string IpAddress { get; set; }
 
-        public LocationModel(int locationId, string name, string city, string ipAddress)
+        public LocationModel(int id, string name, string city, string ipAddress)
         {
-            LocationId = locationId;
+            Id = id;
             Name = name;
             City = city;
             IpAddress = ipAddress;

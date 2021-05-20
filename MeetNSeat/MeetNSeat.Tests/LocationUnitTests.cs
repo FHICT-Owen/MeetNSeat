@@ -21,5 +21,12 @@ namespace MeetNSeat.Tests
             var s = new LocationCollection();
             s.GetAllLocations();
         }
+
+        [TestMethod]
+        public void Test2()
+        {
+            var s = new Location();
+            s.GetAvailableRooms("Conference", 1);
+        }
     }
 }
