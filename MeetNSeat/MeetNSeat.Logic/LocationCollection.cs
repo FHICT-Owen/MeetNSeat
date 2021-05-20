@@ -43,8 +43,9 @@ namespace MeetNSeat.Logic
             return _locations.AsReadOnly();
         }
     
-        public void AddLocation(Location location)
+        public void AddLocation(int id, string name, string city, string ipAddress)
         {
+            var location = new Location(id, name, city, ipAddress);
             _locations.Add(location);
             _dal.AddLocation(location.ConvertToDto());
         }

@@ -10,7 +10,6 @@ namespace MeetNSeat.Logic
         private readonly IFloorDal _dal;
 
         public int Id { get; set; }
-        public int LocationId { get; set; }
         public string Name { get; set; }
 
         public Floor()

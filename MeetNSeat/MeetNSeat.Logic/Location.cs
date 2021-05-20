@@ -20,6 +20,14 @@ namespace MeetNSeat.Logic
             _dal = RoomFactory.CreateRoomDal();
         }
 
+        public Location(int id, string name, string city, string ipAddress)
+        {
+            Id = id;
+            Name = name;
+            City = city;
+            IpAddress = ipAddress;
+        }
+
         public Location(LocationDto locationDto)
         {
             Id = locationDto.Id;
