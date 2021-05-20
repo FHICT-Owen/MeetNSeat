@@ -13,8 +13,8 @@ namespace MeetNSeat.Tests
         [TestMethod]
         public void Test()
         {
-            FloorDal output = new FloorDal();
-            output.GetAllFloorsByLocation(1);
+            var output = new FloorDal();
+            output.GetAllFloorsByLocation(2);
         }
     }
 }
