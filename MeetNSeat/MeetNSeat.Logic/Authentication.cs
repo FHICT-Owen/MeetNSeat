@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
 using MeetNSeat.Logic.Interfaces;

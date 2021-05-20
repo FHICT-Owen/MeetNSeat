@@ -1,6 +1,5 @@
 using MeetNSeat.Logic;
 using MeetNSeat.Logic.Interfaces;
-using MeetNSeat.Server.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

@@ -7,17 +7,19 @@ namespace MeetNSeat.Logic
 {
     public class Location
     {
-        private readonly Room _room = new();
+        private readonly List<Floor> _floors = new();
         private readonly IRoomDal _dal;
+
+        public List<Floor> Floors { get; set; }
         
         public Location()
         {
             _dal = RoomFactory.CreateRoomDal();
         }
 
-        public List<RoomDto> GetAvailableRooms(string type, int locationId)
+        public IReadOnlyCollection<RoomDto> GetAvailableRooms(string type, int locationId)
         {
-            return _dal.GetAllRoomsByType(type, locationId);
+            return _dal.GetAllRoomsByType(type, locationId).AsReadOnly();
         }
     }
 }

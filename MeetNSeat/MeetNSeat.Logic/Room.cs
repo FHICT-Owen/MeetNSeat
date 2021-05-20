@@ -1,11 +1,4 @@
-﻿using System.Collections.Generic;
-using MeetNSeat.Dal.Factories;
-using MeetNSeat.Dal.Interfaces;
-using MeetNSeat.Dal.Interfaces.Dtos;
-
-//using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-
-namespace MeetNSeat.Logic
+﻿namespace MeetNSeat.Logic
 {
     public class Room
     {

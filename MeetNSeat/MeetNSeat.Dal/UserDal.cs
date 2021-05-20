@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using Dapper;
 using MeetNSeat.Dal.Interfaces;
 using MeetNSeat.Dal.Interfaces.Dtos;
