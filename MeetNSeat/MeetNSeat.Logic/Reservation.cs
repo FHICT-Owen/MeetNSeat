@@ -10,6 +10,7 @@ namespace MeetNSeat.Logic
     {
         #region Properties
         private readonly IReservationDal dal;
+        private readonly List<Reservation> _reservation = new List<Reservation>();
         public int ReservationId { get; private set; }
         public int RoomId { get; private set; }
         public string UserId { get; private set; }
@@ -58,9 +59,14 @@ namespace MeetNSeat.Logic
             return dal.GetAllReservations();
         }
 
-        public void EditReservation()
+        public bool EditReservation(Reservation reservation)
         {
-
+            _reservation.Add(reservation);
+           return dal.UpdateReservation(reservation.ConvertToDto());
+        }
+        public ReservationDto ConvertToDto()
+        {
+            return new(ReservationId, RoomId, UserId, FeedbackId, Attendees, CreatedOn, StartTime, EndTime, IsConfirmed);
         }
     }
 }

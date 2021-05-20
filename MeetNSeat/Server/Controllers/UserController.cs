@@ -34,6 +34,5 @@ namespace MeetNSeat.Server.Controllers
         {
             return _manageUser.DeleteReservation(id);
         }
-
     }
 }

@@ -29,9 +29,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (User.Count > 0)
+                    @if (Reservation.Count > 0)
                     {
-                        foreach (var user in User)
+                        foreach (var reservation in Reservation)
                         {
                             <tr>
                                 @* <td>@user.CreatedOn</td> *@
@@ -46,7 +46,7 @@
                                 @* <td>@user.EndTime</td> *@
                                 <td>
                                     <form>
-                                            <button @onclick="() => DeleteReservation(user)" type="button" class="btn btn-danger">Vrij geven</button>
+                                            <button @onclick="() => DeleteReservation(reservation)" type="button" class="btn btn-danger">Vrij geven</button>
                                     </form>
                                 </td>
                             </tr>
@@ -85,20 +85,20 @@
 
     private static string msg { get; set; }
 
-    List<UserModel> User { get; set; } = new();
+    List<ReservationModel> Reservation { get; set; } = new();
     protected override async Task OnInitializedAsync()
 
     {
 
-        User = (await _userService.GetAllReservations()).ToList();
+        Reservation = (await _userService.GetAllReservations()).ToList();
         msg = msg;
 
     }
 
-    private static async Task DeleteReservation(UserModel user)
+    private static async Task DeleteReservation(ReservationModel reservation)
     {
         
-        // msg = await UserService.DeleteReservation(user.ReservationId);
+        msg = await ReservationService.DeleteReservation(reservation.Id);
 
     }
 }

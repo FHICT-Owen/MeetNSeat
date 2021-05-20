@@ -15,28 +15,14 @@ namespace MeetNSeat.Client.Services
             _http = http;
         }
 
-        public async Task<IEnumerable<UserModel>> GetAllReservations()
+        public async Task<IEnumerable<ReservationModel>> GetAllReservations()
         {
-            return await _http.GetFromJsonAsync<List<UserModel>>("api/user");
+            return await _http.GetFromJsonAsync<List<ReservationModel>>("api/user");
         }
         public static async Task CreateReservation(ReservationModel reservation)
         {
             using var client = new HttpClient();
             var response = await client.PostAsJsonAsync("https://localhost:5001/api/user", reservation);
-        }
-
-        public static async Task<string> DeleteReservation(int id)
-        {
-            using var client = new HttpClient();
-            var msg= await client.DeleteAsync("https://localhost:5001/api/user/" + id);
-            if (msg.IsSuccessStatusCode)
-            {
-                return "Your reservation has been canceled";
-            }
-            else
-            {
-                return "Something went wrong :( Please try again later";
-            }
         }
     }
 }

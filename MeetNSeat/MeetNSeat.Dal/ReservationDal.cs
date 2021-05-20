@@ -36,12 +36,24 @@ namespace MeetNSeat.Dal
 
         }
 
-        public void UpdateReservation(ReservationDto reservationDto)
+        public bool UpdateReservation(ReservationDto reservationDto)
         {
-            // var entry = context.Reservations.SingleOrDefault(result => result.Id == reservationDto.Id);
-            // if (entry == null) return;
-            // context.Entry(entry).CurrentValues.SetValues(reservationDto);
-            // context.SaveChanges();
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@room", reservationDto.RoomId);
+            parameters.Add("@attendees", reservationDto.Attendees);
+            parameters.Add("@start", reservationDto.StartTime);
+            parameters.Add("@end", reservationDto.EndTime);
+            parameters.Add("@reservation", reservationDto.Id);
+            var results = connection.Execute("dbo.UpdateReservation @room, @attendees, @start, @end, @reservation", parameters);
+            if (results > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public List<ManageReservationDto> GetReservationByUser(string id)
@@ -55,7 +67,6 @@ namespace MeetNSeat.Dal
             return output;
             
         }
-
 
         public List<ManageReservationDto> GetAllReservations()
         {
