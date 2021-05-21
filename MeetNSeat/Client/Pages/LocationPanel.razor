@@ -1,0 +1,70 @@
+@page "/Locations"
+@using MeetNSeat.Client.Services
+@using MeetNSeat.Client.Models
+@attribute [Authorize]
+
+<main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2>Locations</h2>
+    </div>
+    <div>
+        <form>
+            <input class="form-control" @bind="@Name" @bind:event="oninput" placeholder="Name">
+            <input class="form-control" @bind="@City" @bind:event="oninput" placeholder="City">
+            <input class="form-control" @bind="@IpAddress" @bind:event="oninput" placeholder="Ip Address">
+            <button @onclick="AddLocation" type="button" class="btn btn-primary">Add location</button>
+        </form>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Location</th>
+                <th scope="col">City</th>
+                <th scope="col">IpAdress</th>
+                <th scope="col" class="update-button-col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Locations.Any())
+            {foreach (var location in Locations)
+            {<tr>
+                 <td>@location.Name</td>
+                 <td>@location.City</td>
+                 <td class="ip-input"><input class="form-control" placeholder="Ip Address" value="@location.IpAddress"></td>
+                 <td class="update-button"><button class="btn btn-primary">Update IpAdress</button></td>
+             </tr>}}
+            </tbody>
+        </table>
+    </div>
+</main>
+
+@code {
+    private string Name { get; set; }
+
+    private string City { get; set; }
+
+    private string IpAddress { get; set; }
+
+    List<LocationModel> Locations { get; set; } = new();
+
+    List<FloorModel> Floors { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Locations = (await LocationService.GetAllLocations()).ToList();
+    }
+
+    private async Task AddLocation()
+    {
+        await LocationService.AddLocation(new LocationModel(Name, City, IpAddress));
+    }
+
+}
+
+<style>
+  .update-button {
+    max-width: 50px;
+  }
+  .ip-input {
+      max-width: 80px;
+    }
+</style>
