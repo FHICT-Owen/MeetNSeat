@@ -31,5 +31,11 @@ namespace MeetNSeat.Logic
       _issues.Add(issue);
       _dal.AddIssue(issue.ConvertToDto());
     }
+    
+    public void UpdateIssue(int id, string description, int roomId, string userId, bool isResolved)
+    {
+      _issues.Find(issue => issue.Id == id)?
+        .Update(description, roomId, userId, isResolved);
+    }
   }
 }

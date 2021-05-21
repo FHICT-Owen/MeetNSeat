@@ -19,5 +19,11 @@ namespace MeetNSeat.Client.Services
 			using var client = new HttpClient();
 			await client.PostAsJsonAsync("https://localhost:5001/api/issues", issue);
 		}
+		
+		public static async Task ChangeIssueState(IssueModel issue)
+		{
+			using var client = new HttpClient();
+			await client.PutAsJsonAsync($"https://localhost:5001/api/issues", issue);
+		}
 	}
 }

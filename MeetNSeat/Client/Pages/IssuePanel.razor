@@ -1,6 +1,7 @@
 ﻿@page "/issue-panel"
 @using MeetNSeat.Client.Models
 @using MeetNSeat.Client.Services
+@using Microsoft.AspNetCore.Components.Web
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto
@@ -21,16 +22,14 @@
             </thead>
             <tbody>
             @if (Issues.Any())
-            {
-                foreach (var issue in Issues)
-                {<tr>
+            {foreach (var issue in Issues)
+                {@if(!@issue.IsResolved){<tr>
                      <td>@issue.Description</td>
                      <td>@issue.RoomId</td>
                      <td>@issue.UserId</td>
                      <td>@issue.CreatedOn</td>
-                     <td>@issue.IsResolved</td>
-                     </tr>}
-            }
+                     <button @onclick="()=>Resolve(issue)" class="btn btn-primary ml-3 mt-2 py-1 rounded-lg">Resolve</button>
+                </tr>}}}
             </tbody>
         </table>
     </div>
@@ -38,9 +37,15 @@
 
 @code {
     List<IssueModel> Issues { get; set; } = new();
-
+    
     protected override async Task OnInitializedAsync()
     {
         Issues = (await IssueService.GetAllIssues()).ToList();
+    }
+    
+    private static async Task Resolve(IssueModel issue)
+    {
+        issue.IsResolved = true;
+        await IssueService.ChangeIssueState(issue);
     }
 }

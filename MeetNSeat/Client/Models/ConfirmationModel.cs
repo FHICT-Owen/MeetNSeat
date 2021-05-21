@@ -8,7 +8,7 @@
         public ConfirmationModel(int confirmationId, string confirmationIp)
         {
             ConfirmationId = confirmationId;
-            ConfirmationIp = confirmationIp;    
+            ConfirmationIp = confirmationIp;
         }
     }
 }

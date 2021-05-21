@@ -17,16 +17,16 @@ namespace MeetNSeat.Dal
 			return output;
 		}
 
-		public void AddIssue(IssueDto issueDto)
+		public void AddIssue(IssueDto issue)
 		{
 			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-			connection.Execute("dbo.InsertIssue @RoomId, @UserId, @Description, @CreatedOn, @IsResolved", issueDto);
+			connection.Execute("dbo.InsertIssue @RoomId, @UserId, @Description, @CreatedOn, @IsResolved", issue);
 		}
-
-		public void Resolve(IssueDto issueDto)
+		
+		public void Update(IssueDto issue)
 		{
 			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-			connection.Execute("dbo.ResolveIssue @RoomId, @UserId, @Description, @CreatedOn, @IsResolved", issueDto);
+			connection.Execute("dbo.UpdateIssue @Id, @RoomId, @UserId, @Description, @IsResolved", issue);
 		}
 	}
 }

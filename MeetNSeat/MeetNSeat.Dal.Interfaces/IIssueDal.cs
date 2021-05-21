@@ -7,6 +7,6 @@ namespace MeetNSeat.Dal.Interfaces
 	{
 		List<IssueDto> GetAllIssues();
 		void AddIssue(IssueDto issue);
-		void Resolve(IssueDto issue);
+		void Update(IssueDto issue);
 	}
 }

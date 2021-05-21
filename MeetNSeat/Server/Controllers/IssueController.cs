@@ -27,5 +27,11 @@ namespace MeetNSeat.Server.Controllers
 		{
 			_manageIssue.AddIssue(issueModel.Description, issueModel.RoomId, issueModel.UserId);
 		}
+		
+		[HttpPut]
+		public void UpdateIssue([FromBody] IssueModel issueModel)
+		{
+			_manageIssue.UpdateIssue(issueModel.Id, issueModel.Description, issueModel.RoomId, issueModel.UserId, issueModel.IsResolved);
+		}
 	}
 }

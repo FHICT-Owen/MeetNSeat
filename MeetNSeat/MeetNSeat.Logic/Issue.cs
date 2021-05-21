@@ -1,4 +1,6 @@
 using System;
+using MeetNSeat.Dal.Factories;
+using MeetNSeat.Dal.Interfaces;
 using MeetNSeat.Dal.Interfaces.Dtos;
 
 namespace MeetNSeat.Logic
@@ -6,11 +8,11 @@ namespace MeetNSeat.Logic
     public class Issue
     {
 	    public int Id { get; }
-	    public int RoomId { get; }
-	    public string UserId { get; }
-	    public string Description { get; }
+	    public int RoomId { get; private set; }
+	    public string UserId { get; private set; }
+	    public string Description { get; private set; }
 	    public DateTime CreatedOn { get; }
-	    public bool IsResolved { get; set; }
+	    public bool IsResolved { get; private set; }
 
 	    public Issue(string description, int roomId, string userId)
 	    {
@@ -30,9 +32,13 @@ namespace MeetNSeat.Logic
 		    IsResolved = dto.IsResolved;
 	    }
 
-	    public void Resolve()
+	    public void Update(string description, int roomId, string userId, bool isResolved)
 	    {
-		    IsResolved = true;
+		    RoomId = roomId;
+		    UserId = userId;
+		    Description = description;
+		    IsResolved = isResolved;
+		    IssueFactory.CreateIssueDal().Update(ConvertToDto());
 	    }
 
 	    public IssueDto ConvertToDto()

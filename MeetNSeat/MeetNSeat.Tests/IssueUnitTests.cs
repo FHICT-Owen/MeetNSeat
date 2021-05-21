@@ -1,3 +1,6 @@
+using System;
+using MeetNSeat.Dal;
+using MeetNSeat.Dal.Interfaces.Dtos;
 using MeetNSeat.Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -23,8 +26,8 @@ namespace MeetNSeat.Tests
 		[TestMethod]
 		public void IssueWithIdShouldBeResolved()
 		{
-			// _issueCollection.GetAllIssues();
-			// _issueCollection.
+			var issue = new IssueDal();
+			issue.Update(new IssueDto(27, 1, "108105466526811947195", "", DateTime.Now, true));
 		}
 	}
 }
