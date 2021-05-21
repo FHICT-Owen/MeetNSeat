@@ -15,31 +15,38 @@
                 <th scope="col">Room</th>
                 <th scope="col">Reported by</th>
                 <th scope="col">Reported on</th>
-                <th scope="col"><switch @onclick="ShowResolved" class="btn btn-primary p-1">@ButtonText</switch></th>
+                <th scope="col"><button @onclick="SwitchResolvedIssueView" disabled="@IsDisabled" class="btn btn-primary p-1">@ButtonText</button></th>
             </tr>
             </thead>
             <tbody>
             @if (Issues.Any())
             {foreach (var issue in Issues)
-                {@if (!issue.IsResolved)
+                {@if (ShowResolved && issue.IsResolved)
                     {<tr>
                          <td>@issue.Description</td>
                          <td>@issue.RoomId</td>
                          <td>@issue.UserId</td>
                          <td>@issue.CreatedOn</td>
-                         <td><button @onclick="() => Resolve(issue)" class="btn btn-primary">Resolve</button></td>
-                    </tr>
-                    }else if(IsResolved)
-                        {<tr>
-                            <td>@issue.Description</td>
-                            <td>@issue.RoomId</td>
-                            <td>@issue.UserId</td>
-                            <td>@issue.CreatedOn</td>
-                            <td>
-                                <button @onclick="() => Resolve(issue)" class="btn btn-primary">Un-Resolve</button>
-                                <button @onclick="() => DeleteIssue(issue.Id)" class="btn btn-primary">Delete</button>
-                            </td>
-                        </tr>}}}
+                         <td>
+                             <button @onclick="() => Resolve(issue)" class="btn btn-primary">Un-Resolve</button>
+                             <button @onclick="() => DeleteIssue(issue.Id)" class="btn btn-primary">Delete</button>
+                         </td>
+                     </tr>
+                    }
+                }
+            @foreach (var issue in Issues)
+            {
+                @if (!issue.IsResolved)
+                {<tr>
+                     <td>@issue.Description</td>
+                     <td>@issue.RoomId</td>
+                     <td>@issue.UserId</td>
+                     <td>@issue.CreatedOn</td>
+                     <td>
+                         <button @onclick="() => Resolve(issue)" class="btn btn-primary">Resolve</button>
+                     </td>
+                 </tr>}
+            }}
             </tbody>
         </table>
     </div>
@@ -47,32 +54,37 @@
 
 @code {
 
-    private bool IsResolved { get; set; }
+    private bool ShowResolved { get; set; }
 
     private string ButtonText { get; set; } = "Show Resolved";
+
+    private bool IsDisabled { get; set; } = true;
     
     List<IssueModel> Issues { get; set; } = new();
     
     protected override async Task OnInitializedAsync()
     {
         Issues = (await IssueService.GetAllIssues()).ToList();
+        IsDisabled = !Issues.Any(model => model.IsResolved);
     }
 
-    private void ShowResolved()
+    private void SwitchResolvedIssueView()
     {
-        IsResolved = !IsResolved;
-        ButtonText = IsResolved ? "Hide Resolved" : "Show Resolved";
+        ShowResolved = !ShowResolved;
+        ButtonText = ShowResolved ? "Hide Resolved" : "Show Resolved";
     }
     
-    private static async Task Resolve(IssueModel issue)
+    private async Task Resolve(IssueModel issue)
     {
         issue.IsResolved = !issue.IsResolved;
         await IssueService.UpdateIssue(issue);
+        IsDisabled = !Issues.Any(model => model.IsResolved);
     }
     
     private async Task DeleteIssue(int id)
     {
         Issues.Remove(Issues.Find(issue => issue.Id == id));
         await IssueService.DeleteIssue(id);
+        IsDisabled = !Issues.Any(model => model.IsResolved);
     }
 }
