@@ -6,7 +6,7 @@ namespace MeetNSeat.Logic.Interfaces
     public interface IManageFeedback
     {
         IReadOnlyCollection<Feedback> GetAllFeedback();
-        IReadOnlyCollection<Feedback> GetFeedbackByUser(string userId);
+        List<FeedbackDto> GetFeedbackByUser(string userId);
         bool AddFeedback(Feedback feedback);
     }
 }
