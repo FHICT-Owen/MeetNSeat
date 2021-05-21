@@ -6,6 +6,7 @@ namespace MeetNSeat.Logic.Interfaces
 	{
 		IReadOnlyCollection<Issue> GetAllIssues();
 		void AddIssue(string description, int roomId, string userId);
+		void DeleteIssue(int id);
 		void UpdateIssue(int id, string description, int roomId, string userId, bool isResolved);
 	}
 }

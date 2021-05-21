@@ -22,6 +22,16 @@ namespace MeetNSeat.Dal
 			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 			connection.Execute("dbo.InsertIssue @RoomId, @UserId, @Description, @CreatedOn, @IsResolved", issue);
 		}
+
+		public void DeleteIssueById(int id)
+		{
+			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+			
+			var parameters = new DynamicParameters();
+			parameters.Add("@Id", id);
+			
+			connection.Execute("dbo.DeleteIssueById @Id", parameters);
+		}
 		
 		public void Update(IssueDto issue)
 		{

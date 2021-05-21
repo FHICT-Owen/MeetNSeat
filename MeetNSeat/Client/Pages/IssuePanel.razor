@@ -3,8 +3,7 @@
 @using MeetNSeat.Client.Services
 @attribute [Authorize]
 
-<main role="main" class="col-md-12 ml-sm-auto
-             col-lg-12 px-4">
+<main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Issue panel</h1>
     </div>
@@ -16,35 +15,64 @@
                 <th scope="col">Room</th>
                 <th scope="col">Reported by</th>
                 <th scope="col">Reported on</th>
-                <th scope="col">Is resolved</th>
+                <th scope="col"><switch @onclick="ShowResolved" class="btn btn-primary p-1">@ButtonText</switch></th>
             </tr>
             </thead>
             <tbody>
             @if (Issues.Any())
             {foreach (var issue in Issues)
-                {@if(!@issue.IsResolved){<tr>
-                     <td>@issue.Description</td>
-                     <td>@issue.RoomId</td>
-                     <td>@issue.UserId</td>
-                     <td>@issue.CreatedOn</td>
-                     <td><button @onclick="()=>Resolve(issue)" class="btn btn-primary">Resolve</button></td>
-                </tr>}}}
+                {@if (!issue.IsResolved)
+                    {<tr>
+                         <td>@issue.Description</td>
+                         <td>@issue.RoomId</td>
+                         <td>@issue.UserId</td>
+                         <td>@issue.CreatedOn</td>
+                         <td><button @onclick="() => Resolve(issue)" class="btn btn-primary">Resolve</button></td>
+                    </tr>
+                    }else if(IsResolved)
+                        {<tr>
+                            <td>@issue.Description</td>
+                            <td>@issue.RoomId</td>
+                            <td>@issue.UserId</td>
+                            <td>@issue.CreatedOn</td>
+                            <td>
+                                <button @onclick="() => Resolve(issue)" class="btn btn-primary">Un-Resolve</button>
+                                <button @onclick="() => DeleteIssue(issue.Id)" class="btn btn-primary">Delete</button>
+                            </td>
+                        </tr>}}}
             </tbody>
         </table>
     </div>
 </main>
 
 @code {
+
+    private bool IsResolved { get; set; }
+
+    private string ButtonText { get; set; } = "Show Resolved";
+    
     List<IssueModel> Issues { get; set; } = new();
     
     protected override async Task OnInitializedAsync()
     {
         Issues = (await IssueService.GetAllIssues()).ToList();
     }
+
+    private void ShowResolved()
+    {
+        IsResolved = !IsResolved;
+        ButtonText = IsResolved ? "Hide Resolved" : "Show Resolved";
+    }
     
     private static async Task Resolve(IssueModel issue)
     {
-        issue.IsResolved = true;
-        await IssueService.ChangeIssueState(issue);
+        issue.IsResolved = !issue.IsResolved;
+        await IssueService.UpdateIssue(issue);
+    }
+    
+    private async Task DeleteIssue(int id)
+    {
+        Issues.Remove(Issues.Find(issue => issue.Id == id));
+        await IssueService.DeleteIssue(id);
     }
 }

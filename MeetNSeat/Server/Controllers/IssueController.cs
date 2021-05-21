@@ -28,6 +28,12 @@ namespace MeetNSeat.Server.Controllers
 			_manageIssue.AddIssue(issueModel.Description, issueModel.RoomId, issueModel.UserId);
 		}
 		
+		[HttpDelete("{id:int}")]
+		public void DeleteIssue(int id)
+		{
+			_manageIssue.DeleteIssue(id);
+		}
+		
 		[HttpPut]
 		public void UpdateIssue([FromBody] IssueModel issueModel)
 		{
