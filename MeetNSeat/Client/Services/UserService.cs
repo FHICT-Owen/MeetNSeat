@@ -17,7 +17,7 @@ namespace MeetNSeat.Client.Services
         public static async Task<bool> ConfirmReservation(int id, IpAddress address)
         {
             var client = new HttpClient();
-            var response = await client.PostAsJsonAsync<ConfirmationModel>("https://localhost:5001/api/user/confirm", new ConfirmationModel(id, address.Ip));
+            var response = await client.PostAsJsonAsync("https://localhost:5001/api/user/confirm", new ConfirmationModel(id, address.Ip));
             return response.IsSuccessStatusCode;
         }
 

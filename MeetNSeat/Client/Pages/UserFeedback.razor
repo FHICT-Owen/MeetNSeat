@@ -40,9 +40,9 @@
 @code
 {
     List<FeedbackModel> Feedback { get; set; } = new();
-        protected override async Task OnInitializedAsync()
-
-        {
-            Feedback = (await FeedbackService.GetAllFeedback()).ToList();
-        }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Feedback = (await FeedbackService.GetAllFeedback()).ToList();
+    }
 }

@@ -13,9 +13,9 @@ namespace MeetNSeat.Dal
         public List<FeedbackDto> GetFeedbackByUser(string id)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-            DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@id", id);
-            var query = connection.Query<FeedbackDto>("dbo.GetFeedbackByUser @id;", parameters).ToList();
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+            var query = connection.Query<FeedbackDto>("dbo.GetFeedbackByUser @Id", parameters).ToList();
             return query;
         }
         

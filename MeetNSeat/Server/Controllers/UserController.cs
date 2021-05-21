@@ -18,7 +18,7 @@ namespace MeetNSeat.Server.Controllers
         [HttpGet]
         public ActionResult GetAllReservations()
         {
-            var user = _manageUser.GetReservationByUser("Rik Leemans");
+            var user = _manageUser.GetReservationByUser("108105466526811947195");
             return Ok(user);
         }
         
