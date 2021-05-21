@@ -18,7 +18,7 @@ namespace MeetNSeat.Tests
         public void Test1()
         {
             var output = new FloorDal();
-            output.AddFloor(new FloorDto(0, "2", 4));
+            output.AddFloor(new FloorDto(0, "2", 1));
         }
     }
 }
