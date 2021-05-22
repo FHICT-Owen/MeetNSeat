@@ -8,5 +8,12 @@ namespace MeetNSeat.Client.Models
         public string Name { get; set; }
         public int LocationId { get; set; }
         public List<RoomModel> Rooms { get; set; } = new();
+
+        public FloorModel(int locationId, string name)
+        {
+            
+            LocationId = locationId;    
+            Name = name;
+        }
     }
 }

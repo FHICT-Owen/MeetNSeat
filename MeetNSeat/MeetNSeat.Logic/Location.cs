@@ -49,7 +49,7 @@ namespace MeetNSeat.Logic
             return _floors.AsReadOnly();
         }
 
-        public void AddFloor(string name, int locationId)
+        public void AddFloor(int locationId, string name)
         {
             var floor = new Floor(name, locationId);
             _floors.Add(floor);

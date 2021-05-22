@@ -11,7 +11,7 @@ namespace MeetNSeat.Tests
         public void Test()
         {
             var s = new RoomDal();
-            s.AddNewRoom(new RoomDto(6,"TEst", "test", 4, "test"));
+            s.AddRoom(new RoomDto(6,"TEst", "test", 4, "test"));
         }
     }
 }

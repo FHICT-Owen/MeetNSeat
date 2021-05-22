@@ -25,7 +25,7 @@ namespace MeetNSeat.Server
             services.AddSingleton<IManageIssue, IssueCollection>();
             services.AddTransient<IManageFeedback, FeedbackCollection>();
             services.AddTransient<IManageLocation, LocationCollection>();
-            services.AddTransient<IManageRoom, RoomCollection>();
+            services.AddTransient<IManageRoom, Floor>();
             services.AddTransient<IManageUser, User>();
             services.AddTransient<IManageAuthentication, Authentication>();
             // Location manages floors.

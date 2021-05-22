@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using MeetNSeat.Server.Models;
 using Blazored.SessionStorage;
 using MeetNSeat.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +23,12 @@ namespace MeetNSeat.Server.Controllers
         {
             var floors = _manageFloor.GetAllRoomsAndFloorByLocationId(id);
             return Ok(floors);
+        }
+
+        [HttpPost]
+        public void AddFloor([FromBody] FloorModel floorModel)
+        {
+            _manageFloor.AddFloor(floorModel.LocationId, floorModel.Name);
         }
     }
 }

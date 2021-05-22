@@ -14,7 +14,7 @@
             <input class="form-control" @bind="@IpAddress" @bind:event="oninput" placeholder="Ip Address">
             <button @onclick="AddLocation" type="button" class="btn btn-primary">Add location</button>
         </form>
-        <table class="table table-striped">
+        <table class="table table-secondary">
             <thead>
                 <tr>
                     <th scope="col">Location</th>
@@ -36,27 +36,61 @@
                         </tr>
                         @if (!location.IsCollapsed)
                         {
-                            <table class="table table-striped">
+                            <table class="table table-light">
                                 <tbody>
-                                    @foreach (var floor in Floors)
-                                    {
-                                        <tr>
-                                            @floor.Name
-                                            @foreach (var room in floor.Rooms)
-                                            {
-                                                <td>@room.Name</td>
-                                            }
-                                            <td><button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => AddNewRoom(floor.Id)">+</button></td>
-                                        </tr>
-                                    }
+                                @foreach (var floor in Floors)
+                                {
+                                    <tr>
+                                        <td style="font-style: italic">Floor : @floor.Name</td>
+                                        @foreach (var room in floor.Rooms)
+                                        {
+                                            <td>@room.Name</td>
+                                        }
+                                        <td style="margin: 0"><button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => AddNewRoom(floor.Id)">+</button></td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td style="margin: 0"><button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => AddNewFloor(location.Id)">+</button></td>
+                                </tr>
+
                                 </tbody>
                             </table>
-}}
+                            
+
+                        }
+                    }  
                 }
             </tbody>
         </table>
+        @if (ShowFloorPopup)
+        {
+            <!-- This is the popup to create or edit a forecast -->
+            <div class="modal" tabindex="-1" style="display:block" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Add floor</h3>
+                            <!-- Button to close the popup -->
+                            <button type="button" class="close"
+                                    @onclick="CloseFloorPopup">
+                                <span aria-hidden="true">X</span>
+                            </button>
+                        </div>
+                        <!-- Add form for the current room -->
+                        <div class="modal-body">
+                            <input class="form-control" type="text" placeholder="Floorname" @bind="FloorName" @bind:event="oninput"/>
+                            <br/>
+                            <!-- Button to save the room -->
+                            <button class="btn btn-primary" @onclick="AddFloorAsync">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
 
-        @if (ShowPopup)
+        @if (ShowRoomPopup)
         {
             <!-- This is the popup to create or edit a forecast -->
             <div class="modal" tabindex="-1" style="display:block" role="dialog">
@@ -66,7 +100,7 @@
                             <h3 class="modal-title">Add room</h3>
                             <!-- Button to close the popup -->
                             <button type="button" class="close"
-                                    @onclick="ClosePopup">
+                                    @onclick="CloseRoomPopup">
                                 <span aria-hidden="true">X</span>
                             </button>
                         </div>
@@ -79,7 +113,7 @@
                             <br/>
                             <!-- Button to save the room -->
                             <button class="btn btn-primary" @onclick="AddRoomAsync">
-                                Save
+                                Add
                             </button>
                         </div>
                     </div>
@@ -91,6 +125,12 @@
 
 
 @code {
+    //PopupProps
+    private bool ShowRoomPopup { get; set; } = false;
+
+    private bool ShowFloorPopup { get; set; } = false;
+
+    //RoomForm
     private int FloorId { get; set; }
 
     private string RoomName { get; set; }
@@ -101,13 +141,17 @@
 
     private string Facilities { get; set; }
 
+    //FloorForm
+    private string FloorName { get; set; }
+
+    private int LocationId { get; set; }
+
+    //LocationForm
     private string Name { get; set; }
 
     private string City { get; set; }
 
     private string IpAddress { get; set; }
-
-    private bool ShowPopup { get;set; } = false;
 
     List<LocationModel> Locations { get; set; } = new();
 
@@ -117,15 +161,25 @@
     {
         // Open the Popup
         FloorId = floorId;
-        ShowPopup = true;
-
+        ShowRoomPopup = true;
     }
 
-    void ClosePopup()
+    void AddNewFloor(int locationId)
+    {
+        LocationId = locationId;
+        ShowFloorPopup = true;
+    }
+
+    void CloseFloorPopup()
     {
         // Close the Popup
+        ShowFloorPopup = false;
+    }
 
-        ShowPopup = false;
+    void CloseRoomPopup()
+    {
+        // Close the Popup
+        ShowRoomPopup = false;
     }
 
     private async Task Toggle(LocationModel location)
@@ -153,6 +207,11 @@
     private async Task AddRoomAsync()
     {
         await RoomService.AddRoom(new RoomModel(FloorId, RoomName, Type, Spots, Facilities));
+    }
+
+    private async Task AddFloorAsync()
+    {
+        await FloorService.AddFloor(new FloorModel(LocationId, FloorName));
     }
 
 }

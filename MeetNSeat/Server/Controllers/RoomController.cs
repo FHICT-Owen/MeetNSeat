@@ -17,7 +17,7 @@ namespace MeetNSeat.Server.Controllers
         }
 
         [HttpPost]
-        public void AddIssue([FromBody] RoomModel roomModel)
+        public void AddRoom([FromBody] RoomModel roomModel)
         {
             _manageRoom.AddRoom(roomModel.FloorId, roomModel.Name, roomModel.Type, roomModel.Spots, roomModel.Facilities);
         }
