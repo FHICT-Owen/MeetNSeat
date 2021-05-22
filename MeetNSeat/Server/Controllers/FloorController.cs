@@ -18,19 +18,11 @@ namespace MeetNSeat.Server.Controllers
             _sessionStorageService = sessionStorageService;
         }
         
-        [HttpGet]
-        public ActionResult GetAllFloorByLocation()
+        [HttpGet("{id:int}")]
+        public ActionResult GetAllFloorByLocation(int id)
         {
-            var id = _sessionStorageService.GetItemAsync<int>("Id");
-            var floors = _manageFloor.GetAllRoomsAndFloorByLocationId(1);
+            var floors = _manageFloor.GetAllRoomsAndFloorByLocationId(id);
             return Ok(floors);
         }
-
-        [HttpPost]
-        public void GetLocationId(int locationId)
-        {
-            _sessionStorageService.SetItemAsync("Id", locationId);
-        }
-
     }
 }

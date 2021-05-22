@@ -43,7 +43,7 @@
                                     {
                                         <td>@room.Name</td>
                                     }
-                                    <td><button class=""></button></td>
+                                    <td><button></button></td>
                                 </tr>
                             }
                     </tbody>
@@ -79,7 +79,7 @@
     
     private async Task GetFloorsByLocationId(int id)
     {
-        Floors = (await FloorService.GetAllFloorsAndRoomsByLocationId()).ToList();
+        Floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(id)).ToList();
     }
 
     private async Task AddLocation()
