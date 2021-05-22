@@ -4,8 +4,8 @@ using System.Collections.Generic;
 namespace MeetNSeat.Dal.Interfaces
 {
     public interface IFloorDal
-    { 
-        List<FloorDto> GetAllFloorsByLocationId(int locationId);
+    {
+        List<FloorDto> GetAllRoomsAndFloorByLocationId(int id);
         void AddFloor(FloorDto floorDto);
     }
 }

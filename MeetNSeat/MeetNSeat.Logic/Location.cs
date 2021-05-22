@@ -39,13 +39,13 @@ namespace MeetNSeat.Logic
             IpAddress = locationDto.IpAddress;
         }
         
-        public IReadOnlyCollection<Floor> GetAllFloorsByLocation(int locationId)
+        public IReadOnlyCollection<Floor> GetAllRoomsAndFloorByLocationId(int locationId)
         {
             _floors.Clear();
-
-            _floorDal.GetAllFloorsByLocationId(locationId).ForEach(
+            
+            _floorDal.GetAllRoomsAndFloorByLocationId(locationId).ForEach(
                 dto => _floors.Add(new Floor(dto)));
-
+            
             return _floors.AsReadOnly();
         }
 

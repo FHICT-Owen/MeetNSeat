@@ -1,4 +1,6 @@
-﻿using MeetNSeat.Logic.Interfaces;
+﻿using System.Threading.Tasks;
+using Blazored.SessionStorage;
+using MeetNSeat.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeetNSeat.Server.Controllers
@@ -9,23 +11,26 @@ namespace MeetNSeat.Server.Controllers
     {
         private int LocationId { get; set; } //This wont work
         private readonly IManageFloor _manageFloor;
+        private readonly ISessionStorageService _sessionStorageService;
 
-        public FloorController(IManageFloor manageFloor)
+        public FloorController(IManageFloor manageFloor, ISessionStorageService sessionStorageService)
         {
             _manageFloor = manageFloor;
+            _sessionStorageService = sessionStorageService;
         }
         
         [HttpGet]
-        public ActionResult GetAllFloorByLocation()
+        public async Task<ActionResult> GetAllFloorByLocation()
         {
-            var floors = _manageFloor.GetAllFloorsByLocation(LocationId);
+            var id = await _sessionStorageService.GetItemAsync<int>("Id");
+            var floors = _manageFloor.GetAllRoomsAndFloorByLocationId(id);
             return Ok(floors);
         }
 
         [HttpPost]
         public void GetLocationId(int locationId)
         {
-            LocationId = locationId;
+            _sessionStorageService.SetItemAsync("Id", locationId);
         }
 
     }

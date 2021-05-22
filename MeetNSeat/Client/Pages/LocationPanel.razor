@@ -31,15 +31,21 @@
                  <td>@location.City</td>
                  <td class="ip-input"><input class="form-control" placeholder="Ip Address" value="@location.IpAddress"></td>
                  <td class="update-button"><button class="btn btn-primary">Update IpAdress</button></td>
-             </tr>}}
+             </tr>
+            }}
             </tbody>
         </table>
-        
-        
     </div>
+    <ExpansionPanel Title="yo" Collapsed="true">
+        <ChildContent>
+            <div>yo</div>
+        </ChildContent>
+    </ExpansionPanel>
 </main>
 
 @code {
+    
+    private bool Collapsed = true;
     private string Name { get; set; }
 
     private string City { get; set; }
@@ -53,6 +59,9 @@
     protected override async Task OnInitializedAsync()
     {
         Locations = (await LocationService.GetAllLocations()).ToList();
+        await FloorService.PostId(1);
+        // Floors = (await FloorService.GetAllFloorsAndRoomsByLocationId()).ToList();
+        // Console.WriteLine(Floors);
     }
 
     private async Task AddLocation()
