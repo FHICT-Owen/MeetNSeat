@@ -18,7 +18,24 @@ namespace MeetNSeat.Dal
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
             
-            var output = connection.Query<FloorDto>("dbo.GetRoomByFloorIdAndGetFloorByLocationId @Id", parameters).ToList();
+            var lookup = new Dictionary<int, FloorDto>();
+            
+            connection.Query<FloorDto, RoomDto, FloorDto>("dbo.GetRoomByFloorIdAndGetFloorByLocationId @Id", param: parameters, map:(f, r) =>
+            {
+                FloorDto floor;
+                if (!lookup.TryGetValue(f.Id, out floor))
+                    lookup.Add(f.Id, floor = f);
+
+                if (floor.Rooms == null)
+                    floor.Rooms = new List<RoomDto>();
+
+                floor.Rooms.Add(r);
+
+                return floor;
+
+            }).AsQueryable();
+
+            var output = lookup.Values.ToList();
             return output;
         }
 
