@@ -14,7 +14,7 @@
             <input class="form-control" @bind="@IpAddress" @bind:event="oninput" placeholder="Ip Address">
             <button @onclick="AddLocation" type="button" class="btn btn-primary">Add location</button>
         </form>
-        <table class="table table-secondary">
+        <table class="table location-table">
             <thead>
                 <tr>
                     <th scope="col">Location</th>
@@ -36,7 +36,8 @@
                         </tr>
                         @if (!location.IsCollapsed)
                         {
-                            <table class="table table-light">
+                            <tr><td colspan="4">
+                            <table class="table location-table">
                                 <tbody>
                                 @foreach (var floor in Floors)
                                 {
@@ -55,8 +56,7 @@
 
                                 </tbody>
                             </table>
-                            
-
+                            </td></tr>
                         }
                     }  
                 }
@@ -222,5 +222,8 @@
   }
   .ip-input {
       max-width: 80px;
+  }
+  .location-table{
+  background: #f2f2f2;
   }
 </style>
