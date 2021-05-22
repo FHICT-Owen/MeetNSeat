@@ -134,7 +134,7 @@
 
     private async Task GetFloorsByLocationId(int id)
     {
-        Floors = (await FloorService.GetAllFloorsAndRoomsByLocationId()).ToList();
+        Floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(id)).ToList();
     }
 
     private async Task AddLocation()
