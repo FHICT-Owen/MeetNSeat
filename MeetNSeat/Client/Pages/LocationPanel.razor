@@ -16,52 +16,63 @@
         </form>
         <table class="table location-table">
             <thead>
-                <tr>
-                    <th scope="col">Location</th>
-                    <th scope="col">City</th>
-                    <th scope="col">IpAdress</th>
-                    <th scope="col" class="update-button-col"></th>
-                </tr>
+            <tr>
+                <th scope="col">Location</th>
+                <th scope="col">City</th>
+                <th scope="col">IpAdress</th>
+                <th scope="col" class="update-button-col"></th>
+            </tr>
             </thead>
             <tbody>
-                @if (Locations.Any())
+            @if (Locations.Any())
+            {
+                foreach (var location in Locations)
                 {
-                    foreach (var location in Locations)
+                    <tr @onclick="() => Toggle(location)">
+                        <td>@location.Name</td>
+                        <td>@location.City</td>
+                        <td class="ip-input">
+                            <input class="form-control" placeholder="Ip Address" value="@location.IpAddress">
+                        </td>
+                        <td class="update-button">
+                            <button class="btn btn-primary">Update IpAdress</button>
+                        </td> @*TODO: UPDATE IP ADDRESS*@
+                    </tr>
+                    @if (!location.IsCollapsed)
                     {
-                        <tr @onclick="() => Toggle(location)">
-                            <td>@location.Name</td>
-                            <td>@location.City</td>
-                            <td class="ip-input"><input class="form-control" placeholder="Ip Address" value="@location.IpAddress"></td>
-                            <td class="update-button"><button class="btn btn-primary">Update IpAdress</button></td> @*TODO: UPDATE IP ADDRESS*@
-                        </tr>
-                        @if (!location.IsCollapsed)
-                        {
-                            <tr><td colspan="4">
-                            <table class="table location-table">
-                                <tbody>
-                                @foreach (var floor in Floors)
-                                {
+                        <tr>
+                            <td colspan="4">
+                                <table class="table location-table">
+                                    <tbody>
+                                    @foreach (var floor in Floors)
+                                    {
+                                        <tr>
+                                            <td style="font-style: italic">Floor : @floor.Name</td>
+                                            @foreach (var room in floor.Rooms)
+                                            {
+                                                <td>@room.Name</td>
+                                            }
+                                            <td style="margin: 0">
+                                                <button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => AddNewRoom(floor.Id)">+</button>
+                                            </td>
+                                        </tr>
+                                    }
                                     <tr>
-                                        <td style="font-style: italic">Floor : @floor.Name</td>
-                                        @foreach (var room in floor.Rooms)
-                                        {
-                                            <td>@room.Name</td>
-                                        }
-                                        <td style="margin: 0"><button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => AddNewRoom(floor.Id)">+</button></td>
+                                        <td style="margin: 0">
+                                            <button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => AddNewFloor(location.Id)">+</button>
+                                        </td>
                                     </tr>
-                                }
-                                <tr>
-                                    <td style="margin: 0"><button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => AddNewFloor(location.Id)">+</button></td>
-                                </tr>
 
-                                </tbody>
-                            </table>
-                            </td></tr>
-                        }
-                    }  
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    }
                 }
+            }
             </tbody>
         </table>
+        
         @if (ShowFloorPopup)
         {
             <!-- This is the popup to create or edit a forecast -->
