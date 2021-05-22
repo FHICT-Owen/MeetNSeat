@@ -33,18 +33,19 @@
                  <td class="update-button"><button class="btn btn-primary">Update IpAdress</button></td> @*TODO: UPDATE IP ADDRESS*@ 
             </tr>
             @if(!location.IsCollapsed){
-                <table>
+                <table class="table table-striped">
                     <tbody>
-                    @GetFloorsByLocationId(location.Id)
-                    @foreach (var floor in Floors)
-                    {
-                        <tr>
-                            @foreach (var room in floor._rooms)
+                        @foreach (var floor in Floors)
                             {
-                                <td>@room.Name</td>
+                                <tr>
+                                    @floor.Name
+                                    @foreach (var room in floor.Rooms)
+                                    {
+                                        <td>@room.Name</td>
+                                    }
+                                    <td><button class=""></button></td>
+                                </tr>
                             }
-                        </tr>
-                    }
                     </tbody>
                 </table>}}}
             </tbody>
@@ -64,9 +65,11 @@
 
     List<FloorModel> Floors { get; set; } = new();
 
-    private static void Toggle(LocationModel location)
+    private async Task Toggle(LocationModel location)
     {
         location.IsCollapsed = !location.IsCollapsed;
+        if (!location.IsCollapsed)
+            await GetFloorsByLocationId(location.Id);
     }
 
     protected override async Task OnInitializedAsync()
@@ -76,7 +79,6 @@
     
     private async Task GetFloorsByLocationId(int id)
     {
-        // await FloorService.PostId(1);
         Floors = (await FloorService.GetAllFloorsAndRoomsByLocationId()).ToList();
     }
 
