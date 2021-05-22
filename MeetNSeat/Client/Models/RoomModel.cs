@@ -2,18 +2,16 @@
 {
     public class RoomModel
     {
-        public int RoomId { get; set; }
-        public int LocationId { get; set; }
-        public int Floor { get; set; }
+        public int Id { get; set; }
+        public int FloorId { get; set; }
         public string Type { get; set; }
         public int Spots { get; set; }
         public string Facilities { get; set; }
 
-        public RoomModel(int roomId, int locationId, int floor, string type, int spots, string facilities)
+        public RoomModel(int id, int floorId, string type, int spots, string facilities)
         {
-            RoomId = roomId;
-            LocationId = locationId;
-            Floor = floor;
+            Id = id;
+            FloorId = floorId;
             Type = type;
             Spots = spots;
             Facilities = facilities;

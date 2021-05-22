@@ -1,4 +1,5 @@
 using MeetNSeat.Dal;
+using MeetNSeat.Dal.Interfaces.Dtos;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MeetNSeat.Tests
@@ -10,7 +11,7 @@ namespace MeetNSeat.Tests
         public void Test()
         {
             var s = new RoomDal();
-            //s.GetAllRoomsByType();
+            s.AddNewRoom(new RoomDto(7,"TEst", "test", 4, "test"));
         }
     }
 }

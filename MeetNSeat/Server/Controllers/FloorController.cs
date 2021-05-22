@@ -9,7 +9,6 @@ namespace MeetNSeat.Server.Controllers
     [ApiController]
     public class FloorController : ControllerBase
     {
-        private int LocationId { get; set; } //This wont work
         private readonly IManageFloor _manageFloor;
         private readonly ISessionStorageService _sessionStorageService;
 
@@ -20,10 +19,10 @@ namespace MeetNSeat.Server.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult> GetAllFloorByLocation()
+        public ActionResult GetAllFloorByLocation()
         {
-            var id = await _sessionStorageService.GetItemAsync<int>("Id");
-            var floors = _manageFloor.GetAllRoomsAndFloorByLocationId(id);
+            var id = _sessionStorageService.GetItemAsync<int>("Id");
+            var floors = _manageFloor.GetAllRoomsAndFloorByLocationId(1);
             return Ok(floors);
         }
 

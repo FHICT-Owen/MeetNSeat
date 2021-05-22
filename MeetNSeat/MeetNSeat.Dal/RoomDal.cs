@@ -36,7 +36,7 @@ namespace MeetNSeat.Dal
         public void AddNewRoom(RoomDto roomDto)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-            connection.Execute("dbo.InsertRoom @RoomId, @LocationId, @Floor, @Type, @Spots, @Facilities", roomDto);
+            connection.Execute("dbo.InsertRoom @FloorId, @Name, @Type, @Spots, @Facilities", roomDto);
         }
 
         public IReadOnlyCollection<RoomDto> GetAllRoomTypes()

@@ -72,8 +72,8 @@
     {
         Locations = (await LocationService.GetAllLocations()).ToList();
         await FloorService.PostId(1);
-        // Floors = (await FloorService.GetAllFloorsAndRoomsByLocationId()).ToList();
-        // Console.WriteLine(Floors);
+        Floors = (await FloorService.GetAllFloorsAndRoomsByLocationId()).ToList();
+        Console.WriteLine(Floors);
     }
 
     private async Task AddLocation()

@@ -1,4 +1,5 @@
-﻿using MeetNSeat.Dal.Factories;
+﻿using System.Collections.Generic;
+using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
 using MeetNSeat.Dal.Interfaces.Dtos;
 
@@ -6,27 +7,13 @@ namespace MeetNSeat.Logic
 {
     public class Floor
     {
-
-        private readonly IFloorDal _dal;
-
         public int Id { get; set; }
         public string Name { get; set; }
         public int LocationId { get; set; }
-
-        public Floor()
-        {
-            _dal = FloorFactory.CreateFloorDal();
-        }
+        public List<Room> Rooms { get; set; } = new();
         
         public Floor(string name, int locationId)
         {
-            Name = name;
-            LocationId = locationId;
-        }
-
-        public Floor(int id, string name, int locationId)
-        {
-            Id = id;
             Name = name;
             LocationId = locationId;
         }
@@ -36,6 +23,8 @@ namespace MeetNSeat.Logic
             Id = floorDto.Id;
             Name = floorDto.Name;
             LocationId = floorDto.LocationId;
+            foreach (var room in floorDto.Rooms)
+                Rooms.Add(new Room(room));
         }
 
         public FloorDto ConvertToDto()
