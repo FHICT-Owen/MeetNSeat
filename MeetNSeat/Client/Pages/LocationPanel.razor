@@ -30,20 +30,21 @@
                  <td>@location.Name</td>
                  <td>@location.City</td>
                  <td class="ip-input"><input class="form-control" placeholder="Ip Address" value="@location.IpAddress"></td>
-                 <td class="update-button"><button class="btn btn-primary">Update IpAdress</button></td>
+                 <td class="update-button"><button class="btn btn-primary">Update IpAdress</button></td> @*TODO: UPDATE IP ADDRESS*@ 
             </tr>
             @if(!location.IsCollapsed){
                 <table>
-                    <thead>
-                    <tr>
-                        <th scope="col">Room</th>
-                    </tr>
-                    </thead>
                     <tbody>
-                    <tr>
-                        <td>YO</td>
-                        <td>YO</td>
-                    </tr>
+                    @GetFloorsByLocationId(location.Id)
+                    @foreach (var floor in Floors)
+                    {
+                        <tr>
+                            @foreach (var room in floor._rooms)
+                            {
+                                <td>@room.Name</td>
+                            }
+                        </tr>
+                    }
                     </tbody>
                 </table>}}}
             </tbody>
@@ -71,9 +72,12 @@
     protected override async Task OnInitializedAsync()
     {
         Locations = (await LocationService.GetAllLocations()).ToList();
-        await FloorService.PostId(1);
+    }
+    
+    private async Task GetFloorsByLocationId(int id)
+    {
+        // await FloorService.PostId(1);
         Floors = (await FloorService.GetAllFloorsAndRoomsByLocationId()).ToList();
-        Console.WriteLine(Floors);
     }
 
     private async Task AddLocation()
@@ -89,5 +93,5 @@
   }
   .ip-input {
       max-width: 80px;
-    }
+  }
 </style>
