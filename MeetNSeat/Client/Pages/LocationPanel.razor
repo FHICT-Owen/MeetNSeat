@@ -16,54 +16,109 @@
         </form>
         <table class="table table-striped">
             <thead>
-            <tr>
-                <th scope="col">Location</th>
-                <th scope="col">City</th>
-                <th scope="col">IpAdress</th>
-                <th scope="col" class="update-button-col"></th>
-            </tr>
+                <tr>
+                    <th scope="col">Location</th>
+                    <th scope="col">City</th>
+                    <th scope="col">IpAdress</th>
+                    <th scope="col" class="update-button-col"></th>
+                </tr>
             </thead>
             <tbody>
-            @if (Locations.Any())
-            {foreach (var location in Locations)
-            {<tr @onclick="() => Toggle(location)">
-                 <td>@location.Name</td>
-                 <td>@location.City</td>
-                 <td class="ip-input"><input class="form-control" placeholder="Ip Address" value="@location.IpAddress"></td>
-                 <td class="update-button"><button class="btn btn-primary">Update IpAdress</button></td> @*TODO: UPDATE IP ADDRESS*@ 
-            </tr>
-            @if(!location.IsCollapsed){
-                <table class="table table-striped">
-                    <tbody>
-                        @foreach (var floor in Floors)
-                            {
-                                <tr>
-                                    @floor.Name
-                                    @foreach (var room in floor.Rooms)
+                @if (Locations.Any())
+                {
+                    foreach (var location in Locations)
+                    {
+                        <tr @onclick="() => Toggle(location)">
+                            <td>@location.Name</td>
+                            <td>@location.City</td>
+                            <td class="ip-input"><input class="form-control" placeholder="Ip Address" value="@location.IpAddress"></td>
+                            <td class="update-button"><button class="btn btn-primary">Update IpAdress</button></td> @*TODO: UPDATE IP ADDRESS*@
+                        </tr>
+                        @if (!location.IsCollapsed)
+                        {
+                            <table class="table table-striped">
+                                <tbody>
+                                    @foreach (var floor in Floors)
                                     {
-                                        <td>@room.Name</td>
+                                        <tr>
+                                            @floor.Name
+                                            @foreach (var room in floor.Rooms)
+                                            {
+                                                <td>@room.Name</td>
+                                            }
+                                            <td><button class="btn btn-success py-1" style="font-size: 23px" @onclick="AddNewRoom">+</button></td>
+                                        </tr>
                                     }
-                                    <td><button class=""></button></td>
-                                </tr>
-                            }
-                    </tbody>
-                </table>}}}
+                                </tbody>
+                            </table>
+}}
+                }
             </tbody>
         </table>
+
+        @if (ShowPopup)
+        {
+            <!-- This is the popup to create or edit a forecast -->
+            <div class="modal" tabindex="-1" style="display:block" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Add room</h3>
+                            <!-- Button to close the popup -->
+                            <button type="button" class="close"
+                                    @onclick="ClosePopup">
+                                <span aria-hidden="true">X</span>
+                            </button>
+                        </div>
+                        <!-- Add form for the current room -->
+                        <div class="modal-body">
+                            <input class="form-control" type="text" placeholder="Room name" @bind="RoomName" @bind:event="oninput"/>
+                            <input class="form-control" type="text" placeholder="Spots" @bind="Spots" @bind:event="oninput"/>
+                            <input class="form-control" type="text" placeholder="Facilities" @bind="Facilities" @bind:event="oninput"/>
+                            <br />
+                            <!-- Button to save the room -->
+                            <button class="btn btn-primary">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </main>
 
+
 @code {
-    
+    private string RoomName { get; set; }
+
+    private int Spots { get; set; }
+
+    private string Facilities { get; set; }
+
     private string Name { get; set; }
 
     private string City { get; set; }
 
     private string IpAddress { get; set; }
 
+    private bool ShowPopup { get;set; } = false;
+
     List<LocationModel> Locations { get; set; } = new();
 
     List<FloorModel> Floors { get; set; } = new();
+
+    void AddNewRoom()
+    {
+        // Open the Popup
+        ShowPopup = true;
+    }
+
+    void ClosePopup()
+    {
+        // Close the Popup
+        ShowPopup = false;
+    }
 
     private async Task Toggle(LocationModel location)
     {
@@ -76,7 +131,7 @@
     {
         Locations = (await LocationService.GetAllLocations()).ToList();
     }
-    
+
     private async Task GetFloorsByLocationId(int id)
     {
         Floors = (await FloorService.GetAllFloorsAndRoomsByLocationId()).ToList();
@@ -85,6 +140,11 @@
     private async Task AddLocation()
     {
         await LocationService.AddLocation(new LocationModel(Name, City, IpAddress));
+    }
+
+    private async Task AddRoom()
+    {
+        //await RoomService.AddRoom(new RoomModel(0, ))
     }
 
 }

@@ -13,5 +13,11 @@ namespace MeetNSeat.Client.Services
 			using var client = new HttpClient();
 			return await client.GetFromJsonAsync<List<RoomModel>>("https://localhost:5001/api/user");
 		}
+
+        public static async Task AddRoom(RoomModel room)
+        {
+            using var client = new HttpClient();
+            await client.PostAsJsonAsync("https://localhost:5001/api/room", room);
+        }
 	}
 }
