@@ -23,12 +23,15 @@ namespace MeetNSeat.Logic
 
         public Room(RoomDto roomDto)
         {
-            Id = roomDto.Id;
-            FloorId = roomDto.FloorId;
-            Name = roomDto.Name;
-            Type = roomDto.Type;
-            Spots = roomDto.Spots;
-            Facilities = roomDto.Facilities;
+            if (roomDto != null) //TODO: FIX THIS WHEN MAPPING OBJECTS IN DAL
+            {
+                Id = roomDto.Id;
+                FloorId = roomDto.FloorId;
+                Name = roomDto.Name;
+                Type = roomDto.Type;
+                Spots = roomDto.Spots;
+                Facilities = roomDto.Facilities;
+            }
         }
 
         // public Room(RoomDto roomDto) : this(roomDto.Type){}
