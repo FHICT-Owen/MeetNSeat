@@ -46,7 +46,7 @@
                                             {
                                                 <td>@room.Name</td>
                                             }
-                                            <td><button class="btn btn-success py-1" style="font-size: 23px" @onclick="AddNewRoom">+</button></td>
+                                            <td><button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => AddNewRoom(floor.Id)">+</button></td>
                                         </tr>
                                     }
                                 </tbody>
@@ -73,11 +73,12 @@
                         <!-- Add form for the current room -->
                         <div class="modal-body">
                             <input class="form-control" type="text" placeholder="Room name" @bind="RoomName" @bind:event="oninput"/>
+                            <input class="form-control" type="text" placeholder="Type" @bind="Type" @bind:event="oninput"/>
                             <input class="form-control" type="text" placeholder="Spots" @bind="Spots" @bind:event="oninput"/>
                             <input class="form-control" type="text" placeholder="Facilities" @bind="Facilities" @bind:event="oninput"/>
-                            <br />
+                            <br/>
                             <!-- Button to save the room -->
-                            <button class="btn btn-primary">
+                            <button class="btn btn-primary" @onclick="AddRoomAsync">
                                 Save
                             </button>
                         </div>
@@ -90,7 +91,11 @@
 
 
 @code {
+    private int FloorId { get; set; }
+
     private string RoomName { get; set; }
+
+    private string Type { get; set; }
 
     private int Spots { get; set; }
 
@@ -108,15 +113,18 @@
 
     List<FloorModel> Floors { get; set; } = new();
 
-    void AddNewRoom()
+    void AddNewRoom(int floorId)
     {
         // Open the Popup
+        FloorId = floorId;
         ShowPopup = true;
+
     }
 
     void ClosePopup()
     {
         // Close the Popup
+
         ShowPopup = false;
     }
 
@@ -134,7 +142,7 @@
 
     private async Task GetFloorsByLocationId(int id)
     {
-        Floors = (await FloorService.GetAllFloorsAndRoomsByLocationId()).ToList();
+        Floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(id)).ToList();
     }
 
     private async Task AddLocation()
@@ -142,9 +150,9 @@
         await LocationService.AddLocation(new LocationModel(Name, City, IpAddress));
     }
 
-    private async Task AddRoom()
+    private async Task AddRoomAsync()
     {
-        //await RoomService.AddRoom(new RoomModel(0, ))
+        await RoomService.AddRoom(new RoomModel(FloorId, RoomName, Type, Spots, Facilities));
     }
 
 }

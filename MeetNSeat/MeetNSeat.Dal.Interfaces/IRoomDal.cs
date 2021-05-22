@@ -6,6 +6,7 @@ namespace MeetNSeat.Dal.Interfaces
     public interface IRoomDal
     {
         List<RoomDto> GetAllRoomsByType(string type, int locationId);
+        void AddRoom(RoomDto room);
         List<RoomDto> GetAllRooms(int floorId);
         public IReadOnlyCollection<RoomDto> GetAllRoomTypes();
 

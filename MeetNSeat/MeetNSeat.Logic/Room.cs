@@ -9,18 +9,25 @@ namespace MeetNSeat.Logic
     {
         private readonly IRoomDal _dal;
 
-        public int Id { get; set; }
+        public int Id { get; }
         public int FloorId { get; set; }
         public string Name { get; set; }
-        public string Type { get; set; }
         public int Spots { get; set; }
+        public string Type { get; set; }
         public string Facilities { get; set; }
 
         public Room(string type)
         {
             Type = type;
         }
-
+        public Room(int floorId, string name, int spots, string type, string facilities)
+        {
+            FloorId = floorId;
+            Name = name;
+            Spots = spots;
+            Type = type;
+            Facilities = facilities;
+        }
         public Room(RoomDto roomDto)
         {
             if (roomDto != null) //TODO: FIX THIS WHEN MAPPING OBJECTS IN DAL
@@ -49,6 +56,11 @@ namespace MeetNSeat.Logic
         public IReadOnlyCollection<RoomDto> GetRoomTypes()
         {
             return _dal.GetAllRoomTypes();
+        }
+
+        public RoomDto ConvertToDto()
+        {
+            return new(FloorId, Name, Type, Spots, Facilities);
         }
     }
 }
