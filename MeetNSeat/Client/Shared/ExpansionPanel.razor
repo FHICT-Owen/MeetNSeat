@@ -1,19 +1,10 @@
 <div class="row">
-    @if (Collapsed)
-    {
-        <span @onclick="@Toggle" class="oi oi-plus mr-1"/>
-    }
-    else
-    { 
-        <span @onclick="@Toggle" class="oi oi-minus mr-1"/>
-    }
+    @if (Collapsed){<span @onclick="@Toggle" class="oi oi-plus mr-1"/>}
+    else{<span @onclick="@Toggle" class="oi oi-minus mr-1"/>}
     @Title
 </div>
 
-@if(!Collapsed)
-{
-    @ChildContent
-}
+@if(!Collapsed)@ChildContent
 
 @code {
     [Parameter]
@@ -23,8 +14,5 @@
     [Parameter]
     public string Title { get; set; }
 
-    void Toggle()
-    {
-        Collapsed = !Collapsed;
-    }
+    void Toggle(){Collapsed = !Collapsed;}
 }

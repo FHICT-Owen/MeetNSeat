@@ -31,21 +31,27 @@
                  <td>@location.City</td>
                  <td class="ip-input"><input class="form-control" placeholder="Ip Address" value="@location.IpAddress"></td>
                  <td class="update-button"><button class="btn btn-primary">Update IpAdress</button></td>
-             </tr>
-            }}
+             </tr>}}
             </tbody>
         </table>
     </div>
-    <ExpansionPanel Title="yo" Collapsed="true">
-        <ChildContent>
-            <div>yo</div>
-        </ChildContent>
-    </ExpansionPanel>
+    @foreach (var location in Locations)
+    {
+        <ExpansionPanel Title="yo" Collapsed="true">
+            <ChildContent>
+                    <tr>
+                        <td>@location.Name</td>
+                        <td>@location.City</td>
+                        <td class="ip-input"><input class="form-control" placeholder="Ip Address" value="@location.IpAddress"></td>
+                        <td class="update-button"><button class="btn btn-primary">Update IpAdress</button></td>
+                    </tr>
+            </ChildContent>
+        </ExpansionPanel>
+    }
 </main>
 
 @code {
     
-    private bool Collapsed = true;
     private string Name { get; set; }
 
     private string City { get; set; }
