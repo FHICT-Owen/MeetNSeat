@@ -1,8 +1,4 @@
-<div class="row">
-    @if (Collapsed){<span @onclick="@Toggle" class="oi oi-plus mr-1"/>}
-    else{<span @onclick="@Toggle" class="oi oi-minus mr-1"/>}
-    @Title
-</div>
+<button @onclick="@Toggle" class="btn btn-primary">Click</button>
 
 @if(!Collapsed)@ChildContent
 
@@ -11,8 +7,9 @@
     public RenderFragment ChildContent { get; set; }
     [Parameter]
     public bool Collapsed { get; set; }
-    [Parameter]
-    public string Title { get; set; }
 
-    void Toggle(){Collapsed = !Collapsed;}
+    private void Toggle()
+    {
+        Collapsed = !Collapsed;
+    }
 }

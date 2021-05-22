@@ -6,6 +6,7 @@
         public string Name { get; set; }
         public string City { get; set; }
         public string IpAddress { get; set; }
+        public bool IsCollapsed { get; set; } = true;
 
         public LocationModel(string name, string city, string ipAddress)
         {
