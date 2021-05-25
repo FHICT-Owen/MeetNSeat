@@ -1,6 +1,9 @@
-﻿@page "/feedback/new/"
+﻿@inject ISessionStorageService _sessionStorage;
+
+@page "/feedback/new/"
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Client.Models
+@using Blazored.SessionStorage
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
@@ -25,14 +28,16 @@
             <button @onclick="AddNewFeedback" type="button" class="btn btn-primary">Submit your feedback</button>
         </form>
     </div>
+    <
 </main>
 
 @code {
     private static string Description { get; set; } = null;
     private static int? FeedbackState { get; set; } = null;
     private static string Msg { get; set; }
-    private static async Task AddNewFeedback()
+    private async Task AddNewFeedback()
     {
+        var userId = await _sessionStorage.GetItemAsync<string>("userId");
         Msg = await FeedbackService.AddFeedback(new FeedbackModel(Description, FeedbackState));
     }
     protected override async Task OnInitializedAsync()
