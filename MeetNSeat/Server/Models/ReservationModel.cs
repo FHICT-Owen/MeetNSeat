@@ -9,7 +9,7 @@ namespace MeetNSeat.Server.Models
         public string Type { get; set; }
         public int FeedbackId { get; private set; }
         public int RoomId { get; set; }
-        public int LocationId { get; set; }
+        public string LocationId { get; set; }
         public string UserId { get; set; }
         public int Attendees { get; set; }
         public DateTime StartTime { get; set; }

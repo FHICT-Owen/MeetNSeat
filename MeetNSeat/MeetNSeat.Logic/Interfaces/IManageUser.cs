@@ -8,7 +8,7 @@ namespace MeetNSeat.Logic.Interfaces
     {
         IReadOnlyCollection<Reservation> GetAllReservations();
         List<ManageReservationDto> GetReservationByUser(string userId);
-        bool AddReservation(string type, int locationId, string userId, int attendees, DateTime startTime,
+        bool AddReservation(string type, string locationId, string userId, int attendees, DateTime startTime,
             DateTime endTime);
         bool ConfirmReservation(int id, string ip);
         bool DeleteReservation(int id);

@@ -50,7 +50,7 @@ namespace MeetNSeat.Logic
         }
 
         public Reservation(ManageReservationDto reservationDto)
-            : this(reservationDto.ReservationId, reservationDto.RoomId, reservationDto.UserId, reservationDto.FeedbackId, reservationDto.Attendees, reservationDto.CreatedOn, reservationDto.StartTime, reservationDto.EndTime, reservationDto.IsConfirmed)
+            : this(reservationDto.Id, reservationDto.RoomId, reservationDto.UserId, reservationDto.FeedbackId, reservationDto.Attendees, reservationDto.CreatedOn, reservationDto.StartTime, reservationDto.EndTime, reservationDto.IsConfirmed)
         {
         }
 
