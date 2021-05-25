@@ -1,6 +1,8 @@
 ﻿@page "/dashboard"
+@inject ISessionStorageService _sessionStorage;
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Client.Models
+@using Blazored.SessionStorage
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto
@@ -28,9 +30,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Reservation.Count > 0)
+                    @if (UserReservations.Count > 0)
                     {
-                        foreach (var reservation in Reservation)
+                        foreach (var reservation in UserReservations)
                         {
                             <tr>
                                 @* <td>@user.CreatedOn</td> *@
@@ -86,10 +88,12 @@
     private static string Msg { get; set; }
     private IpAddress IpAddress { get; set; }
 
-    List<ReservationModel> Reservation { get; set; } = new();
+    List<ReservationModel> UserReservations { get; set; } = new();
     protected override async Task OnInitializedAsync()
     {
-        Reservation = (await UserService.GetAllReservations()).ToList();
+        var userId = await _sessionStorage.GetItemAsync<string>("userId");
+        var reservations = (await UserService.GetAllReservations()).ToList();
+        UserReservations = reservations.FindAll(res => res.UserId == userId);
         Msg = Msg;
     }
 

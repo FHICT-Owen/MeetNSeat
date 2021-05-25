@@ -57,9 +57,9 @@ namespace MeetNSeat.Logic
             return room.GetRoomTypes().Select(roomDto => new Room(roomDto)).ToList();
         }
 
-        public List<ManageReservationDto> GetReservationByUser(string userId)
+        public IReadOnlyCollection<ManageReservationDto> GetReservationByUser(string id)
         {
-            return _dal.GetReservationByUser(userId);
+            return _dal.GetReservationByUser(id);
         }
 
         public bool AddReservation(string type, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
