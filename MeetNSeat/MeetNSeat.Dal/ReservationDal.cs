@@ -71,9 +71,9 @@ namespace MeetNSeat.Dal
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@UserId", id);
+            parameters.Add("@Id", id);
 
-            var output = connection.Query<ManageReservationDto>("dbo.GetAllUserReservations @UserId",parameters).ToList();
+            var output = connection.Query<ManageReservationDto>("dbo.GetAllUserReservations @Id", parameters).ToList();
             return output;
             
         }
