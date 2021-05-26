@@ -29,17 +29,18 @@
             {
                 foreach (var location in Locations)
                 {<tr>
-                    <td class="update-button">
+                    <td class="location-show-col">
                         <button class="btn btn-primary" @onclick="() => Toggle(location)">Show</button>
                     </td>
                     <td>@location.Name</td>
                     <td>@location.City</td>
-                    <td class="ip-input">
-                        <input class="form-control" placeholder="Ip Address" value="@location.IpAddress">
+                    <td>@location.IpAddress</td>
+                    <td class="location-update-col">
+                        <button class="btn btn-primary">Edit location</button>
                     </td>
-                    <td class="update-button">
-                        <button class="btn btn-primary">Update IpAdress</button>
-                    </td> @*TODO: UPDATE IP ADDRESS*@
+                    <td class="location-delete-col">
+                        <button class="btn btn-primary">Delete location</button>
+                    </td>
                 </tr>
                 @if (!location.IsCollapsed)
                 {<tr>
@@ -205,11 +206,7 @@
 
     private async Task GetFloorsByLocationId(LocationModel location)
     {
-        var floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(location.Id)).ToList();
-        location.Floors = floors;
-        location.Floors.ForEach(floor => //TODO: U confused yet? :)
-            floor.Rooms = floors.Find(confused => 
-                confused.Id == floor.Id)?.Rooms);
+        location.Floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(location.Id)).ToList();
     }
 
     private async Task AddLocation()
@@ -231,11 +228,14 @@
 }
 
 <style>
-  .update-button {
+  .location-show-col {
     max-width: 50px;
   }
-  .ip-input {
-      max-width: 80px;
+  .location-update-col {
+    max-width: 50px;
+  }
+  .location-delete-col {
+    max-width: 60px;
   }
   .location-table{
   background: #f2f2f2;
