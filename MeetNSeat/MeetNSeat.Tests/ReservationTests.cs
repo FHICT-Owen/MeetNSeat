@@ -24,7 +24,7 @@ namespace MeetNSeat.Tests
         public void CreateReservation()
         {
             var u = new User();
-            u.AddReservation("Conference", 1, "108105466526811947195", 12, 
+            u.AddReservation("Conference", 1, "108105466526811947195", 12,
                 Convert.ToDateTime("2021-01-01T12:29"),
                 Convert.ToDateTime("2021-01-01T17:00"));
         }
@@ -33,26 +33,26 @@ namespace MeetNSeat.Tests
         public void ReservationStartDateTimeInPastShouldBeFalse()
         {
             var u = new User();
-            var actual = u.AddReservation("Conference", 1, "108105466526811947195", 12, 
+            var actual = u.AddReservation("Conference", 1, "108105466526811947195", 12,
                 Convert.ToDateTime("2000-01-01T00:00"),
                 Convert.ToDateTime("3000-01-01T00:00"));
-            
+
             Assert.IsFalse(actual);
         }
-        
+
         [TestMethod]
         public void ReservationEndDateTimeInPastShouldBeFalse()
         {
             var u = new User();
-            
-            var actual = u.AddReservation("Conference", 1, "108105466526811947195", 12, 
+
+            var actual = u.AddReservation("Conference", 1, "108105466526811947195", 12,
                 Convert.ToDateTime("3000-01-01T00:00"),
                 Convert.ToDateTime("2000-01-01T00:00"));
-            
+
             Assert.IsFalse(actual);
         }
-        
-        // [TestMethod] TODO: maybe later?
+
+        // [TestMethod] TODO: ReservationShouldNotHaveEnoughSpots
         // public void ReservationShouldNotHaveEnoughSpots()
         // {
         //     var u = new User();
@@ -63,30 +63,61 @@ namespace MeetNSeat.Tests
         //     
         //     Assert.IsFalse(actual);
         // }
-        
+
         [TestMethod]
-        public void ReservationStartDateTimeShouldBeFalse()
+        public void CheckIfStartTimeIsBetweenAnyExistingReservation_ShouldBeFalse()
         {
             var u = new User();
-            
-            var actual = u.AddReservation("Conference", 1, "108105466526811947195", 12, 
-                Convert.ToDateTime("3000-01-01T00:00"),
-                Convert.ToDateTime("2000-01-01T00:00"));
-            
+
+            var actual = u.AddReservation("Conference", 1, "108105466526811947195", 12,
+                Convert.ToDateTime("2021-10-26T14:30"), //startTime
+                Convert.ToDateTime("2021-10-26T15:30")); //endTime
+
             Assert.IsFalse(actual);
         }
-        
+
+        [TestMethod]
+        public void CheckIfEndTimeIsBetweenAnyExistingReservation_ShouldBeFalse()
+        {
+            var u = new User();
+
+            var actual = u.AddReservation("Conference", 1, "108105466526811947195", 12,
+                Convert.ToDateTime("2021-10-26T13:30"), //startTime
+                Convert.ToDateTime("2021-10-26T14:30")); //endTime
+
+            Assert.IsFalse(actual);
+        }
+
+        [TestMethod]
+        public void ChecksIfAnyReservationIsBetweenNewReservation_ShouldBeFalse()
+        {
+            var u = new User();
+
+            var actual = u.AddReservation("Conference", 1, "108105466526811947195", 12,
+                Convert.ToDateTime("2021-10-26T14:15"), //startTime
+                Convert.ToDateTime("2021-10-26T14:45")); //endTime
+
+            Assert.IsFalse(actual);
+        }
+
+        #region ReservationTest
+        // reservation.startTime = 14:00
+        // reservation.endTime = 15:00
+
+        // 14:00 < startTime && startTime < 15:00
+        // reservation.StartTime < startTime && startTime < reservation.EndTime ||
+
+        // 14:00 < endTime && endTime < 15:00
+        // reservation.StartTime < endTime && endTime < reservation.EndTime ||
+
+        // 14:00 > startTime && endTime > 15:00
+        // reservation.StartTime > startTime && endTime > reservation.EndTime) 
+
+
+        #endregion
         
         // var span = new TimeSpan(0,0,0, 0, 0);
         //
         // var q = DateTime.Now + span;
-        
-        // res.start < start < res.end
-        // res.start < end < res.end
-        // start < res < end 
-        
-        // reservation.StartTime < startTime && startTime < reservation.EndTime ||
-        // reservation.StartTime < endTime && endTime < reservation.EndTime ||
-        // reservation.StartTime > startTime && endTime > reservation.EndTime) 
     }
 }
