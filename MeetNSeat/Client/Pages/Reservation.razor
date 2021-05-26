@@ -55,8 +55,8 @@
     private bool IsDisabled { get; set; } = false;
 
 
-    private DateTime StartDate { get; set; }
-    private DateTime EndDate { get; set; }
+    private DateTime StartDate { get; set; } = DateTime.Now;
+    private DateTime EndDate { get; set; } = DateTime.Now.AddHours(1);
 
 
     List<LocationModel> Locations { get; set; }  = new();

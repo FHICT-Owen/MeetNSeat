@@ -7,6 +7,7 @@ namespace MeetNSeat.Dal.Interfaces
     {
         List<FeedbackDto> GetFeedbackByUser(string id);
         void AddNewUser(UserDto userDto);
+        int CheckRole(string id);
         List<UserDto> GetAllUsers();
     }
 }

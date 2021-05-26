@@ -18,6 +18,16 @@ namespace MeetNSeat.Dal
             var query = connection.Query<FeedbackDto>("dbo.GetFeedbackByUser @Id", parameters).ToList();
             return query;
         }
+
+        public int CheckRole(string id)
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+            var query = connection.Query<int>("dbo.CheckRole @Id", parameters);
+            var val = query.FirstOrDefault();
+            return val;
+        }
         
         public List<UserDto> GetAllUsers()
         {
