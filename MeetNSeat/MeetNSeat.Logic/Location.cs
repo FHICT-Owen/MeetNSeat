@@ -70,12 +70,23 @@ namespace MeetNSeat.Logic
         
         public IReadOnlyCollection<RoomDto> GetAvailableRooms(string type, int locationId)
         {
+            List<RoomDto> rooms = new List<RoomDto>();
+
             var floors = _floorDal.GetAllRoomsAndFloorByLocationId(locationId);
-            // floors heeft rooms
-            // sort rooms by type
-            
-           
-            return _roomDal.GetAllRoomsByType(type, locationId).AsReadOnly();
+
+            foreach (var floor in floors)
+            {
+                foreach (var room in floor.Rooms)
+                {
+                    if (room == null) continue;
+                    if (room.Type == type)
+                    {
+                        rooms.Add(room);
+                    }
+                }
+            }
+
+            return rooms.AsReadOnly();
         }
 
         public LocationDto ConvertToDto()

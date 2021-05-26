@@ -6,6 +6,8 @@ namespace MeetNSeat.Client.Models
     {
         public int Id { get; set; }
         public int RoomId { get; set; }
+        public int LocationId { get; set; }
+        public string Type { get; set; }
         public string UserId { get; set; }
         public int FeedbackId { get; set; }
         public int Attendees { get; set; }
@@ -37,6 +39,16 @@ namespace MeetNSeat.Client.Models
             FeedbackId = feedbackId;
             Attendees = attendees;
             CreatedOn = createdOn;
+            StartTime = startTime;
+            EndTime = endTime;
+        }
+
+        public ReservationModel(int locationId, string type, string userId, int attendees, DateTime startTime, DateTime endTime)
+        {
+            LocationId = locationId;
+            Type = type;
+            UserId = userId;
+            Attendees = attendees;
             StartTime = startTime;
             EndTime = endTime;
         }

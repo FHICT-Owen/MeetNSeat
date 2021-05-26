@@ -26,7 +26,7 @@
                 </select>
 
                 <label for="Room" class="form-label">Room type</label>
-                <select class="form-control" @bind="Room" @bind:event="oninput" aria-label="Default select example">
+                <select class="form-control" @bind="Type" @bind:event="oninput" aria-label="Default select example">
                     <option disabled selected placeholder="Select a location here">Select a room type</option>
                     @if (Rooms.Any())
                     {
@@ -38,7 +38,7 @@
                 </select>
 
                 <label for="Attendees" class="form-label">Attendees</label>
-                <input type="number" class="form-control" id="Attendees" placeholder="Attendees">
+                <input type="number" class="form-control" @bind="@Attendees" id="Attendees" placeholder="Attendees">
 
                 <input type="datetime-local" @bind="@StartDate" @bind:format="yyyy-MM-ddTHH:mm" />
                 <input type="datetime-local" @bind="@EndDate" @bind:format="yyyy-MM-ddTHH:mm" />
@@ -50,8 +50,10 @@
 
 @code {
     private string Location { get; set; }
-    
-    private string Room { get; set; }
+
+    private string Type { get; set; }
+
+    private string Attendees { get; set; }
 
     private bool IsDisabled { get; set; } = false;
 
@@ -72,8 +74,11 @@
 
     private async Task AddReservation()
     {
+        // Location, Room type, attendees, Starttime, endtime,userid
+        int locationId = Convert.ToInt32(Location);
+        int attendees = Convert.ToInt32(Attendees);
         Console.WriteLine(Location);
         var userId = await _sessionStorage.GetItemAsync<string>("userId");
-        await UserService.CreateReservation(new ReservationModel(0,0,userId, 0, 0, DateTime.UtcNow, StartDate, EndDate));
+        await UserService.CreateReservation(new ReservationModel(locationId, Type, userId, attendees, StartDate, EndDate));
     }
 }
