@@ -35,5 +35,12 @@ namespace MeetNSeat.Tests
             var s = new Location();
             s.GetAllRoomsAndFloorByLocationId(1);
         }
+        
+        [TestMethod]
+        public void LocationWithId21ShouldBeChanged()
+        {
+            var s = new Location();
+            s.Update(21, "Building 1", "Eindhoven", "Test changed ip");
+        }
     }
 }
