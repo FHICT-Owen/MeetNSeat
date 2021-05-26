@@ -31,6 +31,7 @@ namespace MeetNSeat.Logic
             Id = floorDto.Id;
             Name = floorDto.Name;
             LocationId = floorDto.LocationId;
+            if (floorDto.Rooms == null) return;
             foreach (var room in floorDto.Rooms)
                 Rooms.Add(new Room(room));
         }
