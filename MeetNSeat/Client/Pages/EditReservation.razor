@@ -1,0 +1,65 @@
+﻿@*TODO: Get id*@
+@page "/edit/reservation/{Id?}"
+@inject ISessionStorageService _sessionStorage
+@using MeetNSeat.Client.Services
+@using MeetNSeat.Client.Models
+@using Blazored.SessionStorage
+@attribute [Authorize]
+
+<main role="main" class="col-md-12 ml-sm-auto
+             col-lg-12 px-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">EditReservation</h1>
+    </div>
+    <div class="row">
+        <h1 class="h3">Edit-Reservation</h1>
+
+        <div class="col-md-12">
+            <form class="form-inline">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="reservation" class="sr-only">reservation Id</label>
+                        <input type="text" readonly class="form-control-plaintext" id="reservation" @bind="@Id" @bind:event="oninput">
+                    </div>
+                    <div class="form-group">
+                        <label for="room" class="sr-only">Room</label>
+                        <input type="text" readonly class="form-control-plaintext" id="room" @bind="@Room" @bind:event="oninput">
+                    </div>
+                    <div class="form-group">
+                        <label for="attendees" class="sr-only">Attendees</label>
+                        <input type="text" readonly class="form-control-plaintext" @bind="@Attendees" @bind:event="oninput">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="starttime" class="sr-only">Start Time</label>
+                        <input type="datetime" class="form-control" id="starttime" @bind="@StartTime" @bind:event="oninput">
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="endtime" class="sr-only">End Time</label>
+                        <input type="datetime" class="form-control" id="endtime" @bind="@EndTime" @bind:event="oninput">
+                    </div>
+                </div>
+                <button  @onclick="EditReservations" type="submit" class="btn btn-primary mb-2">Confirm Change</button>
+            </form>
+        </div>
+    </div>
+</main>
+@code
+{
+    ReservationModel reservationmodel { set; get; }
+    private static int Id { get; set; }
+    private static int Room { get; set; }
+    private static int Attendees { get; set; }
+    private static DateTime StartTime { get; set; }
+    private static DateTime EndTime { get; set; }
+    protected override void OnInitialized()
+    {
+        Id = Id;
+    }
+
+    private static async Task EditReservations()
+    {
+       await UserService.EditReservation(new ReservationModel(Id, Room, Attendees, StartTime, EndTime));
+    }
+}

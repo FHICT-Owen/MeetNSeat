@@ -52,5 +52,13 @@ namespace MeetNSeat.Client.Models
             StartTime = startTime;
             EndTime = endTime;
         }
+        public ReservationModel(int id, int roomId, int attendees, DateTime startTime, DateTime endTime)
+        {
+            Id = id;
+            RoomId = roomId;
+            Attendees = attendees;
+            StartTime = startTime;
+            EndTime = endTime;
+        }
     }
 }

@@ -28,11 +28,18 @@ namespace MeetNSeat.Server.Controllers
             var newReservation = _manageUser.AddReservation(reservationModel.Type, reservationModel.LocationId, reservationModel.UserId, reservationModel.Attendees, reservationModel.StartTime, reservationModel.EndTime);
         }
 
+        [HttpPut("{id:int}")]
+        public bool UpdateReservation(ReservationModel reservation)
+        {
+            return _manageUser.EditReservation(reservation.ConvertToReservation());
+        }
+
         [HttpDelete("{id:int}")]
         public bool DeleteResult(int id)
         {
             return _manageUser.DeleteReservation(id);
         }
+        
 
         //[HttpGet]
         //public ActionResult GetAllLocations()

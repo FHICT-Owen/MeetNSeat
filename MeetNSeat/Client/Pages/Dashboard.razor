@@ -17,45 +17,47 @@
             <p>@Msg</p>
             <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <th scope="col">Time</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Room</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Attendees</th>
-                        <th scope="col">CreatedOn</th>
-                        <th scope="col">Confirmed</th>
-                        <th scope="col">DeletedAt</th>
-                    </tr>
+                <tr>
+                    <th scope="col">Time</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Room</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Attendees</th>
+                    <th scope="col">CreatedOn</th>
+                    <th scope="col">Confirmed</th>
+                    <th scope="col">DeletedAt</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @userId
-                    @if (UserReservations.Count > 0)
+                @userId
+                @if (UserReservations.Count > 0)
+                {
+                    foreach (var reservation in UserReservations)
                     {
-                        foreach (var reservation in UserReservations)
-                        {
-                            <tr>
-                                <td>@reservation.StartTime - @reservation.EndTime</td>
-                                <td>@GetLocation(reservation.RoomId).City</td>
-                                <td>@GetRoom(reservation.RoomId)</td>
-                                <td>@GetRoom(reservation.RoomId).Type</td>
-                                <td>@reservation.Attendees</td>
-                                <td>@reservation.CreatedOn</td>
-                                <td>@reservation.IsConfirmed</td>
-                                <td>@reservation.DeletedAt</td>
-                                <td>
-                                    <form>
-                                        <button @onclick="() => ConfirmReservation(reservation)" type="button" class="btn btn-danger">Confirm</button>
-                                        <button @onclick="() => DeleteReservation(reservation)" type="button" class="btn btn-danger">Cancel</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        }
+                        <tr>
+                            <td>@reservation.StartTime - @reservation.EndTime</td>
+                            <td>@GetLocation(reservation.RoomId).City</td>
+                            <td>@GetRoom(reservation.RoomId)</td>
+                            <td>@GetRoom(reservation.RoomId).Type</td>
+                            <td>@reservation.Attendees</td>
+                            <td>@reservation.CreatedOn</td>
+                            <td>@reservation.IsConfirmed</td>
+                            <td>@reservation.DeletedAt</td>
+                            <td>
+                                <form>
+                                    <button @onclick="() => ConfirmReservation(reservation)" type="button" class="btn btn-danger">Confirm</button>
+                                    <button @onclick="() => DeleteReservation(reservation)" type="button" class="btn btn-danger">Cancel</button>
+                                    @*<a href="/reservation/edit?id=@reservation.Id" class="btn btn-danger">Edit</a>*@
+                                </form>
+                            </td>
+                        </tr>
                     }
+                }
                 </tbody>
             </table>
         </div>
-        &nbsp;
+        @* TODO: GetMyFeedback*@
+        @*&nbsp;
         <div class="col-md-6">
             <h1 class="h3">Schandpaal</h1>
             <table class="table table-striped red">
@@ -76,7 +78,7 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div>*@
     </div>
 
 </main>

@@ -20,13 +20,6 @@ namespace MeetNSeat.Server.Controllers
         {
 
         }
-
-
-        [HttpPut("{id:int}")]
-        public bool UpdateReservation(ReservationModel reservation)
-        {
-            return _manageReservation.EditReservation(reservation.ConvertToReservation());
-        }
         //manageReservation = ReservationFactory.AddReservation();
         //manageReservation.AddReservation(1, 1, 1, DateTime.Now, DateTime.Now);
     }

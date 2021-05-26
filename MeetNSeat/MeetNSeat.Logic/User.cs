@@ -100,6 +100,11 @@ namespace MeetNSeat.Logic
 
             return _dal.AddReservation(new CreateReservationDto(roomId, userId, attendees, sqlStartTime, sqlEndTime));
         }
+        public bool EditReservation(Reservation reservation)
+        {
+            _reservations.Add(reservation);
+            return _dal.UpdateReservation(reservation.ConvertToDto());
+        }
 
         public bool ConfirmReservation(int id, string ip)
         {

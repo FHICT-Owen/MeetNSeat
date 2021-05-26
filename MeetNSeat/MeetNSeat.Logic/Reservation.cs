@@ -65,11 +65,6 @@ namespace MeetNSeat.Logic
             dal.ConfirmReservation(id, IsConfirmed);
         }
 
-        public bool EditReservation(Reservation reservation)
-        {
-            _reservation.Add(reservation);
-           return dal.UpdateReservation(reservation.ConvertToDto());
-        }
         public ReservationDto ConvertToDto()
         {
             return new(ReservationId, RoomId, UserId, FeedbackId, Attendees, CreatedOn, StartTime, EndTime, IsConfirmed);
