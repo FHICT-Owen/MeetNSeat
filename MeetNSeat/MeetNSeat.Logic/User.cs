@@ -64,10 +64,12 @@ namespace MeetNSeat.Logic
 
         public bool AddReservation(string type, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
         {
+            if (startTime < DateTime.Now || endTime < DateTime.Now) return false;
+            
             var isAvailable = true;
             // Retrieve rooms by type and location
-            var roomObject = new Location();
-            var rooms = roomObject.GetAvailableRooms(type, Convert.ToInt32(locationId));
+            var locationObject = new Location();
+            var rooms = locationObject.GetAvailableRooms(type, Convert.ToInt32(locationId));
             
             var roomId = 0;
 
@@ -80,24 +82,23 @@ namespace MeetNSeat.Logic
 
             foreach (var room in rooms)
             {
+                if (attendees >= room.Spots) continue;
+
                 foreach (var dbReservation in dbReservations)
-                {
                     if (dbReservation.RoomId == room.Id &&
                         dbReservation.StartTime < startTime && startTime < dbReservation.EndTime ||
                         dbReservation.StartTime < endTime && endTime < dbReservation.EndTime ||
-                        dbReservation.StartTime > startTime && endTime > dbReservation.EndTime)
-                        
-                        isAvailable = false;
-                }
+                        dbReservation.StartTime > startTime && endTime > dbReservation.EndTime) isAvailable = false;
+                    
                 roomId = room.Id;
             }
             if (!isAvailable) return false;
 
-            DateTime sqlStartTime = Convert.ToDateTime(startTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            DateTime sqlEndTime = Convert.ToDateTime(endTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            // Convert c# format to sql format
+            var sqlStartTime = Convert.ToDateTime(startTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            var sqlEndTime = Convert.ToDateTime(endTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
-            var createReservationDto = new CreateReservationDto(roomId, userId, attendees, sqlStartTime, sqlEndTime);
-            return _dal.AddReservation(createReservationDto);
+            return _dal.AddReservation(new CreateReservationDto(roomId, userId, attendees, sqlStartTime, sqlEndTime));
         }
 
         public bool ConfirmReservation(int id, string ip)

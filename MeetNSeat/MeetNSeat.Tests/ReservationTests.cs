@@ -28,5 +28,34 @@ namespace MeetNSeat.Tests
                 Convert.ToDateTime("2021-01-01T12:29"),
                 Convert.ToDateTime("2021-01-01T17:00"));
         }
+
+        [TestMethod]
+        public void CreateMultipleReservation()
+        {
+            var u = new User();
+
+            // If reservation has been made in the past
+
+            // If a room available with that many spots
+
+            
+        }
+
+        //foreach (var room in rooms)
+        //{
+        //    if (attendees<room.Spots)
+        //    {
+        //        foreach (var dbReservation in dbReservations)
+        //        {
+        //            if (dbReservation.RoomId == room.Id &&
+        //                dbReservation.StartTime<startTime && startTime<dbReservation.EndTime ||
+        //                dbReservation.StartTime<endTime && endTime<dbReservation.EndTime ||
+        //                dbReservation.StartTime> startTime && endTime> dbReservation.EndTime)
+
+        //                isAvailable = false;
+        //        }
+        //        roomId = room.Id;
+        //    }
+        //}
     }
 }
