@@ -11,7 +11,6 @@ namespace MeetNSeat.Client.Models
 
         public FloorModel(int locationId, string name)
         {
-            
             LocationId = locationId;    
             Name = name;
         }

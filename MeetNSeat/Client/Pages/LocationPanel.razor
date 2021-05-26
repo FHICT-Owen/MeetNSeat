@@ -46,7 +46,7 @@
                     <td colspan="4">
                         <table class="table location-table">
                             <tbody>
-                            @foreach (var floor in Floors)
+                            @foreach (var floor in location.Floors)
                             {
                                 <tr>
                                     <td style="font-style: italic">Floor : @floor.Name</td>
@@ -166,8 +166,6 @@
 
     List<LocationModel> Locations { get; set; } = new();
 
-    List<FloorModel> Floors { get; set; } = new();
-
     void AddNewRoom(int floorId)
     {
         // Open the Popup
@@ -192,22 +190,26 @@
         // Close the Popup
         ShowRoomPopup = false;
     }
-
-    private async Task Toggle(LocationModel location)
-    {
-        location.IsCollapsed = !location.IsCollapsed;
-        if (!location.IsCollapsed)
-            await GetFloorsByLocationId(location.Id);
-    }
-
+    
     protected override async Task OnInitializedAsync()
     {
         Locations = (await LocationService.GetAllLocations()).ToList();
     }
 
-    private async Task GetFloorsByLocationId(int id)
+    private async Task Toggle(LocationModel location)
     {
-        Floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(id)).ToList();
+        location.IsCollapsed = !location.IsCollapsed;
+        if (!location.IsCollapsed)
+            await GetFloorsByLocationId(location);
+    }
+
+    private async Task GetFloorsByLocationId(LocationModel location)
+    {
+        var floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(location.Id)).ToList();
+        location.Floors = floors;
+        location.Floors.ForEach(floor => //TODO: U confused yet?
+            floor.Rooms = floors.Find(confused => 
+                confused.Id == floor.Id)?.Rooms);
     }
 
     private async Task AddLocation()
