@@ -25,6 +25,14 @@ namespace MeetNSeat.Server.Controllers
             return Ok(floors);
         }
 
+        [HttpGet]
+        public ActionResult GetAllFloors()
+        {
+            var floors = _manageFloor.GetAllFloors();
+            return Ok(floors);
+        }
+
+
         [HttpPost]
         public void AddFloor([FromBody] FloorModel floorModel)
         {

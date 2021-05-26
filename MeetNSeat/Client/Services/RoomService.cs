@@ -8,7 +8,7 @@ namespace MeetNSeat.Client.Services
 {
 	public static class RoomService
 	{
-		public static async Task<IEnumerable<RoomModel>> GetAllRoomTypes()
+		public static async Task<IEnumerable<RoomModel>> GetAllRooms()
 		{
 			using var client = new HttpClient();
 			return await client.GetFromJsonAsync<List<RoomModel>>("https://localhost:5001/api/user");

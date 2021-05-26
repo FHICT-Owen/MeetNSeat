@@ -62,7 +62,7 @@ namespace MeetNSeat.Logic
             return _dal.GetReservationByUser(id);
         }
 
-        public bool AddReservation(string type, string locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
+        public bool AddReservation(string type, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
         {
             var isAvailable = true;
             // Retrieve rooms by type and location

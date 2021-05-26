@@ -74,8 +74,6 @@
     {
         Console.WriteLine(Location);
         var userId = await _sessionStorage.GetItemAsync<string>("userId");
-        await UserService.CreateReservation(new ReservationModel(userId, Location, Room, StartDate, EndDate));
+        await UserService.CreateReservation(new ReservationModel(0,0,userId, 0, 0, DateTime.UtcNow, StartDate, EndDate));
     }
-
-
 }

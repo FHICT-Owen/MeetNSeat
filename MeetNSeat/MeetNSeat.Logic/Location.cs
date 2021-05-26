@@ -50,6 +50,15 @@ namespace MeetNSeat.Logic
             return _floors.AsReadOnly();
         }
 
+        public IReadOnlyCollection<Floor> GetAllFloors()
+        {
+            var floors = new List<Floor>();
+            _floorDal.GetAllFloors().ForEach(
+                res => floors.Add(new Floor(res)));
+
+            return floors.AsReadOnly();
+        }
+
         public void AddFloor(int locationId, string name)
         {
             var floor = new Floor(name, locationId);

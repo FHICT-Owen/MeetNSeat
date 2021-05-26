@@ -39,6 +39,13 @@ namespace MeetNSeat.Dal
             return output;
         }
 
+        public List<FloorDto> GetAllFloors()
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+            var output = connection.Query<FloorDto>("dbo.GetAllFloors").ToList();
+            return output;
+        }
+
         public void AddFloor(FloorDto floorDto)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());

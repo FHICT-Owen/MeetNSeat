@@ -14,6 +14,12 @@ namespace MeetNSeat.Client.Services
             return await client.GetFromJsonAsync<List<FloorModel>>($"https://localhost:5001/api/floor/{id}");
         }
 
+        public static async Task<IEnumerable<FloorModel>> GetAllFloors()
+        {
+            using var client = new HttpClient();
+            return await client.GetFromJsonAsync<List<FloorModel>>("https://localhost:5001/api/floor");
+        }
+
         public static async Task AddFloor(FloorModel floor)
         {
             using var client = new HttpClient();
