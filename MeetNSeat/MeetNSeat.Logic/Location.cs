@@ -64,8 +64,6 @@ namespace MeetNSeat.Logic
             _floorDal.AddFloor(floor.ConvertToDto());
         }
         
-        
-        
         public IReadOnlyCollection<RoomDto> GetAllRoomsWithType(string type, int locationId)
         {
             List<RoomDto> rooms = new List<RoomDto>();
@@ -77,14 +75,20 @@ namespace MeetNSeat.Logic
                 foreach (var room in floor.Rooms)
                 {
                     if (room == null) continue;
-                    if (room.Type == type)
-                    {
-                        rooms.Add(room);
-                    }
+                    if (room.Type == type) rooms.Add(room);
                 }
             }
 
             return rooms.AsReadOnly();
+        }
+        
+        public void Update(int id, string name, string city, string ipAddress)
+        {
+            Id = id;
+            Name = name;
+            City = city;
+            IpAddress = ipAddress;
+            LocationFactory.CreateLocationDal().UpdateLocation(ConvertToDto());
         }
 
         public LocationDto ConvertToDto()

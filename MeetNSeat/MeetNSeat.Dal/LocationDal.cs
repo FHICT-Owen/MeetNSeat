@@ -22,5 +22,11 @@ namespace MeetNSeat.Dal
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             connection.Execute("dbo.InsertLocation @Name, @City, @IpAddress ", locationDto);
         }
+        
+        public void UpdateLocation(LocationDto location)
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+            connection.Execute("dbo.UpdateLocation @Id, @Name, @City, @IpAddress", location);
+        }
     }
 }

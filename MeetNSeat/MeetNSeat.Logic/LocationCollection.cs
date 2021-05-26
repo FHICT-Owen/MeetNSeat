@@ -14,7 +14,7 @@ namespace MeetNSeat.Logic
 
         public LocationCollection()
         {
-            _dal = LocationFactory.CreateIssueDal();
+            _dal = LocationFactory.CreateLocationDal();
         }
 
         public static LocationCollection Instance
@@ -49,6 +49,11 @@ namespace MeetNSeat.Logic
             _locations.Add(location);
             _dal.AddLocation(location.ConvertToDto());
         }
-
+        
+        public void UpdateLocation(int id, string name, string city, string ipAddress)
+        {
+            _locations.Find(location => location.Id == id)?
+                .Update(id, name, city, ipAddress);
+        }
     }
 }

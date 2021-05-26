@@ -28,5 +28,11 @@ namespace MeetNSeat.Server.Controllers
         {
             _manageLocation.AddLocation(locationModel.Id, locationModel.Name, locationModel.City, locationModel.IpAddress);
         }
+        
+        [HttpPut]
+        public void UpdateLocation([FromBody] LocationModel locationModel)
+        {
+            _manageLocation.UpdateLocation(locationModel.Id, locationModel.Name, locationModel.City, locationModel.IpAddress);
+        }
     }
 }

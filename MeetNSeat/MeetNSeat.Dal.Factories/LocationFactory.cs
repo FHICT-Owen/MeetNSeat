@@ -4,7 +4,7 @@ namespace MeetNSeat.Dal.Factories
 {
     public static class LocationFactory
     {
-        public static ILocationDal CreateIssueDal()
+        public static ILocationDal CreateLocationDal()
         {
             return new LocationDal();
         }
