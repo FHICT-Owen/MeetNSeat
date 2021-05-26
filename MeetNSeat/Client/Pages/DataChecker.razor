@@ -6,21 +6,21 @@
 @using Blazored.SessionStorage
 
 @attribute [Authorize]
-@inject IApiClientService ApiClientService;
-@inject ISessionStorageService Storage
-@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IApiClientService _apiClientService;
+@inject ISessionStorageService _storage
+@inject AuthenticationStateProvider _authStateProvider
 
 <div>
-    <h3>User Ip - @ipAddress.Ip</h3>
-    <h3>User Id - @userId</h3>
+    <h3>User Ip - @_ipAddress.Ip</h3>
+    <h3>User Id - @_userId</h3>
     <h3>ClaimsPrincipal Data</h3>
 
-    <p>@authMessage</p>
+    <p>@_authMessage</p>
 
-    @if (claims.Any())
+    @if (_claims.Any())
     {
         <table class="table">
-            @foreach (var claim in claims)
+            @foreach (var claim in _claims)
             {
                 <tr>
                     <td>@claim.Type</td>
@@ -32,27 +32,27 @@
 </div>
 
 @code {
-    private string userId;
-    private string authMessage;
-    IpAddress ipAddress = new IpAddress();
-    private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
+    private string _userId;
+    private string _authMessage;
+    IpAddress _ipAddress = new IpAddress();
+    private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
 
     protected override async Task OnInitializedAsync()
     {
-        ipAddress = await ApiClientService.GetUserIPAsync();
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _ipAddress = await _apiClientService.GetUserIPAsync();
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
 
         if (user.Identity.IsAuthenticated)
         {
-            authMessage = $"{user.Identity.Name} is authenticated.";
-            claims = user.Claims;
+            _authMessage = $"{user.Identity.Name} is authenticated.";
+            _claims = user.Claims;
         }
         else
         {
-            authMessage = "The user is NOT authenticated.";
+            _authMessage = "The user is NOT authenticated.";
         }
 
-        userId = await Storage.GetItemAsync<string>("userId");
+        _userId = await _storage.GetItemAsync<string>("userId");
     }
 }

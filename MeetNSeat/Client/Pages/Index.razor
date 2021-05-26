@@ -3,8 +3,8 @@
 @using MeetNSeat.Client.Models
 @using MeetNSeat.Client.Services
 
-@inject AuthenticationStateProvider AuthenticationStateProvider
-@inject ISessionStorageService Storage
+@inject AuthenticationStateProvider _authStateProvider
+@inject ISessionStorageService _storage
 
 <h1>Hello, world!</h1>
 
@@ -20,7 +20,7 @@ Welcome to your new app.
 
     private async Task GetUserId()
     {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
 
         if (user.Identity.IsAuthenticated)
@@ -28,7 +28,7 @@ Welcome to your new app.
             var userId = $"{user.FindFirst(c => c.Type == "sub")?.Value.Split("|")[1]}";
             if (userId != "")
             {
-                await Storage.SetItemAsync("userId", userId);
+                await _storage.SetItemAsync("userId", userId);
                 var nickname = user.Identity?.Name;
                 await AuthService.AddUser(new UserModel(userId,nickname,0));
             }

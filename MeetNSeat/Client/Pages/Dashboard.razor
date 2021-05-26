@@ -4,57 +4,49 @@
 @using MeetNSeat.Client.Models
 @using Blazored.SessionStorage
 
-@inject IApiClientService ApiClientService;
+@inject IApiClientService _apiClientService;
 @inject ISessionStorageService _sessionStorage
 
 @attribute [Authorize]
 
-<main role="main" class="col-md-12 ml-sm-auto
-             col-lg-12 px-4">
-    @*<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">*@
-    <h1 class="h2">Dashboard</h1>
-    @*</div>*@
-    <div class="row">
-        <div class="col-md-6">
-            <p>@Msg</p>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Time</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Room</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Attendees</th>
-                        <th scope="col">CreatedOn</th>
-                        <th scope="col">Confirmed</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (UserReservations.Count > 0)
-                    {
-                        foreach (var reservation in UserReservations)
-                        {
-                            <tr>
-                                <td>@reservation.StartTime - @reservation.EndTime</td>
-                                <td>@GetLocation(reservation.RoomId).City</td>
-                                <td>@GetRoom(reservation.RoomId)</td>
-                                <td>@GetRoom(reservation.RoomId).Type</td>
-                                <td>@reservation.Attendees</td>
-                                <td>@reservation.CreatedOn</td>
-                                <td>@reservation.IsConfirmed</td>
-                                <td>
-                                    <form>
-                                        <button @onclick="() => ConfirmReservation(reservation)" type="button" class="btn btn-danger">Confirm</button>
-
-                                        <button @onclick="() => DeleteReservation(reservation)" type="button" class="btn btn-danger">Cancel</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
+<main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
+    <h2 class="pt-3">Dashboard</h2>
+    <div>
+        <p>@Msg</p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Time</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Room</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Attendees</th>
+                    <th scope="col">CreatedOn</th>
+                    <th scope="col">Confirmed</th>
+                    <th scope="col"></th> @* this needs to be here *@
+                </tr>
+            </thead>
+            <tbody>
+                @if (UserReservations.Count > 0)
+                {
+                    foreach (var reservation in UserReservations)
+                    {<tr>
+                        <td>@reservation.StartTime - @reservation.EndTime</td>
+                        <td>@GetLocation(reservation.RoomId).City</td>
+                        <td>@GetRoom(reservation.RoomId)</td>
+                        <td>@GetRoom(reservation.RoomId).Type</td>
+                        <td>@reservation.Attendees</td>
+                        <td>@reservation.CreatedOn</td>
+                        <td>@reservation.IsConfirmed</td>
+                        <td style="min-width: 100px">
+                            <button @onclick="() => ConfirmReservation(reservation)" type="button" class="btn btn-primary">Confirm</button>
+                            <button @onclick="() => DeleteReservation(reservation)" type="button" class="btn btn-danger">Cancel</button>
+                        </td>
+                    </tr>}
+                }
+            </tbody>
+        </table>
+    </div>
         @* TODO: GetMyFeedback*@
         @*&nbsp;
         <div class="col-md-6">
@@ -78,8 +70,6 @@
                 </tbody>
             </table>
         </div>*@
-    </div>
-
 </main>
 
 @code{
@@ -87,17 +77,17 @@
     private List<LocationModel> Locations { get; set; }
     private List<FloorModel> Floors { get; set; }
     private List<RoomModel> Rooms { get; set; }
-    private string userId { get; set; }
+    private string UserId { get; set; }
     List<ReservationModel> UserReservations { get; set; } = new();
+    
     protected override async Task OnInitializedAsync()
     {
-        userId = await _sessionStorage.GetItemAsync<string>("userId");
-        var reservations = (await UserService.GetAllReservations(userId)).ToList();
-        System.Console.WriteLine(reservations);
+        UserId = await _sessionStorage.GetItemAsync<string>("userId");
+        var reservations = (await UserService.GetAllReservations(UserId)).ToList();
         Locations = (await LocationService.GetAllLocations()).ToList();
         Floors = (await FloorService.GetAllFloors()).ToList();
         Rooms = (await RoomService.GetAllRooms()).ToList();
-        UserReservations = reservations.FindAll(res => res.UserId == userId);
+        UserReservations = reservations.FindAll(res => res.UserId == UserId);
 
         Msg = Msg;
     }
@@ -116,7 +106,7 @@
 
     private async Task ConfirmReservation(ReservationModel reservation)
     {
-        var ip = await ApiClientService.GetUserIPAsync();
+        var ip = await _apiClientService.GetUserIPAsync();
         await UserService.ConfirmReservation(reservation.Id, ip.Ip);
     }
 

@@ -4,15 +4,18 @@
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h2>Locations</h2>
-    </div>
+    <h2 class="pt-3 pb-2 mb-3 border-bottom">Locations</h2>
     <div>
         <form>
-            <input class="form-control" @bind="@Name" @bind:event="oninput" placeholder="Name">
-            <input class="form-control" @bind="@City" @bind:event="oninput" placeholder="City">
-            <input class="form-control" @bind="@IpAddress" @bind:event="oninput" placeholder="Ip Address">
-            <button @onclick="AddLocation" type="button" class="btn btn-primary">Add location</button>
+            <label class="form-label m-1 pt-2">Location name</label>
+            <input class="form-control" @bind="@Name" @bind:event="oninput" placeholder="enter a location name ...">
+
+            <label class="form-label m-1 pt-2">City</label>
+            <input class="form-control" @bind="@City" @bind:event="oninput" placeholder="enter a city name ...">
+
+            <label class="form-label m-1 pt-2">Ip address</label>
+            <input class="form-control" @bind="@IpAddress" @bind:event="oninput" placeholder="enter an ip address ...">
+            <button class="btn btn-primary my-3" type="button" @onclick="AddLocation">Add location</button>
         </form>
         <table class="table location-table">
             <thead>
@@ -21,7 +24,7 @@
                 <th scope="col">Location</th>
                 <th scope="col">City</th>
                 <th scope="col">IpAdress</th>
-                <th scope="col" class="update-button-col"></th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -29,23 +32,21 @@
             {
                 foreach (var location in Locations)
                 {<tr>
-                    <td class="location-show-col">
+                    <td style="max-width: 50px">
                         <button class="btn btn-primary" @onclick="() => Toggle(location)">Show</button>
                     </td>
                     <td>@location.Name</td>
                     <td>@location.City</td>
                     <td>@location.IpAddress</td>
-                    <td class="location-update-col">
+                    <td style="max-width: 100px">
                         <button class="btn btn-primary">Edit location</button>
-                    </td>
-                    <td class="location-delete-col">
-                        <button class="btn btn-primary">Delete location</button>
+                        <button class="btn btn-danger">Delete location</button>
                     </td>
                 </tr>
                 @if (!location.IsCollapsed)
                 {<tr>
-                    <td colspan="4">
-                        <table class="table location-table">
+                    <td colspan="5">
+                        <table class="table" style="background: #f2f2f2">
                             <tbody>
                             @foreach (var floor in location.Floors)
                             {
@@ -226,18 +227,3 @@
     }
 
 }
-
-<style>
-  .location-show-col {
-    max-width: 50px;
-  }
-  .location-update-col {
-    max-width: 50px;
-  }
-  .location-delete-col {
-    max-width: 60px;
-  }
-  .location-table{
-  background: #f2f2f2;
-  }
-</style>

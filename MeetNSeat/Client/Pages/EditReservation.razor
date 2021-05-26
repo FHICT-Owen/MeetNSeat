@@ -6,8 +6,7 @@
 @using Blazored.SessionStorage
 @attribute [Authorize]
 
-<main role="main" class="col-md-12 ml-sm-auto
-             col-lg-12 px-4">
+<main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">EditReservation</h1>
     </div>
@@ -47,12 +46,12 @@
 </main>
 @code
 {
-    ReservationModel reservationmodel { set; get; }
     private static int Id { get; set; }
     private static int Room { get; set; }
     private static int Attendees { get; set; }
     private static DateTime StartTime { get; set; }
     private static DateTime EndTime { get; set; }
+    
     protected override void OnInitialized()
     {
         Id = Id;
