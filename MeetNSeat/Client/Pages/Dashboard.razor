@@ -29,6 +29,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @userId
                     @if (UserReservations.Count > 0)
                     {
                         foreach (var reservation in UserReservations)
@@ -87,12 +88,12 @@
     private List<LocationModel> Locations { get; set; }
     private List<FloorModel> Floors { get; set; }
     private List<RoomModel> Rooms { get; set; }
-
+    private string userId { get; set; }
     List<ReservationModel> UserReservations { get; set; } = new();
     protected override async Task OnInitializedAsync()
     {
-        var userId = await _sessionStorage.GetItemAsync<string>("userId");
-        var reservations = (await UserService.GetAllReservations()).ToList();
+        userId = await _sessionStorage.GetItemAsync<string>("userId");
+        var reservations = (await UserService.GetAllReservations(userId)).ToList();
         Locations = (await LocationService.GetAllLocations()).ToList();
         Floors = (await FloorService.GetAllFloors()).ToList();
         Rooms = (await RoomService.GetAllRooms()).ToList();

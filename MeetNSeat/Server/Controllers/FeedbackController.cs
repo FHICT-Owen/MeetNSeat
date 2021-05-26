@@ -15,10 +15,10 @@ namespace MeetNSeat.Server.Controllers
             _manageFeedback = manageFeedback;
         }
         
-        [HttpGet]
-        public ActionResult GetAllFeedback()
+        [HttpGet("{id}")]
+        public ActionResult GetAllFeedback(string id)
         {
-            var allFeedback = _manageFeedback.GetFeedbackByUser("108105466526811947195");
+            var allFeedback = _manageFeedback.GetFeedbackByUser(id);
             return Ok(allFeedback);
         }
         

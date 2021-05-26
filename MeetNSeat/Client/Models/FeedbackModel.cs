@@ -2,7 +2,7 @@
 {
     public class FeedbackModel
     {
-        public int FeedbackId { get; set; }
+        public int Id { get; set; }
 
         #nullable enable
         public string? Description { get; set; }

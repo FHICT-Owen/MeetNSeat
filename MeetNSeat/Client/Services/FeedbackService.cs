@@ -8,10 +8,10 @@ namespace MeetNSeat.Client.Services
 {
     public static class FeedbackService
     {
-        public static async Task<IEnumerable<FeedbackModel>> GetAllFeedback()
+        public static async Task<IEnumerable<FeedbackModel>> GetAllFeedback(string userId)
         {
             using var client = new HttpClient();
-            return await client.GetFromJsonAsync<List<FeedbackModel>>("https://localhost:5001/api/feedback");
+            return await client.GetFromJsonAsync<List<FeedbackModel>>("https://localhost:5001/api/feedback/" + userId);
         }
 
         public static async Task<string> AddFeedback(FeedbackModel feedback)

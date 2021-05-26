@@ -1,35 +1,38 @@
 ﻿@page "/feedback"
+@inject ISessionStorageService _sessionStorage
+@using Blazored.SessionStorage
 @using MeetNSeat.Client.Models
 @using MeetNSeat.Client.Services
+
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto
              col-lg-12 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
     </div>
     <div class="row">
         <h1 class="h3">Schandpaal</h1>
         <table class="table table-striped red">
             <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Description</th>
-                <th scope="col">FeedbackState</th>
-            </tr>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">FeedbackState</th>
+                </tr>
             </thead>
             <tbody>
-            @if (Feedback.Count > 0)
-            {
-                foreach (var feedback in Feedback)
+                @if (Feedback.Count > 0)
                 {
-                    <tr class="color:red">
-                        <td>@feedback.FeedbackId</td>
-                        <td>@feedback.Description</td>
-                        <td>@feedback.FeedbackState</td>
-                    </tr>
+                    foreach (var feedback in Feedback)
+                    {
+                        <tr class="color:red">
+                            <td>@feedback.Id</td>
+                            <td>@feedback.Description</td>
+                            <td>@feedback.FeedbackState</td>
+                        </tr>
+                    }
                 }
-            }
+               
             </tbody>
         </table>
     </div>
@@ -40,9 +43,12 @@
 @code
 {
     List<FeedbackModel> Feedback { get; set; } = new();
-    
+    string userId { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
-        Feedback = (await FeedbackService.GetAllFeedback()).ToList();
+         userId = await _sessionStorage.GetItemAsync<string>("userId");
+
+        Feedback = (await FeedbackService.GetAllFeedback(userId)).ToList();
     }
 }
