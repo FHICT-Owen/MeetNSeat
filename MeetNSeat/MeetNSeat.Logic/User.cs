@@ -62,13 +62,13 @@ namespace MeetNSeat.Logic
             return _dal.GetReservationByUser(id);
         }
 
-        public bool AddReservation(string type, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
+        public bool AddReservation(string type, string locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
         {
             var isAvailable = true;
             // Retrieve rooms by type and location
             var roomObject = new Location();
-            var rooms = roomObject.GetAvailableRooms(type, locationId);
-
+            var rooms = roomObject.GetAvailableRooms(type, Convert.ToInt32(locationId));
+            
             var roomId = 0;
 
             var reservationObject = new Reservation();
@@ -92,8 +92,11 @@ namespace MeetNSeat.Logic
                 roomId = room.Id;
             }
             if (!isAvailable) return false;
-            
-            var createReservationDto = new CreateReservationDto(roomId, userId, attendees, startTime, endTime);
+
+            DateTime sqlStartTime = Convert.ToDateTime(startTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            DateTime sqlEndTime = Convert.ToDateTime(endTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+            var createReservationDto = new CreateReservationDto(roomId, userId, attendees, sqlStartTime, sqlEndTime);
             return _dal.AddReservation(createReservationDto);
         }
 

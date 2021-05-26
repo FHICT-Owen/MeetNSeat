@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
 using MeetNSeat.Dal.Interfaces.Dtos;
@@ -60,6 +61,11 @@ namespace MeetNSeat.Logic
         
         public IReadOnlyCollection<RoomDto> GetAvailableRooms(string type, int locationId)
         {
+            var floors = _floorDal.GetAllRoomsAndFloorByLocationId(locationId);
+            // floors heeft rooms
+            // sort rooms by type
+            
+           
             return _roomDal.GetAllRoomsByType(type, locationId).AsReadOnly();
         }
 

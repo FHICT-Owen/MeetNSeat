@@ -14,7 +14,7 @@
             <div class="mb-3">
                 <label for="Location" class="form-label">Location</label>
                 <select class="form-control" @bind="Location" aria-label="Default select example">
-                    <option disabled selected placeholder="Select a location here">Select a location</option>
+                    <option placeholder="Select a location here">Select a location</option>
                     @if (Locations.Any())
                     {
                         @foreach (var location in Locations)
@@ -22,6 +22,7 @@
                             <option value="@location.Id">@location.Name, @location.City</option>
                         }
                     }
+
                 </select>
 
                 <label for="Room" class="form-label">Room type</label>
@@ -48,9 +49,9 @@
 </main>
 
 @code {
-    private int Location { get; set; }
+    private string Location { get; set; }
     
-    private int Room { get; set; }
+    private string Room { get; set; }
 
     private bool IsDisabled { get; set; } = false;
 
@@ -71,6 +72,7 @@
 
     private async Task AddReservation()
     {
+        Console.WriteLine(Location);
         var userId = await _sessionStorage.GetItemAsync<string>("userId");
         await UserService.CreateReservation(new ReservationModel(userId, Location, Room, StartDate, EndDate));
     }
