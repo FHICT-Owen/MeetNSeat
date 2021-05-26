@@ -137,9 +137,9 @@
 
 @code {
     //PopupProps
-    private bool ShowRoomPopup { get; set; } = false;
+    private bool ShowRoomPopup { get; set; }
 
-    private bool ShowFloorPopup { get; set; } = false;
+    private bool ShowFloorPopup { get; set; }
 
     //RoomForm
     private int FloorId { get; set; }
@@ -207,7 +207,7 @@
     {
         var floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(location.Id)).ToList();
         location.Floors = floors;
-        location.Floors.ForEach(floor => //TODO: U confused yet?
+        location.Floors.ForEach(floor => //TODO: U confused yet? :)
             floor.Rooms = floors.Find(confused => 
                 confused.Id == floor.Id)?.Rooms);
     }

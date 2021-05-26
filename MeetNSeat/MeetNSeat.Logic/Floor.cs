@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MeetNSeat.Dal;
 using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
@@ -31,9 +32,9 @@ namespace MeetNSeat.Logic
             Id = floorDto.Id;
             Name = floorDto.Name;
             LocationId = floorDto.LocationId;
-            if (floorDto.Rooms == null) return;
-            foreach (var room in floorDto.Rooms)
-                Rooms.Add(new Room(room));
+            floorDto.Rooms?.ForEach(room => {
+                if (room != null) Rooms.Add(new Room(room));
+            });
         }
 
         public FloorDto ConvertToDto()

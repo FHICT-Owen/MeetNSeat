@@ -33,7 +33,7 @@ namespace MeetNSeat.Tests
         public void Test3()
         {
             var s = new Location();
-            s.GetAllRoomsAndFloorByLocationId(1);
+            s.GetAllRoomsAndFloorByLocationId(21);
         }
         
         [TestMethod]

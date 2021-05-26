@@ -11,7 +11,7 @@ namespace MeetNSeat.Client.Models
 		public DateTime CreatedOn { get; set; }
 		public bool IsResolved { get; set; }
 
-        public IssueModel(string description, int roomId,string userId)
+		public IssueModel(string description, int roomId,string userId)
 		{
 			Description = description;
 			RoomId = roomId;

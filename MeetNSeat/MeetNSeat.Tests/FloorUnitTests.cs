@@ -11,7 +11,7 @@ namespace MeetNSeat.Tests
         public void Test()
         {
             var output = new FloorDal();
-            output.GetAllRoomsAndFloorByLocationId(1);
+            output.GetAllRoomsAndFloorByLocationId(21);
         }
         
         [TestMethod]
