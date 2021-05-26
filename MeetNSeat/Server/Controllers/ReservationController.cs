@@ -1,5 +1,4 @@
-﻿using MeetNSeat.Server.Models;
-using MeetNSeat.Logic.Interfaces;
+﻿using MeetNSeat.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeetNSeat.Server.Controllers

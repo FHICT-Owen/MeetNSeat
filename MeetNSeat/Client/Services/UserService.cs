@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -37,15 +36,8 @@ namespace MeetNSeat.Client.Services
         {
             using var client = new HttpClient();
             var msg = await client.PutAsJsonAsync("https://localhost:5001/api/reservation/", reservation);
-            if (msg.IsSuccessStatusCode)
-            {
-                return "Your reservation has been edit";
-            }
-            else
-            {
-                return "Something went wrong :( Please try again later";
-            }
-
+            if (msg.IsSuccessStatusCode) return "Your reservation has been edit";
+            return "Something went wrong :( Please try again later";
         }
     }
 }

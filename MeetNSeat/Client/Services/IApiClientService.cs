@@ -5,6 +5,6 @@ namespace MeetNSeat.Client.Services
 {
     public interface IApiClientService
     {
-        Task<IpAddress> GetUserIPAsync();
+        Task<IpAddress> GetUserIpAsync();
     }
 }

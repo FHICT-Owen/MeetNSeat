@@ -7,16 +7,16 @@ namespace MeetNSeat.Client.Services
 {
     public class ApiClientService : IApiClientService
     {
-        private readonly IHttpClientFactory httpClientFactory;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         public ApiClientService(IHttpClientFactory httpClientFactory)
         {
-            this.httpClientFactory = httpClientFactory;
+            _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IpAddress> GetUserIPAsync()
+        public async Task<IpAddress> GetUserIpAsync()
         {
-            var client = httpClientFactory.CreateClient("IP");
+            var client = _httpClientFactory.CreateClient("IP");
             return await client.GetFromJsonAsync<IpAddress>("/");
         }
     }

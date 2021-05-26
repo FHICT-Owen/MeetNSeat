@@ -106,7 +106,7 @@
 
     private async Task ConfirmReservation(ReservationModel reservation)
     {
-        var ip = await _apiClientService.GetUserIPAsync();
+        var ip = await _apiClientService.GetUserIpAsync();
         await UserService.ConfirmReservation(reservation.Id, ip.Ip);
     }
 
