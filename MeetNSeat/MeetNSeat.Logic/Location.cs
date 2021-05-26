@@ -68,7 +68,7 @@ namespace MeetNSeat.Logic
         
         
         
-        public IReadOnlyCollection<RoomDto> GetAvailableRooms(string type, int locationId)
+        public IReadOnlyCollection<RoomDto> GetAllRoomsWithType(string type, int locationId)
         {
             List<RoomDto> rooms = new List<RoomDto>();
 

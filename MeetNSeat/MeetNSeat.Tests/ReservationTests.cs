@@ -30,32 +30,63 @@ namespace MeetNSeat.Tests
         }
 
         [TestMethod]
-        public void CreateMultipleReservation()
+        public void ReservationStartDateTimeInPastShouldBeFalse()
         {
             var u = new User();
-
-            // If reservation has been made in the past
-
-            // If a room available with that many spots
-
+            var actual = u.AddReservation("Conference", 1, "108105466526811947195", 12, 
+                Convert.ToDateTime("2000-01-01T00:00"),
+                Convert.ToDateTime("3000-01-01T00:00"));
             
+            Assert.IsFalse(actual);
         }
-
-        //foreach (var room in rooms)
-        //{
-        //    if (attendees<room.Spots)
-        //    {
-        //        foreach (var dbReservation in dbReservations)
-        //        {
-        //            if (dbReservation.RoomId == room.Id &&
-        //                dbReservation.StartTime<startTime && startTime<dbReservation.EndTime ||
-        //                dbReservation.StartTime<endTime && endTime<dbReservation.EndTime ||
-        //                dbReservation.StartTime> startTime && endTime> dbReservation.EndTime)
-
-        //                isAvailable = false;
-        //        }
-        //        roomId = room.Id;
-        //    }
-        //}
+        
+        [TestMethod]
+        public void ReservationEndDateTimeInPastShouldBeFalse()
+        {
+            var u = new User();
+            
+            var actual = u.AddReservation("Conference", 1, "108105466526811947195", 12, 
+                Convert.ToDateTime("3000-01-01T00:00"),
+                Convert.ToDateTime("2000-01-01T00:00"));
+            
+            Assert.IsFalse(actual);
+        }
+        
+        // [TestMethod] TODO: maybe later?
+        // public void ReservationShouldNotHaveEnoughSpots()
+        // {
+        //     var u = new User();
+        //     
+        //     var actual = u.AddReservation("Conference", 1, "108105466526811947195", 12, 
+        //         Convert.ToDateTime("3000-01-01T00:00"),
+        //         Convert.ToDateTime("3000-01-01T00:00"));
+        //     
+        //     Assert.IsFalse(actual);
+        // }
+        
+        [TestMethod]
+        public void ReservationStartDateTimeShouldBeFalse()
+        {
+            var u = new User();
+            
+            var actual = u.AddReservation("Conference", 1, "108105466526811947195", 12, 
+                Convert.ToDateTime("3000-01-01T00:00"),
+                Convert.ToDateTime("2000-01-01T00:00"));
+            
+            Assert.IsFalse(actual);
+        }
+        
+        
+        // var span = new TimeSpan(0,0,0, 0, 0);
+        //
+        // var q = DateTime.Now + span;
+        
+        // res.start < start < res.end
+        // res.start < end < res.end
+        // start < res < end 
+        
+        // reservation.StartTime < startTime && startTime < reservation.EndTime ||
+        // reservation.StartTime < endTime && endTime < reservation.EndTime ||
+        // reservation.StartTime > startTime && endTime > reservation.EndTime) 
     }
 }

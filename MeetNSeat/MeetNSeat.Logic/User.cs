@@ -69,12 +69,12 @@ namespace MeetNSeat.Logic
             var isAvailable = true;
             // Retrieve rooms by type and location
             var locationObject = new Location();
-            var rooms = locationObject.GetAvailableRooms(type, Convert.ToInt32(locationId));
+            var rooms = locationObject.GetAllRoomsWithType(type, Convert.ToInt32(locationId));
             
             var roomId = 0;
 
             var reservationObject = new Reservation();
-            var dbReservations = reservationObject.GetAllReservations();
+            var reservations = reservationObject.GetAllReservations();
 
             //TODO: Check if any room is available on given date
             // Loop trough reservations with given room id
@@ -82,13 +82,13 @@ namespace MeetNSeat.Logic
 
             foreach (var room in rooms)
             {
-                if (attendees >= room.Spots) continue;
-
-                foreach (var dbReservation in dbReservations)
-                    if (dbReservation.RoomId == room.Id &&
-                        dbReservation.StartTime < startTime && startTime < dbReservation.EndTime ||
-                        dbReservation.StartTime < endTime && endTime < dbReservation.EndTime ||
-                        dbReservation.StartTime > startTime && endTime > dbReservation.EndTime) isAvailable = false;
+                if (attendees <= room.Spots)
+                    foreach (var reservation in reservations)
+                        if (reservation.RoomId == room.Id &&
+                            reservation.StartTime < startTime && startTime < reservation.EndTime ||
+                            reservation.StartTime < endTime && endTime < reservation.EndTime ||
+                            reservation.StartTime > startTime && endTime > reservation.EndTime) 
+                            isAvailable = false;
                     
                 roomId = room.Id;
             }
