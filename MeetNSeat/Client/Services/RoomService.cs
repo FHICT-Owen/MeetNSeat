@@ -11,7 +11,7 @@ namespace MeetNSeat.Client.Services
 		public static async Task<IEnumerable<RoomModel>> GetAllRooms()
 		{
 			using var client = new HttpClient();
-			return await client.GetFromJsonAsync<List<RoomModel>>("https://localhost:5001/api/user");
+			return await client.GetFromJsonAsync<List<RoomModel>>("https://localhost:5001/api/room");
 		}
 
         public static async Task AddRoom(RoomModel room)

@@ -16,6 +16,13 @@ namespace MeetNSeat.Server.Controllers
             _manageRoom = manageRoom;
         }
 
+        [HttpGet]
+        public ActionResult GetAllRooms()
+        {
+            var rooms = _manageRoom.GetAllRooms();
+            return Ok(rooms);
+        }
+
         [HttpPost]
         public void AddRoom([FromBody] RoomModel roomModel)
         {

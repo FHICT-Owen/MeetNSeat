@@ -1,4 +1,5 @@
-﻿using MeetNSeat.Logic.Interfaces;
+﻿using System;
+using MeetNSeat.Logic.Interfaces;
 using MeetNSeat.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,11 +16,11 @@ namespace MeetNSeat.Server.Controllers
             _manageUser = manageUser;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("users{id}")]
         public ActionResult GetAllReservations(string id)
         {
-            var user = _manageUser.GetReservationByUser(id);
-            return Ok(user);
+            var reservations = _manageUser.GetReservationByUser(id);
+            return Ok(reservations);
         }
         
         [HttpPost]
@@ -48,9 +49,10 @@ namespace MeetNSeat.Server.Controllers
         //    return Ok(locations);
         //}
 
-        [HttpGet("confirm")]
-        public ActionResult ConfirmReservation([FromBody] int id, string ip)
+        [HttpPost("confirm{id}")]
+        public ActionResult ConfirmReservation(int id, [FromBody] string ip)
         {
+            Console.WriteLine(id +" "+ip);
             var confirmed = _manageUser.ConfirmReservation(id, ip);
             if (confirmed)
             {

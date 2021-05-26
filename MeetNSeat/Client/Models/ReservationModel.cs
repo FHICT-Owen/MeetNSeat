@@ -17,6 +17,11 @@ namespace MeetNSeat.Client.Models
         public DateTime IsConfirmed { get; set; }
         public DateTime DeletedAt { get; set; }
 
+        public ReservationModel()
+        {
+            
+        }
+
         public ReservationModel(int id, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed, DateTime deletedAt)
         {
             Id = id;

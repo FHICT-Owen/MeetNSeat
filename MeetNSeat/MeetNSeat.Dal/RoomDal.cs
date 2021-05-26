@@ -22,14 +22,10 @@ namespace MeetNSeat.Dal
             return output;
         }
         
-        public List<RoomDto> GetAllRooms(int floorId)
+        public List<RoomDto> GetAllRooms()
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-
-            DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@FloorId", floorId);
-
-            var output = connection.Query<RoomDto>("dbo.GetAllRooms @FloorId", parameters).ToList();
+            var output = connection.Query<RoomDto>("dbo.GetAllRooms").ToList();
             return output;
         }
 

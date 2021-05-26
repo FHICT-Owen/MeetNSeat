@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -11,13 +12,13 @@ namespace MeetNSeat.Client.Services
         public static async Task<IEnumerable<ReservationModel>> GetAllReservations(string userId)
         {
             using var client = new HttpClient();
-            return await client.GetFromJsonAsync<List<ReservationModel>>("https://localhost:5001/api/user/" + userId);
+            return await client.GetFromJsonAsync<List<ReservationModel>>("https://localhost:5001/api/user/users" + userId);
         }
 
-        public static async Task<bool> ConfirmReservation(int id, IpAddress address)
+        public static async Task<bool> ConfirmReservation(int id, string address)
         {
             var client = new HttpClient();
-            var response = await client.PostAsJsonAsync("https://localhost:5001/api/user/confirm", new ConfirmationModel(id, address.Ip));
+            var response = await client.PostAsJsonAsync("https://localhost:5001/api/user/confirm"+id,address);
             return response.IsSuccessStatusCode;
         }
 

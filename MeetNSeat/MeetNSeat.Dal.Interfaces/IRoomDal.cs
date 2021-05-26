@@ -7,8 +7,7 @@ namespace MeetNSeat.Dal.Interfaces
     {
         List<RoomDto> GetAllRoomsByType(string type, int locationId);
         void AddRoom(RoomDto room);
-        List<RoomDto> GetAllRooms(int floorId);
+        List<RoomDto> GetAllRooms();
         public IReadOnlyCollection<RoomDto> GetAllRoomTypes();
-
     }
 }

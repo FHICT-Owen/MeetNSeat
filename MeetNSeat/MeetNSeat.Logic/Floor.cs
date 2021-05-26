@@ -48,9 +48,11 @@ namespace MeetNSeat.Logic
             _dal.AddRoom(room.ConvertToDto());
         }
 
-        public IReadOnlyCollection<Room> GetAllIssues()
+        public IReadOnlyCollection<Room> GetAllRooms()
         {
-            throw new System.NotImplementedException();
+            var rooms = new List<Room>();
+            _dal.GetAllRooms().ForEach(res => rooms.Add(new Room(res)));
+            return rooms.AsReadOnly();
         }
     }
 }
