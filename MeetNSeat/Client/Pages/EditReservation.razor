@@ -1,10 +1,13 @@
 ﻿@*TODO: Get id*@
 @page "/editreservation"
-@inject ISessionStorageService _sessionStorage
+@attribute [Authorize]
+
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Client.Models
 @using Blazored.SessionStorage
-@attribute [Authorize]
+
+@inject ISessionStorageService _sessionStorage
+@inject NavigationManager _nav
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -32,7 +35,7 @@
 </main>
 @code
 {
-    private ReservationModel _model = new ();
+    private ReservationModel _model = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -43,5 +46,6 @@
     {
         await UserService.EditReservation(_model);
         await _sessionStorage.RemoveItemAsync("reservation");
+        _nav.NavigateTo("dashboard");
     }
 }
