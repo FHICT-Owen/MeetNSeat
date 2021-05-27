@@ -39,7 +39,7 @@ namespace MeetNSeat.Dal
         public void AddRoom(RoomDto roomDto)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-            connection.Execute("dbo.InsertRoom @FloorId, @Name, @Type, @Spots, @Facilities", roomDto);
+            connection.Execute("dbo.InsertRoom @FloorId, @Name, @RoomType, @Spots, @Facilities", roomDto);
         }
         
         public void DeleteRoomById(int id)

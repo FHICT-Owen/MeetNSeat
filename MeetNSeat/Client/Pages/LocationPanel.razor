@@ -74,7 +74,14 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h3 class="modal-title">Edit location</h3>
+                                @if (!IsEditing)
+                                {
+                                    <h3 class="modal-title">Add location</h3>
+                                }
+                                else
+                                {
+                                    <h3 class="modal-title">Update location</h3>
+                                }
                                 <button type="button" class="close" @onclick="() => ToggleEditLocation(0, false)">
                                     <span aria-hidden="true">X</span>
                                 </button>
@@ -109,7 +116,14 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 class="modal-title">Add floor</h3>
+                            @if (!IsEditing)
+                            {
+                                <h3 class="modal-title">Add floor</h3>
+                            }
+                            else
+                            {
+                                <h3 class="modal-title">Update or delete floor</h3>
+                            }
                             <button type="button" class="close" @onclick="() => ToggleEditFloor(0, 0, false)">
                                 <span aria-hidden="true">X</span>
                             </button>
@@ -138,7 +152,14 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 class="modal-title">Add room</h3>
+                            @if (!IsEditing)
+                            {
+                                <h3 class="modal-title">Add room</h3>
+                            }
+                            else
+                            {
+                                <h3 class="modal-title">Update or delete room</h3>
+                            }
                             <button type="button" class="close"
                                     @onclick="CloseRoomPopup">
                                 <span aria-hidden="true">X</span>
