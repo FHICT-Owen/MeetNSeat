@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
 using MeetNSeat.Dal.Interfaces.Dtos;
@@ -57,6 +58,38 @@ namespace MeetNSeat.Logic
         public List<ManageReservationDto> GetAllReservations()
         {
             return dal.GetAllReservations();
+        }
+
+        public bool EditReservation(Reservation reservation)
+        {
+            var user = Authentication.Instance.GetAllUsers().SingleOrDefault(res => res.Id == reservation.UserId);
+            var result = user?.GetAllReservations().SingleOrDefault(res => res.ReservationId == reservation.ReservationId);
+            var Locations = LocationCollection.Instance.GetAllLocations();
+            var reservations = GetAllReservations();
+            var targetRoom = new Room();
+            foreach (var location in Locations)
+            {
+                var floors = location.GetAllFloors();
+                foreach (var floor in floors)
+                {
+                    var room = floor.GetAllRooms().SingleOrDefault(res => res.Id == reservation.RoomId);
+                    if (room == null) return false;
+                    targetRoom = room;
+                }
+            }
+            if (result == null) return false;
+            if (reservation.Attendees <= targetRoom.Spots)
+                foreach (var res in reservations)
+                    if (res.RoomId == targetRoom.Id &&
+                        res.StartTime < reservation.StartTime && reservation.StartTime < res.EndTime ||
+                        res.StartTime < reservation.EndTime && reservation.EndTime < res.EndTime ||
+                        res.StartTime > reservation.StartTime && reservation.EndTime > res.EndTime)
+                    {
+                        result.Attendees = reservation.Attendees;
+                        result.StartTime = reservation.StartTime;
+                        result.EndTime = reservation.EndTime;
+                    }
+            return dal.UpdateReservation(result.ConvertToDto());
         }
 
         public void ConfirmReservation(int id)

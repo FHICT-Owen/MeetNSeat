@@ -7,12 +7,30 @@ namespace MeetNSeat.Logic
 {
     public class Authentication : IManageAuthentication
     {
-        private readonly List<User> _users = new List<User>();
+        private static Authentication _instance;
+        private static readonly object Padlock = new();
+        private readonly List<User> _users = new ();
         private readonly IUserDal _dal;
         
         public Authentication()
         {
             _dal = UserFactory.CreateUserDal();
+        }
+
+        public static Authentication Instance
+        {
+            get
+            {
+                lock (Padlock)
+                {
+                    // ReSharper disable once ConvertIfStatementToNullCoalescingExpression
+                    if (_instance == null)
+                    {
+                        _instance = new Authentication();
+                    }
+                    return _instance;
+                }
+            }
         }
         
         public List<User> GetAllUsers() 
