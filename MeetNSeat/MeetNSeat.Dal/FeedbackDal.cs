@@ -35,7 +35,7 @@ namespace MeetNSeat.Dal
             
             var parameter = new DynamicParameters();
             parameter.Add("@Id", id);
-            
+
             var feedbackDto = connection.Query<FeedbackDto>("dbo.GetFeedbackById @Id", parameter).First();
             return feedbackDto;
         }

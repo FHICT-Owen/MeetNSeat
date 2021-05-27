@@ -36,9 +36,17 @@ namespace MeetNSeat.Logic
         {
             FeedbackDal feedbackDal = new FeedbackDal();
             List<FeedbackDto> feedbackDto = new List<FeedbackDto>();
-            _dalReservationDal.GetReservationByUser(userId).ForEach(r =>
-               feedbackDto.Add(feedbackDal.GetFeedbackDtoById(r.FeedbackId))
-           );
+
+            foreach (var r in _dalReservationDal.GetReservationByUser((userId)))
+            {
+                if (feedbackDal.GetFeedbackDtoById(r.FeedbackId) != null)
+                {
+                    feedbackDto.Add(feedbackDal.GetFeedbackDtoById(r.FeedbackId));
+                }
+            }
+            
+            
+            //_dalReservationDal.GetReservationByUser(userId).ForEach(r => feedbackDto.Add(feedbackDal.GetFeedbackDtoById(r.FeedbackId)));
             return feedbackDto;
         }
     }
