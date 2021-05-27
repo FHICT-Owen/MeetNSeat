@@ -106,7 +106,8 @@ namespace MeetNSeat.Logic
         }
         public bool EditReservation(Reservation reservation)
         {
-            _reservations.Add(reservation);
+            var result = _reservations.SingleOrDefault(res => res.ReservationId == reservation.ReservationId);
+            result?.EditReservation(reservation);
             return _dal.UpdateReservation(reservation.ConvertToDto());
         }
 
