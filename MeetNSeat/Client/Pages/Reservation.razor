@@ -36,11 +36,13 @@
 
                 <label for="Attendees" class="form-label m-1 pt-2">Attendees</label>
                 <input type="number" class="form-control" @bind="@Attendees" id="Attendees" placeholder="Attendees">
-                
-                <input class="mt-3" type="datetime-local" @bind="@StartDate" @bind:format="yyyy-MM-ddTHH:mm">
-                <input class="mt-3" type="datetime-local" @bind="@EndDate" @bind:format="yyyy-MM-ddTHH:mm">
+
+                <label for="StartDate" class="form-label m-1 pt-2">Start</label><br/>
+                <input class="mt-3" type="datetime-local" @bind="@StartDate" @bind:format="yyyy-MM-ddTHH:mm"><br/>
+                <label for="EndDate" class="form-label m-1 pt-2">End</label><br/>
+                <input class="mt-3" type="datetime-local" @bind="@EndDate" @bind:format="yyyy-MM-ddTHH:mm"><br/>
             </div>
-            <button @onclick="AddReservation" type="button" disabled="@IsDisabled" class="btn btn-primary">Maak reservering</button>
+            <button @onclick="AddReservation" type="button" disabled="@IsDisabled" class="btn btn-primary">Plan reservation</button>
         </form>
     </div>
 </main>
@@ -66,14 +68,14 @@
     protected override async Task OnInitializedAsync()
     {
         Locations = (await LocationService.GetAllLocations()).ToList();
-        Rooms = (await UserService.GetAllRoomTypes()).ToList();
+        Rooms = (await RoomService.GetAllRoomTypes()).ToList();
     }
 
     private async Task AddReservation()
     {
         // Location, Room type, attendees, Starttime, endtime,userid
-        int locationId = Convert.ToInt32(Location);
-        int attendees = Convert.ToInt32(Attendees);
+        var locationId = Convert.ToInt32(Location);
+        var attendees = Convert.ToInt32(Attendees);
         Console.WriteLine(Location);
         var userId = await _sessionStorage.GetItemAsync<string>("userId");
         await UserService.CreateReservation(new ReservationModel(locationId, Type, userId, attendees, StartDate, EndDate));

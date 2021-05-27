@@ -11,8 +11,9 @@
 
         public RoomDto() { }
 
-        public RoomDto(int floorId, string name, string type, int spots, string facilities)
+        public RoomDto(int id, int floorId, string name, string type, int spots, string facilities)
         {
+            Id = id;
             FloorId = floorId;
             Name = name;
             Type = type;

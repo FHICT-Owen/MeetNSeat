@@ -5,9 +5,11 @@ namespace MeetNSeat.Dal.Interfaces
 {
     public interface IRoomDal
     {
-        List<RoomDto> GetAllRoomsByType(string type, int locationId);
-        void AddRoom(RoomDto room);
         List<RoomDto> GetAllRooms();
         public IReadOnlyCollection<RoomDto> GetAllRoomTypes();
+        List<RoomDto> GetAllRoomsByType(string type, int locationId);
+        void AddRoom(RoomDto room);
+        void DeleteRoomById(int id);
+        void Update(RoomDto roomDto);
     }
 }
