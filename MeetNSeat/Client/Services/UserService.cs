@@ -14,6 +14,12 @@ namespace MeetNSeat.Client.Services
             return await client.GetFromJsonAsync<List<ReservationModel>>("https://localhost:5001/api/user/users" + userId);
         }
 
+        public static async Task<IEnumerable<UserModel>> GetAllUsers()
+        {
+            using var client = new HttpClient();
+            return await client.GetFromJsonAsync<List<UserModel>>("https://localhost:5001/api/user/");
+        }
+
         public static async Task<bool> ConfirmReservation(int id, string address)
         {
             var client = new HttpClient();

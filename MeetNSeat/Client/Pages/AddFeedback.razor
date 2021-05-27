@@ -12,6 +12,19 @@
         <p>@Msg</p>
         <form>
             <div class="form-group">
+                <label for="selecteduser">Select a user</label>
+                <select class="form-control" @bind="UserId" @bind:event="oninput" id="selecteduser">
+                    <option>Select a user...</option>
+                    @if (Users.Any())
+                    {
+                        @foreach (var u in Users)
+                        {
+                            <option value="@u.Id">@u.Nickname</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="feedback">Feedback</label>
                 <input type="text" @bind="Description" @bind:event="oninput" class="form-control" id="feedback" placeholder="Feedback">
             </div>
@@ -23,22 +36,27 @@
                     <option value="3">:)</option>
                 </select>
             </div>
+
             <button @onclick="AddNewFeedback" type="button" class="btn btn-primary">Submit your feedback</button>
         </form>
     </div>
 </main>
 
 @code {
+    public List<UserModel> Users { get; set; } = new List<UserModel>();
+    private static string UserId { get; set; } = null;
     private static string Description { get; set; } = null;
     private static int? FeedbackState { get; set; } = null;
     private static string Msg { get; set; }
+
     private async Task AddNewFeedback()
     {
-        var userId = await _sessionStorage.GetItemAsync<string>("userId");
-        Msg = await FeedbackService.AddFeedback(new FeedbackModel(Description, FeedbackState));
+        Msg = await FeedbackService.AddFeedback(new FeedbackModel(UserId, Description, FeedbackState));
     }
-    protected override void OnInitialized()
+
+    protected override async Task OnInitializedAsync()
     {
+        Users = (await UserService.GetAllUsers()).ToList();
         Msg = Msg;
     }
 }

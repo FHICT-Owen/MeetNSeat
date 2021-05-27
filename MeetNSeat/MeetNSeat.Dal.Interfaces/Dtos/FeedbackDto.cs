@@ -3,6 +3,8 @@
     public class FeedbackDto
     {
         public int Id { get; set; }
+        public string UserId { get; set; }
+
         #nullable enable
         public string? Description { get; set; }
         public int? FeedbackState { get; set; }
@@ -14,9 +16,11 @@
             Description = description;
             FeedbackState = feedbackState;
         }
-        public FeedbackDto(int id, string description, int? feedbackState)
+        
+        public FeedbackDto(int id, string userId, string? description, int? feedbackState)
         {
             Id = id;
+            UserId = userId;
             Description = description;
             FeedbackState = feedbackState;
         }

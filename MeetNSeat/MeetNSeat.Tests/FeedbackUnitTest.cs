@@ -33,13 +33,13 @@ namespace MeetNSeat.Tests
             Assert.IsTrue(result, "Success InsertFeedbackTest");
         }
 
-        [TestMethod]
-        public void UpdateFeedback()
-        {
-            FeedbackDto feedbackDto = new FeedbackDto(3,"This is the description", 2);
-            bool result = feedbackDal.UpdateFeedback(feedbackDto);
-            Assert.IsTrue(result, "Success");
-        }
+        //[TestMethod]
+        //public void UpdateFeedback()
+        //{
+        //    FeedbackDto feedbackDto = new FeedbackDto(3,"This is the description", 2);
+        //    bool result = feedbackDal.UpdateFeedback(feedbackDto);
+        //    Assert.IsTrue(result, "Success");
+        //}
 
         [TestMethod]
         public void DeleteFeedbackTest()

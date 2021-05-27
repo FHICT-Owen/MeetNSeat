@@ -15,5 +15,14 @@ namespace MeetNSeat.Tests
             var newUser = new User("KOEK", "AAP", 0);
             _manageAuthentication.AddUserIfNonExistent(newUser);
         }
+
+        [TestMethod]
+        public void GetAllUsers()
+        {
+            var newUser = new User("KOEK", "AAP", 0);
+            
+        }
+
+
     }
 }

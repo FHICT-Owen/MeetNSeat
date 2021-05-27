@@ -3,6 +3,7 @@
     public class FeedbackModel
     {
         public int Id { get; set; }
+        public string UserId { get; set; }
 
         #nullable enable
         public string? Description { get; set; }
@@ -10,8 +11,9 @@
         public int? FeedbackState { get; set; }
 
 
-        public FeedbackModel(string? description, int? feedbackState)
+        public FeedbackModel(string userId, string? description, int? feedbackState)
         {
+            UserId = userId;
             Description = description;
             FeedbackState = feedbackState;
         }

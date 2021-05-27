@@ -35,9 +35,13 @@ namespace MeetNSeat.Dal
             
             var parameter = new DynamicParameters();
             parameter.Add("@Id", id);
+            if (connection.Query<FeedbackDto>("dbo.GetFeedbackById @Id", parameter).FirstOrDefault() != null)
+            {
+                var feedbackDto = connection.Query<FeedbackDto>("dbo.GetFeedbackById @Id", parameter).FirstOrDefault();
+                return feedbackDto;
+            }
 
-            var feedbackDto = connection.Query<FeedbackDto>("dbo.GetFeedbackById @Id", parameter).First();
-            return feedbackDto;
+            return null;
         }
         
         public bool InsertFeedback(FeedbackDto feedbackDto)
@@ -47,8 +51,9 @@ namespace MeetNSeat.Dal
             DynamicParameters parameter = new DynamicParameters();
             parameter.Add("@Description", feedbackDto.Description);
             parameter.Add("@FeedbackState", feedbackDto.FeedbackState);
+            parameter.Add("@UserId", feedbackDto.UserId);
             //TODO: 
-            var result  = connection.Execute("dbo.InsertFeedback @Description, @FeedbackState", feedbackDto);
+            var result  = connection.Execute("dbo.InsertFeedback @Description, @FeedbackState, @UserId", parameter);
             if (result > 0) return true;
             return false;
         }

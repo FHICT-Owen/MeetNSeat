@@ -21,6 +21,8 @@ namespace MeetNSeat.Logic
         public string Nickname { get; set; }
         public Role Role { get; set; }
         private readonly List<Reservation> _reservations = new List<Reservation>();
+        private readonly List<User> _users = new List<User>();
+
         private readonly IReservationDal _dal;
 
         public User(UserDto userDto)
@@ -50,6 +52,8 @@ namespace MeetNSeat.Logic
                 dto => _reservations.Add(new Reservation(dto)));
             return _reservations.AsReadOnly();
         }
+
+       
 
         public IReadOnlyCollection<Room> GetAllRoomTypes()
         {
@@ -125,5 +129,7 @@ namespace MeetNSeat.Logic
         {
             return new UserDto(Id, Nickname, (int)Role);
         }
+
+        
     }
 }

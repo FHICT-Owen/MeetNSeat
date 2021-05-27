@@ -10,10 +10,12 @@ namespace MeetNSeat.Server.Controllers
     public class UserController : ControllerBase
     {
         private readonly IManageUser _manageUser;
+        private readonly IManageAuthentication _manageAuthentication;
 
-        public UserController(IManageUser manageUser)
+        public UserController(IManageUser manageUser, IManageAuthentication manageAuthentication)
         {
             _manageUser = manageUser;
+            _manageAuthentication = manageAuthentication;
         }
 
         [HttpGet("users{id}")]
@@ -22,7 +24,14 @@ namespace MeetNSeat.Server.Controllers
             var reservations = _manageUser.GetReservationByUser(id);
             return Ok(reservations);
         }
-        
+
+        [HttpGet]
+        public ActionResult GetAllUsers()
+        {
+            var users = _manageAuthentication.GetAllUsers();
+            return Ok(users);
+        }
+
         [HttpPost]
         public void CreateReservation([FromBody] ReservationModel reservationModel)
         {

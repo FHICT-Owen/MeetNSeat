@@ -25,7 +25,7 @@ namespace MeetNSeat.Server.Controllers
         [HttpPost]
         public void AddFeedback([FromBody] FeedbackModel feedbackModel)
         {
-            var newFeedback = new Feedback(feedbackModel.Description, feedbackModel.FeedbackState);
+            var newFeedback = new Feedback(feedbackModel.Description, feedbackModel.FeedbackState, feedbackModel.UserId);
             _manageFeedback.AddFeedback(newFeedback);
         }
     }
