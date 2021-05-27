@@ -16,9 +16,27 @@
                 Characters : @Description.Length / 1000
             </div>
             <div class="mb-3">
-                <label for="room" class="form-label">Room</label>
+                <label for="Location" class="form-label m-1 pt-2">Location</label>
+                <select class="form-control" @bind="Location" aria-label="Default select example">
+                    <option placeholder="Select a location here">Select a location</option>
+                    @if (Locations.Any())
+                    {
+                        @foreach (var location in Locations)
+                        {
+                            <option value="@location.Id">@location.Name, @location.City</option>
+                        }
+                    }
+                </select>
+                <label for="Room" class="form-label">Room</label>
                 <select class="form-control" @bind="Room" @bind:event="oninput" aria-label="Default select example">
                     <option placeholder="Select a location here">Select a room</option>
+                    @if (Rooms.Any())
+                    {
+                        @foreach (var room in Rooms)
+                        {
+                            <option value="@room.Id">@room.Name</option>
+                        }
+                    }
                     <option value="1">Kamer 1</option>
                     <option value="2">Kamer 2</option>
                     <option value="3">Kamer 3</option>
@@ -32,11 +50,22 @@
 @{ IsDisabled = Description.Length <= 0; }
 
 @code {
+    private string Location { get; set; }
+    
 	private static string Description { get; set; } = string.Empty;
 
     private int Room { get; set; }
     
     private bool IsDisabled { get; set; } = true;
+    
+    List<LocationModel> Locations { get; set; }  = new();
+    List<RoomModel> Rooms { get; set; } = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Locations = (await LocationService.GetAllLocations()).ToList();
+        // Rooms = (await RoomService.GetAllRoomTypes()).ToList();
+    }
 
     private async Task AddIssue()
     {

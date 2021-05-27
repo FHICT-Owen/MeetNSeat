@@ -30,9 +30,9 @@ namespace MeetNSeat.Dal
 
             var parameters = new DynamicParameters();
             parameters.Add("@FloorId", floorId);
-            parameters.Add("@Type", type);
+            parameters.Add("@RoomType", type);
 
-            var output = connection.Query<RoomDto>("dbo.GetAllRoomsByType @Type, @FloorId", parameters).ToList();
+            var output = connection.Query<RoomDto>("dbo.GetAllRoomsByType @RoomType, @FloorId", parameters).ToList();
             return output;
         }
         
