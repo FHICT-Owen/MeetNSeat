@@ -18,21 +18,22 @@
             <form>
                 <div class="form-group mx-sm-3 mb-3">
                     <label for="attendees">Attendees</label>
-                    <input type="text" readonly class="form-control-plaintext" @bind="@_model.Attendees" @bind:event="oninput">
+                    <input type="text" class="form-control-plaintext" @bind="@_model.Attendees">
                 </div>
                 <div class="form-group mx-sm-3 mb-3">
                     <label for="starttime">Start Time</label>
-                    <input type="datetime" class="form-control" id="starttime" @bind="@_model.StartTime" @bind:event="oninput">
+                    <input type="datetime" class="form-control" id="starttime" @bind="@_model.StartTime">
                 </div>
                 <div class="form-group mx-sm-3 mb-3">
                     <label for="endtime">End Time</label>
-                    <input type="datetime" class="form-control" id="endtime" @bind="@_model.EndTime" @bind:event="oninput">
+                    <input type="datetime" class="form-control" id="endtime" @bind="@_model.EndTime">
                 </div>
-                <button @onclick="EditReservations" type="submit" class="btn btn-primary mb-2">Confirm Change</button>
+                <button @onclick="EditReservations" type="button" class="btn btn-primary mb-2">Confirm Change</button>
             </form>
         </div>
     </div>
 </main>
+
 @code
 {
     private ReservationModel _model = new();
