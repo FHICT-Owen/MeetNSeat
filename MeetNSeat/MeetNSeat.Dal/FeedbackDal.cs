@@ -29,15 +29,15 @@ namespace MeetNSeat.Dal
             return false;
         }
         
-        public FeedbackDto GetFeedbackDtoById(int id)
+        public List<FeedbackDto> GetFeedbackDtoByUserId(string userId)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             
             var parameter = new DynamicParameters();
-            parameter.Add("@Id", id);
-            if (connection.Query<FeedbackDto>("dbo.GetFeedbackById @Id", parameter).FirstOrDefault() != null)
+            parameter.Add("@UserId", userId);
+            if (connection.Query<FeedbackDto>("dbo.GetFeedbackByUser @UserId", parameter).FirstOrDefault() != null)
             {
-                var feedbackDto = connection.Query<FeedbackDto>("dbo.GetFeedbackById @Id", parameter).FirstOrDefault();
+                var feedbackDto = connection.Query<FeedbackDto>("dbo.GetFeedbackByUser @UserId", parameter).ToList();
                 return feedbackDto;
             }
 

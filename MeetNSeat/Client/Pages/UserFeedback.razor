@@ -40,6 +40,6 @@
     protected override async Task OnInitializedAsync()
     {
         UserId = await _sessionStorage.GetItemAsync<string>("userId");
-        Feedback = (await FeedbackService.GetAllFeedback(UserId)).ToList();
+        Feedback = (await FeedbackService.GetAllFeedbackByUserId(UserId)).ToList();
     }
 }
