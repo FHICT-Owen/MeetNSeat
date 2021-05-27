@@ -27,5 +27,17 @@ namespace MeetNSeat.Server.Controllers
         {
             _manageRoom.AddRoom(roomModel.FloorId, roomModel.Name, roomModel.Type, roomModel.Spots, roomModel.Facilities);
         }
+        
+        [HttpDelete("{id:int}")]
+        public void DeleteRoom(int id)
+        {
+            _manageRoom.DeleteRoom(id);
+        }
+        
+        [HttpPut]
+        public void UpdateRoom([FromBody] RoomModel roomModel)
+        {
+            _manageRoom.UpdateRoom(roomModel.Id, roomModel.Name, roomModel.Type, roomModel.Spots, roomModel.Facilities);
+        }
     }
 }

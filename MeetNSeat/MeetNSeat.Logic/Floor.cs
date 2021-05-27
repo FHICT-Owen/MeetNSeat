@@ -9,6 +9,7 @@ namespace MeetNSeat.Logic
     public class Floor : IManageRoom
     {
         private readonly IRoomDal _dal;
+        private readonly List<Room> _rooms;
         public int Id { get; set; }
         public string Name { get; set; }
         public int LocationId { get; set; }
@@ -45,6 +46,18 @@ namespace MeetNSeat.Logic
             var room = new Room(floorId, name, spots, type, facilities);
             Rooms.Add(room);
             _dal.AddRoom(room.ConvertToDto());
+        }
+        
+        public void DeleteRoom(int id)
+        {
+            Rooms.Remove(Rooms.Find(issue => issue.Id == id));
+            _dal.DeleteRoomById(id);
+        }
+        
+        public void UpdateRoom(int id, string name, string type, int spots, string facilities)
+        {
+            _rooms.Find(room => room.Id == id)?
+                .Update(id, name, spots, type, facilities);
         }
 
         public IReadOnlyCollection<Room> GetAllRooms()

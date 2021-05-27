@@ -20,13 +20,7 @@ namespace MeetNSeat.Client.Services
             var response = await client.PostAsJsonAsync("https://localhost:5001/api/user/confirm"+id,address);
             return response.IsSuccessStatusCode;
         }
-
-        public static async Task<IEnumerable<RoomModel>> GetAllRoomTypes()
-        {
-            using var client = new HttpClient();
-            return await client.GetFromJsonAsync<List<RoomModel>>("https://localhost:5001/api/user/types");
-        }
-        
+       
         public static async Task CreateReservation(ReservationModel reservation)
         {
             using var client = new HttpClient();

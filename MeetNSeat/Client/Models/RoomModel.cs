@@ -9,6 +9,18 @@
         public int Spots { get; set; }
         public string Facilities { get; set; }
 
+        public RoomModel() { }
+
+        public RoomModel(int id, int floorId, string name, string type, int spots, string facilities)
+        {
+            Id = id;
+            FloorId = floorId;
+            Name = name;
+            Type = type;
+            Spots = spots;
+            Facilities = facilities;
+        }
+
         public RoomModel(int floorId, string name, string type, int spots, string facilities)
         {
             FloorId = floorId;
