@@ -68,7 +68,7 @@
     protected override async Task OnInitializedAsync()
     {
         Locations = (await LocationService.GetAllLocations()).ToList();
-        Rooms = (await UserService.GetAllRoomTypes()).ToList();
+        Rooms = (await RoomService.GetAllRoomTypes()).ToList();
     }
 
     private async Task AddReservation()

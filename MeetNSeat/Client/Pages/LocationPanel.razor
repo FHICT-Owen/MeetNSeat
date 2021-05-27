@@ -1,6 +1,7 @@
 @page "/Locations"
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Client.Models
+@using Microsoft.Win32.SafeHandles
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
@@ -45,7 +46,7 @@
                                      <td style="font-style: italic" @onclick="() => ToggleEditFloor(location.Id, floor.Id, true)">Floor : @floor.Name</td>
                                      @foreach (var room in floor.Rooms)
                                      {
-                                         <td>@room.Name</td>
+                                         <td @onclick="() => ToggleEditRoom(location.Id, floor.Id, room.Id, true)">@room.Name</td>
                                      }
                                      <td style="margin: 0">
                                          <button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => AddNewRoom(floor.Id, location.Id)">+</button>
@@ -130,31 +131,42 @@
             </div>
         }
 
+        <!-- This is the room popup to edit or create rooms -->
         @if (ShowRoomPopup)
         {
-            <!-- This is the popup to create or edit a forecast -->
             <div class="modal" tabindex="-1" style="display:block" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h3 class="modal-title">Add room</h3>
-                            <!-- Button to close the popup -->
                             <button type="button" class="close"
                                     @onclick="CloseRoomPopup">
                                 <span aria-hidden="true">X</span>
                             </button>
                         </div>
-                        <!-- Add form for the current room -->
                         <div class="modal-body">
-                            <input class="form-control" type="text" placeholder="Room name" @bind="RoomName" @bind:event="oninput"/>
-                            <input class="form-control" type="text" placeholder="Type" @bind="Type" @bind:event="oninput"/>
-                            <input class="form-control" type="text" placeholder="Spots" @bind="Spots" @bind:event="oninput"/>
-                            <input class="form-control" type="text" placeholder="Facilities" @bind="Facilities" @bind:event="oninput"/>
-                            <br/>
-                            <!-- Button to save the room -->
-                            <button class="btn btn-primary" @onclick="AddRoomAsync">
-                                Add
-                            </button>
+                            
+                            <label class="form-label m-1 pt-2">Ip address</label>
+                            <input class="form-control" @bind="RoomName" @bind:event="oninput" placeholder="enter a room name ..."/>
+
+                            <label class="form-label m-1 pt-2">Ip address</label>
+                            <input class="form-control" @bind="Type" @bind:event="oninput" placeholder="enter the room type ..."/>
+
+                            <label class="form-label m-1 pt-2">Ip address</label>
+                            <input class="form-control" @bind="Spots" @bind:event="oninput" placeholder="enter amount of spots ..."/>
+
+                            <label class="form-label m-1 pt-2">Ip address</label>
+                            <input class="form-control" @bind="Facilities" @bind:event="oninput" placeholder="enter amount of facilities ..."/>
+                            
+                            @if (!IsEditing)
+                            {
+                                <button class="btn btn-primary mt-3" @onclick="AddRoomAsync">Add</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary mt-3" @onclick="UpdateRoom">Update</button>
+                                <button class="btn btn-danger mt-3" @onclick="DeleteRoom">Delete</button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -165,14 +177,18 @@
 
 
 @code {
+    
+    //Universal prop
+    private bool IsEditing { get; set; }
+
     //PopupProps
     private bool ShowLocationPopup { get; set; }
 
-    private bool ShowRoomPopup { get; set; }
-
     private bool ShowFloorPopup { get; set; }
     
-    //LocationForm
+    private bool ShowRoomPopup { get; set; }
+    
+    //LocationProps
     private int LocationId { get; set; }
 
     private string LocationName { get; set; }
@@ -182,15 +198,14 @@
     private string IpAddress { get; set; }
 
     List<LocationModel> Locations { get; set; } = new();
-
-    //?
-    private bool IsEditing { get; set; }
     
-    //FloorForm
+    //FloorProps
+    private int FloorId { get; set; } // shared with room
+    
     private string FloorName { get; set; }
-
-    //RoomForm
-    private int FloorId { get; set; }
+    
+    //RoomProps
+    private int RoomId { get; set; }
 
     private string RoomName { get; set; }
 
@@ -214,6 +229,16 @@
         IsEditing = isEditing;
         ShowFloorPopup = !ShowFloorPopup;
     }
+    
+    private void ToggleEditRoom(int locationId, int floorId, int roomId, bool isEditing)
+    {
+        LocationId = locationId;
+        FloorId = floorId;
+        RoomId = roomId;
+        IsEditing = isEditing;
+        ShowRoomPopup = !ShowRoomPopup;
+    }
+    
 
     void AddNewRoom(int floorId, int locationId)
     {
@@ -288,5 +313,17 @@
         await RoomService.AddRoom(new RoomModel(FloorId, RoomName, Type, Spots, Facilities));
         var floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(LocationId)).ToList();
         Locations.Find(location => location.Id == LocationId).Floors = floors; //TODO: works but idk not very epic
+    }
+    
+    private async Task DeleteRoom()
+    {
+        await RoomService.DeleteRoom(RoomId); //TODO: only works when no rooms have a constraint on floor
+        Locations = (await LocationService.GetAllLocations()).ToList();
+    }
+    
+    private async Task UpdateRoom()
+    {
+        await RoomService.UpdateRoom(new RoomModel(RoomId, FloorId, RoomName, Type, Spots, Facilities));
+        Locations = (await LocationService.GetAllLocations()).ToList();
     }
 }

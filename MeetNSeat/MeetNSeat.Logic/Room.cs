@@ -9,7 +9,7 @@ namespace MeetNSeat.Logic
     {
         private readonly IRoomDal _dal;
 
-        public int Id { get; }
+        public int Id { get; set; }
         public int FloorId { get; set; }
         public string Name { get; set; }
         public int Spots { get; set; }
@@ -57,7 +57,17 @@ namespace MeetNSeat.Logic
 
         public RoomDto ConvertToDto()
         {
-            return new(FloorId, Name, Type, Spots, Facilities);
+            return new(Id, FloorId, Name, Type, Spots, Facilities);
+        }
+
+        public void Update(int id, string name, int spots, string type, string facilities)
+        {
+            Id = id;
+            Name = name;
+            Spots = spots;
+            Type = type;
+            Facilities = facilities;
+            RoomFactory.CreateRoomDal().Update(ConvertToDto());
         }
     }
 }
