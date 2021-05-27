@@ -6,6 +6,7 @@
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <h2 class="pt-3 pb-2 mb-3 border-bottom">Locations</h2>
     <button class="btn btn-primary mt-3" @onclick="() => ToggleEditLocation(0, false)">Add location</button>
+    <br/>
     <div>
         <table class="table location-table">
             <thead>
@@ -29,8 +30,8 @@
                      <td>@location.City</td>
                      <td>@location.IpAddress</td>
                      <td style="max-width: 100px">
-                         <button class="btn btn-primary" @onclick="() => ToggleEditLocation(location.Id, true)">Edit location</button>
-                         <button class="btn btn-danger" @onclick="() => DeleteLocation(location.Id)">Delete location</button>
+                         <button class="btn btn-primary" style="margin: 5px;" @onclick="() => ToggleEditLocation(location.Id, true)">Edit location</button>
+                         <button class="btn btn-danger" style="margin: 5px;" @onclick="() => DeleteLocation(location.Id)">Delete location</button>
                      </td>
                 </tr>
                 @if (!location.IsCollapsed)
