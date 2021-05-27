@@ -74,8 +74,8 @@
     private async Task AddReservation()
     {
         // Location, Room type, attendees, Starttime, endtime,userid
-        int locationId = Convert.ToInt32(Location);
-        int attendees = Convert.ToInt32(Attendees);
+        var locationId = Convert.ToInt32(Location);
+        var attendees = Convert.ToInt32(Attendees);
         Console.WriteLine(Location);
         var userId = await _sessionStorage.GetItemAsync<string>("userId");
         await UserService.CreateReservation(new ReservationModel(locationId, Type, userId, attendees, StartDate, EndDate));

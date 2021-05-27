@@ -4,8 +4,9 @@
 @using MeetNSeat.Client.Models
 @using Blazored.SessionStorage
 
-@inject IApiClientService _apiClientService;
+@inject IApiClientService _apiClientService
 @inject ISessionStorageService _sessionStorage
+@inject NavigationManager _nav
 
 @attribute [Authorize]
 
@@ -16,6 +17,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th scope="col">Id</th>
                     <th scope="col">Time</th>
                     <th scope="col">Location</th>
                     <th scope="col">Room</th>
@@ -27,22 +29,26 @@
                 </tr>
             </thead>
             <tbody>
-                @if (UserReservations.Count > 0)
+               @if (UserReservations.Count > 0)
                 {
                     foreach (var reservation in UserReservations)
-                    {<tr>
-                        <td>@reservation.StartTime - @reservation.EndTime</td>
-                        <td>@GetLocation(reservation.RoomId).City</td>
-                        <td>@GetRoom(reservation.RoomId)</td>
-                        <td>@GetRoom(reservation.RoomId).Type</td>
-                        <td>@reservation.Attendees</td>
-                        <td>@reservation.CreatedOn</td>
-                        <td>@reservation.IsConfirmed</td>
-                        <td style="min-width: 100px">
-                            <button @onclick="() => ConfirmReservation(reservation)" type="button" class="btn btn-primary">Confirm</button>
-                            <button @onclick="() => DeleteReservation(reservation)" type="button" class="btn btn-danger">Cancel</button>
-                        </td>
-                    </tr>}
+                    {
+                        <tr>
+                             <td>@reservation.Id</td>
+                             <td>@reservation.StartTime - @reservation.EndTime</td>
+                             <td>@GetLocation(reservation.RoomId).City</td>
+                             <td>@GetRoom(reservation.RoomId)</td>
+                             <td>@GetRoom(reservation.RoomId).Type</td>
+                             <td>@reservation.Attendees</td>
+                             <td>@reservation.CreatedOn</td>
+                             <td>@reservation.IsConfirmed</td>
+                             <td style="min-width: 100px">
+                                 <button @onclick="() => ConfirmReservation(reservation)" type="button" class="btn btn-primary">Confirm</button>
+                                 <button @onclick="() => EditReservation(reservation)" type="button" class="btn btn-danger">Edit</button>
+                                 <button @onclick="() => DeleteReservation(reservation)" type="button" class="btn btn-danger">Cancel</button>
+                             </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
@@ -79,7 +85,7 @@
     private List<RoomModel> Rooms { get; set; }
     private string UserId { get; set; }
     List<ReservationModel> UserReservations { get; set; } = new();
-    
+
     protected override async Task OnInitializedAsync()
     {
         UserId = await _sessionStorage.GetItemAsync<string>("userId");
@@ -108,6 +114,13 @@
     {
         var ip = await _apiClientService.GetUserIpAsync();
         await UserService.ConfirmReservation(reservation.Id, ip.Ip);
+    }
+
+    private async Task EditReservation(ReservationModel reservation)
+    {
+        await _sessionStorage.SetItemAsync("reservation", reservation);
+        // ReSharper disable once StringLiteralTypo
+        _nav.NavigateTo("editreservation");
     }
 
     private static async Task DeleteReservation(ReservationModel reservation)
