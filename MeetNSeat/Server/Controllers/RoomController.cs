@@ -1,4 +1,5 @@
-﻿using MeetNSeat.Client.Models;
+﻿using System.Security.Cryptography.X509Certificates;
+using MeetNSeat.Client.Models;
 using MeetNSeat.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +39,7 @@ namespace MeetNSeat.Server.Controllers
         public void UpdateRoom([FromBody] RoomModel roomModel)
         {
             _manageRoom.UpdateRoom(roomModel.Id, roomModel.Name, roomModel.Type, roomModel.Spots, roomModel.Facilities);
+            var s = 0;
         }
     }
 }

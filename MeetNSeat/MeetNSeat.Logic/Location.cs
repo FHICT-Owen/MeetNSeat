@@ -86,7 +86,7 @@ namespace MeetNSeat.Logic
                 foreach (var room in floor.Rooms)
                 {
                     if (room == null) continue;
-                    if (room.Type == type) rooms.Add(room);
+                    if (room.RoomType == type) rooms.Add(room);
                 }
             }
 

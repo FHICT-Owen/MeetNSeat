@@ -20,8 +20,10 @@ namespace MeetNSeat.Logic
         {
             Type = type;
         }
-        public Room(int floorId, string name, int spots, string type, string facilities)
+
+        public Room(int id, int floorId, string name, int spots, string type, string facilities)
         {
+            Id = id;
             FloorId = floorId;
             Name = name;
             Spots = spots;
@@ -33,7 +35,7 @@ namespace MeetNSeat.Logic
             Id = roomDto.Id;
             FloorId = roomDto.FloorId;
             Name = roomDto.Name;
-            Type = roomDto.Type;
+            Type = roomDto.RoomType;
             Spots = roomDto.Spots;
             Facilities = roomDto.Facilities;
         }
@@ -58,16 +60,6 @@ namespace MeetNSeat.Logic
         public RoomDto ConvertToDto()
         {
             return new(Id, FloorId, Name, Type, Spots, Facilities);
-        }
-
-        public void Update(int id, string name, int spots, string type, string facilities)
-        {
-            Id = id;
-            Name = name;
-            Spots = spots;
-            Type = type;
-            Facilities = facilities;
-            RoomFactory.CreateRoomDal().Update(ConvertToDto());
         }
     }
 }
