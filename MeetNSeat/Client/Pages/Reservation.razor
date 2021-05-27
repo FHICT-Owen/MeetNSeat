@@ -3,11 +3,13 @@
 @using MeetNSeat.Client.Models
 @using MeetNSeat.Client.Services
 @using Blazored.SessionStorage
+@using Microsoft.VisualBasic
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <h2 class="pt-3 pb-2 mb-3 border-bottom">Plan a reservation</h2>
     <div>
+        <p>@Msg</p>
         <form>
             <div class="mb-3">
                 <label for="Location" class="form-label m-1 pt-2">Location</label>
@@ -55,6 +57,7 @@
     private string Attendees { get; set; }
 
     private bool IsDisabled { get; set; } = false;
+    private string Msg { get; set; }
 
 
     private DateTime StartDate { get; set; } = DateTime.Now;
@@ -69,6 +72,7 @@
     {
         Locations = (await LocationService.GetAllLocations()).ToList();
         Rooms = (await UserService.GetAllRoomTypes()).ToList();
+        Msg = Msg;
     }
 
     private async Task AddReservation()
@@ -78,6 +82,6 @@
         var attendees = Convert.ToInt32(Attendees);
         Console.WriteLine(Location);
         var userId = await _sessionStorage.GetItemAsync<string>("userId");
-        await UserService.CreateReservation(new ReservationModel(locationId, Type, userId, attendees, StartDate, EndDate));
+        Msg = await UserService.CreateReservation(new ReservationModel(locationId, Type, userId, attendees, StartDate, EndDate));
     }
 }

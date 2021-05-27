@@ -4,6 +4,7 @@
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Client.Models
 @using Blazored.SessionStorage
+@using Microsoft.VisualBasic
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
@@ -12,6 +13,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
+            <p>@Msg</p>
             <form>
                 <div class="form-group mx-sm-3 mb-3">
                     <label for="attendees">Attendees</label>
@@ -33,15 +35,17 @@
 @code
 {
     private ReservationModel _model = new ();
+    private string Msg { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         _model = await _sessionStorage.GetItemAsync<ReservationModel>("reservation");
+        Msg = Msg;
     }
 
     private async Task EditReservations()
     {
-        await UserService.EditReservation(_model);
+        Msg = await UserService.EditReservation(_model);
         await _sessionStorage.RemoveItemAsync("reservation");
     }
 }
