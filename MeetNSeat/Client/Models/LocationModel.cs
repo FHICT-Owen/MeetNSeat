@@ -11,8 +11,18 @@ namespace MeetNSeat.Client.Models
         public bool IsCollapsed { get; set; } = true;
         public List<FloorModel> Floors { get; set; } = new();
 
+        public LocationModel() { }
+
         public LocationModel(string name, string city, string ipAddress)
         {
+            Name = name;
+            City = city;
+            IpAddress = ipAddress;
+        }
+
+        public LocationModel(int id, string name, string city, string ipAddress)
+        {
+            Id = id;
             Name = name;
             City = city;
             IpAddress = ipAddress;

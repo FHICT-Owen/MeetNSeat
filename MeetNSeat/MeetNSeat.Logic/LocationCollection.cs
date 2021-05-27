@@ -49,6 +49,12 @@ namespace MeetNSeat.Logic
             _locations.Add(location);
             _dal.AddLocation(location.ConvertToDto());
         }
+
+        public void DeleteLocation(int id)
+        {
+            _locations.Remove(_locations.Find(issue => issue.Id == id));
+            _dal.DeleteLocationById(id);
+        }
         
         public void UpdateLocation(int id, string name, string city, string ipAddress)
         {

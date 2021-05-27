@@ -5,18 +5,8 @@
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <h2 class="pt-3 pb-2 mb-3 border-bottom">Locations</h2>
+    <button class="btn btn-primary mt-3" @onclick="() => ToggleEditLocation(0, false)">Add location</button>
     <div>
-        <form>
-            <label class="form-label m-1 pt-2">Location name</label>
-            <input class="form-control" @bind="@Name" @bind:event="oninput" placeholder="enter a location name ...">
-
-            <label class="form-label m-1 pt-2">City</label>
-            <input class="form-control" @bind="@City" @bind:event="oninput" placeholder="enter a city name ...">
-
-            <label class="form-label m-1 pt-2">Ip address</label>
-            <input class="form-control" @bind="@IpAddress" @bind:event="oninput" placeholder="enter an ip address ...">
-            <button class="btn btn-primary my-3" type="button" @onclick="AddLocation">Add location</button>
-        </form>
         <table class="table location-table">
             <thead>
             <tr>
@@ -32,48 +22,83 @@
             {
                 foreach (var location in Locations)
                 {<tr>
-                    <td style="max-width: 50px">
-                        <button class="btn btn-primary" @onclick="() => Toggle(location)">Show</button>
-                    </td>
-                    <td>@location.Name</td>
-                    <td>@location.City</td>
-                    <td>@location.IpAddress</td>
-                    <td style="max-width: 100px">
-                        <button class="btn btn-primary">Edit location</button>
-                        <button class="btn btn-danger">Delete location</button>
-                    </td>
+                     <td style="max-width: 50px">
+                         <button class="btn btn-primary" @onclick="() => Toggle(location)">Show</button>
+                     </td>
+                     <td>@location.Name</td>
+                     <td>@location.City</td>
+                     <td>@location.IpAddress</td>
+                     <td style="max-width: 100px">
+                         <button class="btn btn-primary" @onclick="() => ToggleEditLocation(location.Id, true)">Edit location</button>
+                         <button class="btn btn-danger" @onclick="() => DeleteLocation(location.Id)">Delete location</button>
+                     </td>
                 </tr>
                 @if (!location.IsCollapsed)
                 {<tr>
-                    <td colspan="5">
-                        <table class="table" style="background: #f2f2f2">
-                            <tbody>
-                            @foreach (var floor in location.Floors)
-                            {
-                                <tr>
-                                    <td style="font-style: italic">Floor : @floor.Name</td>
-                                    @foreach (var room in floor.Rooms)
-                                    {
-                                        <td>@room.Name</td>
-                                    }
-                                    <td style="margin: 0">
-                                        <button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => AddNewRoom(floor.Id)">+</button>
-                                    </td>
-                                </tr>
-                            }
-                            <tr>
-                                <td style="margin: 0">
-                                    <button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => AddNewFloor(location.Id)">+</button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </td>
+                     <td colspan="5">
+                         <table class="table" style="background: #f2f2f2">
+                             <tbody>
+                             @foreach (var floor in location.Floors)
+                             {
+                                 <tr>
+                                     <td style="font-style: italic">Floor : @floor.Name</td>
+                                     @foreach (var room in floor.Rooms)
+                                     {
+                                         <td>@room.Name</td>
+                                     }
+                                     <td style="margin: 0">
+                                         <button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => AddNewRoom(floor.Id, location.Id)">+</button>
+                                     </td>
+                                 </tr>
+                             }
+                             <tr>
+                                 <td style="margin: 0">
+                                     <button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => AddNewFloor(location.Id)">+</button>
+                                 </td>
+                             </tr>
+                             </tbody>
+                         </table>
+                     </td>
                 </tr>}
                 }
             }
             </tbody>
         </table>
+        
+        <!-- This is the location popup to edit or create locations -->
+        @if (ShowLocationPopup)
+            {
+                <div class="modal" tabindex="-1" style="display:block" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Edit location</h3>
+                                <button type="button" class="close" @onclick="() => ToggleEditLocation(0, false)">
+                                    <span aria-hidden="true">X</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <label class="form-label m-1 pt-2">Location name</label>
+                                <input class="form-control" @bind="@Name" @bind:event="oninput" placeholder="enter a location name ...">
+                    
+                                <label class="form-label m-1 pt-2">City</label>
+                                <input class="form-control" @bind="@City" @bind:event="oninput" placeholder="enter a city name ...">
+                    
+                                <label class="form-label m-1 pt-2">Ip address</label>
+                                <input class="form-control" @bind="@IpAddress" @bind:event="oninput" placeholder="enter an ip address ...">
+                                @if (!IsEditing)
+                                {
+                                    <button class="btn btn-primary mt-3" @onclick="AddLocation">Add</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-primary mt-3" @onclick="UpdateLocation">Update</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         
         @if (ShowFloorPopup)
         {
@@ -139,9 +164,15 @@
 
 @code {
     //PopupProps
+    private bool ShowLocationPopup { get; set; }
+
     private bool ShowRoomPopup { get; set; }
 
     private bool ShowFloorPopup { get; set; }
+    
+    //
+
+    private bool IsEditing { get; set; }
 
     //RoomForm
     private int FloorId { get; set; }
@@ -157,9 +188,9 @@
     //FloorForm
     private string FloorName { get; set; }
 
-    private int LocationId { get; set; }
-
     //LocationForm
+    private int Id { get; set; }
+
     private string Name { get; set; }
 
     private string City { get; set; }
@@ -168,16 +199,24 @@
 
     List<LocationModel> Locations { get; set; } = new();
 
-    void AddNewRoom(int floorId)
+    private void ToggleEditLocation(int id, bool isEditing)
+    {
+        Id = id;
+        IsEditing = isEditing;
+        ShowLocationPopup = !ShowLocationPopup;
+    }
+
+    void AddNewRoom(int floorId, int locationId)
     {
         // Open the Popup
         FloorId = floorId;
+        Id = locationId;
         ShowRoomPopup = true;
     }
 
     void AddNewFloor(int locationId)
     {
-        LocationId = locationId;
+        Id = locationId;
         ShowFloorPopup = true;
     }
 
@@ -215,15 +254,31 @@
         await LocationService.AddLocation(new LocationModel(Name, City, IpAddress));
         Locations = (await LocationService.GetAllLocations()).ToList();
     }
+    
+    private async Task DeleteLocation(int id)
+    {
+        await LocationService.DeleteLocation(id); //TODO: only works when no floors have a constraint on location
+        Locations = (await LocationService.GetAllLocations()).ToList();
+    }
+    
+    private async Task UpdateLocation()
+    {
+        await LocationService.UpdateLocation(new LocationModel(Id, Name, City, IpAddress));
+        Locations = (await LocationService.GetAllLocations()).ToList();
+    }
 
     private async Task AddRoomAsync()
     {
         await RoomService.AddRoom(new RoomModel(FloorId, RoomName, Type, Spots, Facilities));
+        var floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(Id)).ToList();
+        Locations.Find(location => location.Id == Id).Floors = floors; //TODO: works but idk not very epic
     }
 
     private async Task AddFloorAsync()
     {
-        await FloorService.AddFloor(new FloorModel(LocationId, FloorName));
+        await FloorService.AddFloor(new FloorModel(Id, FloorName));
+        var floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(Id)).ToList();
+        Locations.Find(location => location.Id == Id).Floors = floors; //TODO: works but idk not very epic
     }
 
 }

@@ -7,6 +7,7 @@ namespace MeetNSeat.Dal.Interfaces
     {
         List<LocationDto> GetAllLocations();
         void AddLocation(LocationDto locationDto);
+        void DeleteLocationById(int id);
         void UpdateLocation(LocationDto locationDto);
     }
 }

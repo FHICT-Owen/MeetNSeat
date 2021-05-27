@@ -20,6 +20,12 @@ namespace MeetNSeat.Client.Services
 	        await client.PostAsJsonAsync("https://localhost:5001/api/locations", location);
         }
         
+        public static async Task DeleteLocation(int id)
+        {
+	        using var client = new HttpClient();
+	        await client.DeleteAsync($"https://localhost:5001/api/locations/{id}");
+        }
+        
         public static async Task UpdateLocation(LocationModel location)
         {
 	        using var client = new HttpClient();

@@ -23,6 +23,16 @@ namespace MeetNSeat.Dal
             connection.Execute("dbo.InsertLocation @Name, @City, @IpAddress ", locationDto);
         }
         
+        public void DeleteLocationById(int id)
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+			
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+			
+            connection.Execute("dbo.DeleteLocationById @Id", parameters);
+        }
+        
         public void UpdateLocation(LocationDto location)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());

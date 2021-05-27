@@ -42,5 +42,12 @@ namespace MeetNSeat.Tests
             var s = new Location();
             s.Update(21, "Building 1", "Eindhoven", "Test changed ip");
         }
+        
+        [TestMethod]
+        public void LocationWithId24ShouldBeDeleted()
+        {
+            var s = new LocationCollection();
+            s.DeleteLocation(24);
+        }
     }
 }
