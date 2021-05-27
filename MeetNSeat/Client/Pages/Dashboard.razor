@@ -32,21 +32,23 @@
                 @if (UserReservations.Count > 0)
                 {
                     foreach (var reservation in UserReservations)
-                    {<tr>
-                         <td>@reservation.Id</td>
-                         <td>@reservation.StartTime - @reservation.EndTime</td>
-                         <td>@GetLocation(reservation.RoomId).City</td>
-                         <td>@GetRoom(reservation.RoomId)</td>
-                         <td>@GetRoom(reservation.RoomId).Type</td>
-                         <td>@reservation.Attendees</td>
-                         <td>@reservation.CreatedOn</td>
-                         <td>@reservation.IsConfirmed</td>
-                         <td style="min-width: 100px">
-                             <button @onclick="() => ConfirmReservation(reservation)" type="button" class="btn btn-primary">Confirm</button>
-                             <button @onclick="() => EditReservation(reservation)" type="button" class="btn btn-danger">Edit</button>
-                             <button @onclick="() => DeleteReservation(reservation)" type="button" class="btn btn-danger">Cancel</button>
-                         </td>
-                    </tr>}
+                    {
+                        <tr>
+                             <td>@reservation.Id</td>
+                             <td>@reservation.StartTime - @reservation.EndTime</td>
+                             <td>@GetLocation(reservation.RoomId).City</td>
+                             <td>@GetRoom(reservation.RoomId)</td>
+                             <td>@GetRoom(reservation.RoomId).Type</td>
+                             <td>@reservation.Attendees</td>
+                             <td>@reservation.CreatedOn</td>
+                             <td>@reservation.IsConfirmed</td>
+                             <td style="min-width: 100px">
+                                 <button @onclick="() => ConfirmReservation(reservation)" type="button" class="btn btn-primary">Confirm</button>
+                                 <button @onclick="() => EditReservation(reservation)" type="button" class="btn btn-danger">Edit</button>
+                                 <button @onclick="() => DeleteReservation(reservation)" type="button" class="btn btn-danger">Cancel</button>
+                             </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
