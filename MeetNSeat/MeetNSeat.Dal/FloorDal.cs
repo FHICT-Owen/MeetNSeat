@@ -50,5 +50,21 @@ namespace MeetNSeat.Dal
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             connection.Execute("dbo.InsertFloor @Name, @LocationId", floorDto);
         }
+
+        public void DeleteFloorById(int id)
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+			
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+			
+            connection.Execute("dbo.DeleteFloorById @Id", parameters);
+        }
+        
+        public void Update(FloorDto floor)
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+            connection.Execute("dbo.UpdateFloor @Id, @Name", floor);
+        }
     }
 }

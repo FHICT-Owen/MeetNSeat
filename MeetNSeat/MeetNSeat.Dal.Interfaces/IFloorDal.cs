@@ -8,5 +8,7 @@ namespace MeetNSeat.Dal.Interfaces
         List<FloorDto> GetAllRoomsAndFloorByLocationId(int id);
         List<FloorDto> GetAllFloors();
         void AddFloor(FloorDto floorDto);
+        void DeleteFloorById(int id);
+        void Update(FloorDto floorDto);
     }
 }

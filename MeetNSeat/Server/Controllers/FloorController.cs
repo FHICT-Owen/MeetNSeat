@@ -2,6 +2,7 @@
 using Blazored.SessionStorage;
 using MeetNSeat.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace MeetNSeat.Server.Controllers
 {
@@ -37,6 +38,18 @@ namespace MeetNSeat.Server.Controllers
         public void AddFloor([FromBody] FloorModel floorModel)
         {
             _manageFloor.AddFloor(floorModel.LocationId, floorModel.Name);
+        }
+        
+        [HttpDelete("{id:int}")]
+        public void DeleteFloor(int id)
+        {
+            _manageFloor.DeleteFloor(id);
+        }
+        
+        [HttpPut]
+        public void UpdateLocation([FromBody] FloorModel floorModel)
+        {
+            _manageFloor.UpdateFloor(floorModel.Id, floorModel.LocationId, floorModel.Name);
         }
     }
 }

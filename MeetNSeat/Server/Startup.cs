@@ -29,7 +29,7 @@ namespace MeetNSeat.Server
             services.AddTransient<IManageUser, User>();
             services.AddTransient<IManageAuthentication, Authentication>();
             // Location manages floors.
-            services.AddTransient<IManageFloor, Location>();
+            services.AddSingleton<IManageFloor, Location>();
 
             services.AddBlazoredSessionStorage();
             

@@ -25,5 +25,17 @@ namespace MeetNSeat.Client.Services
             using var client = new HttpClient();
             await client.PostAsJsonAsync("https://localhost:5001/api/floor", floor);
         }
+        
+        public static async Task DeleteFloor(int id)
+        {
+            using var client = new HttpClient();
+            await client.DeleteAsync($"https://localhost:5001/api/floor/{id}");
+        }
+        
+        public static async Task UpdateFloor(FloorModel floor)
+        {
+            using var client = new HttpClient();
+            await client.PutAsJsonAsync("https://localhost:5001/api/floor", floor);
+        }
     }
 }

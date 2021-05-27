@@ -62,6 +62,18 @@ namespace MeetNSeat.Logic
             _floors.Add(floor);
             _floorDal.AddFloor(floor.ConvertToDto());
         }
+
+        public void DeleteFloor(int id)
+        {
+            _floors.Remove(_floors.Find(issue => issue.Id == id));
+            _floorDal.DeleteFloorById(id);
+        }
+        
+        public void UpdateFloor(int id, int locationId, string name)
+        {
+            _floors.Find(floor => floor.Id == id)?
+                .Update(id, name, locationId);
+        }
         
         public IReadOnlyCollection<RoomDto> GetAllRoomsWithType(string type, int locationId)
         {

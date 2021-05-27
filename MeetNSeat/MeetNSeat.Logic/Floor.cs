@@ -53,5 +53,13 @@ namespace MeetNSeat.Logic
             _dal.GetAllRooms().ForEach(res => rooms.Add(new Room(res)));
             return rooms.AsReadOnly();
         }
+
+        public void Update(int id, string name, int locationId)
+        {
+            Id = id;
+            Name = name;
+            LocationId = locationId;
+            FloorFactory.CreateFloorDal().Update(ConvertToDto());
+        }
     }
 }

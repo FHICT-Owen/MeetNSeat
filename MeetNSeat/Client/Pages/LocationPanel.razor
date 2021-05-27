@@ -41,7 +41,7 @@
                              @foreach (var floor in location.Floors)
                              {
                                  <tr>
-                                     <td style="font-style: italic">Floor : @floor.Name</td>
+                                     <td style="font-style: italic" @onclick="() => ToggleEditFloor(location.Id, floor.Id, true)">Floor : @floor.Name</td>
                                      @foreach (var room in floor.Rooms)
                                      {
                                          <td>@room.Name</td>
@@ -53,7 +53,7 @@
                              }
                              <tr>
                                  <td style="margin: 0">
-                                     <button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => AddNewFloor(location.Id)">+</button>
+                                     <button class="btn btn-success py-1" style="font-size: 23px" @onclick="() => ToggleEditFloor(location.Id, 0, false)">+</button>
                                  </td>
                              </tr>
                              </tbody>
@@ -79,7 +79,7 @@
                             </div>
                             <div class="modal-body">
                                 <label class="form-label m-1 pt-2">Location name</label>
-                                <input class="form-control" @bind="@Name" @bind:event="oninput" placeholder="enter a location name ...">
+                                <input class="form-control" @bind="@LocationName" @bind:event="oninput" placeholder="enter a location name ...">
                     
                                 <label class="form-label m-1 pt-2">City</label>
                                 <input class="form-control" @bind="@City" @bind:event="oninput" placeholder="enter a city name ...">
@@ -100,28 +100,29 @@
                 </div>
             }
         
+        <!-- This is the floor popup to edit or create floors -->
         @if (ShowFloorPopup)
         {
-            <!-- This is the popup to create or edit a forecast -->
             <div class="modal" tabindex="-1" style="display:block" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h3 class="modal-title">Add floor</h3>
-                            <!-- Button to close the popup -->
-                            <button type="button" class="close"
-                                    @onclick="CloseFloorPopup">
+                            <button type="button" class="close" @onclick="() => ToggleEditFloor(0, 0, false)">
                                 <span aria-hidden="true">X</span>
                             </button>
                         </div>
-                        <!-- Add form for the current room -->
                         <div class="modal-body">
                             <input class="form-control" type="text" placeholder="Floorname" @bind="FloorName" @bind:event="oninput"/>
-                            <br/>
-                            <!-- Button to save the room -->
-                            <button class="btn btn-primary" @onclick="AddFloorAsync">
-                                Add
-                            </button>
+                            @if (!IsEditing)
+                            {
+                                <button class="btn btn-primary mt-3" @onclick="AddFloorAsync">Add</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary mt-3" @onclick="UpdateFloor">Update</button>
+                                <button class="btn btn-danger mt-3" @onclick="DeleteFloor">Delete</button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -170,9 +171,22 @@
 
     private bool ShowFloorPopup { get; set; }
     
-    //
+    //LocationForm
+    private int LocationId { get; set; }
 
+    private string LocationName { get; set; }
+
+    private string City { get; set; }
+
+    private string IpAddress { get; set; }
+
+    List<LocationModel> Locations { get; set; } = new();
+
+    //?
     private bool IsEditing { get; set; }
+    
+    //FloorForm
+    private string FloorName { get; set; }
 
     //RoomForm
     private int FloorId { get; set; }
@@ -185,45 +199,27 @@
 
     private string Facilities { get; set; }
 
-    //FloorForm
-    private string FloorName { get; set; }
-
-    //LocationForm
-    private int Id { get; set; }
-
-    private string Name { get; set; }
-
-    private string City { get; set; }
-
-    private string IpAddress { get; set; }
-
-    List<LocationModel> Locations { get; set; } = new();
-
     private void ToggleEditLocation(int id, bool isEditing)
     {
-        Id = id;
+        LocationId = id;
         IsEditing = isEditing;
         ShowLocationPopup = !ShowLocationPopup;
+    }
+    
+    private void ToggleEditFloor(int locationId, int floorId, bool isEditing)
+    {
+        LocationId = locationId;
+        FloorId = floorId;
+        IsEditing = isEditing;
+        ShowFloorPopup = !ShowFloorPopup;
     }
 
     void AddNewRoom(int floorId, int locationId)
     {
         // Open the Popup
         FloorId = floorId;
-        Id = locationId;
+        LocationId = locationId;
         ShowRoomPopup = true;
-    }
-
-    void AddNewFloor(int locationId)
-    {
-        Id = locationId;
-        ShowFloorPopup = true;
-    }
-
-    void CloseFloorPopup()
-    {
-        // Close the Popup
-        ShowFloorPopup = false;
     }
 
     void CloseRoomPopup()
@@ -251,7 +247,7 @@
 
     private async Task AddLocation()
     {
-        await LocationService.AddLocation(new LocationModel(Name, City, IpAddress));
+        await LocationService.AddLocation(new LocationModel(LocationName, City, IpAddress));
         Locations = (await LocationService.GetAllLocations()).ToList();
     }
     
@@ -263,22 +259,33 @@
     
     private async Task UpdateLocation()
     {
-        await LocationService.UpdateLocation(new LocationModel(Id, Name, City, IpAddress));
+        await LocationService.UpdateLocation(new LocationModel(LocationId, LocationName, City, IpAddress));
         Locations = (await LocationService.GetAllLocations()).ToList();
-    }
-
-    private async Task AddRoomAsync()
-    {
-        await RoomService.AddRoom(new RoomModel(FloorId, RoomName, Type, Spots, Facilities));
-        var floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(Id)).ToList();
-        Locations.Find(location => location.Id == Id).Floors = floors; //TODO: works but idk not very epic
     }
 
     private async Task AddFloorAsync()
     {
-        await FloorService.AddFloor(new FloorModel(Id, FloorName));
-        var floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(Id)).ToList();
-        Locations.Find(location => location.Id == Id).Floors = floors; //TODO: works but idk not very epic
+        await FloorService.AddFloor(new FloorModel(LocationId, FloorName));
+        var floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(LocationId)).ToList();
+        Locations.Find(location => location.Id == LocationId).Floors = floors; //TODO: works but idk not very epic
     }
-
+    
+    private async Task DeleteFloor()
+    {
+        await FloorService.DeleteFloor(FloorId); //TODO: only works when no rooms have a constraint on floor
+        Locations = (await LocationService.GetAllLocations()).ToList();
+    }
+    
+    private async Task UpdateFloor()
+    {
+        await FloorService.UpdateFloor(new FloorModel(FloorId, FloorName, LocationId));
+        Locations = (await LocationService.GetAllLocations()).ToList();
+    }
+    
+    private async Task AddRoomAsync()
+    {
+        await RoomService.AddRoom(new RoomModel(FloorId, RoomName, Type, Spots, Facilities));
+        var floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(LocationId)).ToList();
+        Locations.Find(location => location.Id == LocationId).Floors = floors; //TODO: works but idk not very epic
+    }
 }
