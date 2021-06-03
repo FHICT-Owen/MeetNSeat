@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MeetNSeat.Server.Controllers
 {
-    [Route("api/auth")]
-    [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController : ApiControllerBase
     {
         private readonly IManageAuthentication _manageAuthentication;
 

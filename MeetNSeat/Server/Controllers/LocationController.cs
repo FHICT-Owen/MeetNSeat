@@ -4,10 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MeetNSeat.Server.Controllers
 {
-    
-    [Route("api/locations")]
-    [ApiController]
-    public class LocationController : ControllerBase
+    public class LocationController : ApiControllerBase
     {
         private readonly IManageLocation _manageLocation;
 

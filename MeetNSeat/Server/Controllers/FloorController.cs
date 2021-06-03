@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace MeetNSeat.Server.Controllers
 {
-    [Route("api/floor")]
-    [ApiController]
-    public class FloorController : ControllerBase
+    public class FloorController : ApiControllerBase
     {
         private readonly IManageFloor _manageFloor;
         private readonly ISessionStorageService _sessionStorageService;

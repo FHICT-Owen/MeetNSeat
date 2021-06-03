@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MeetNSeat.Server.Controllers
 {
-    [Route("api/room")]
-    [ApiController]
-    public class RoomController : ControllerBase
+    public class RoomController : ApiControllerBase
     {
         private readonly IManageRoom _manageRoom;
 
