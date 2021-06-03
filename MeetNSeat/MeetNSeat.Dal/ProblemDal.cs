@@ -15,9 +15,9 @@ namespace MeetNSeat.Dal
 		{
 			try
 			{
-			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-			var output = connection.Query<ProblemDto>("dbo.GetAllIssues").ToList();
-			return output;
+				using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+				var output = connection.Query<ProblemDto>("dbo.GetAllProblems").ToList();
+				return output;
 			}
 			catch (SqlException ex)
 			{
@@ -33,8 +33,8 @@ namespace MeetNSeat.Dal
 		{
 			try
 			{
-			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-			connection.Execute("dbo.InsertProblem @RoomId, @UserId, @Email, @Description, @Picture, @ReportedOn, @IsResolved, @ResolvedAt", problem);
+				using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+				connection.Execute("dbo.InsertProblem @RoomId, @UserId, @Email, @Description, @Picture, @ReportedOn, @IsResolved, @ResolvedAt", problem);
 			}
 			catch (SqlException ex)
 			{
@@ -50,12 +50,12 @@ namespace MeetNSeat.Dal
 		{
             try
 			{
-			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+				using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 			
-			var parameters = new DynamicParameters();
-			parameters.Add("@Id", id);
-			
-			connection.Execute("dbo.DeleteProblemById @Id", parameters);
+				var parameters = new DynamicParameters();
+				parameters.Add("@Id", id);
+				
+				connection.Execute("dbo.DeleteProblemById @Id", parameters);
 			}
 			catch (SqlException ex)
 			{
@@ -71,8 +71,8 @@ namespace MeetNSeat.Dal
 		{
             try
 			{
-			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-			connection.Execute("dbo.UpdateProblem @Id, @RoomId, @UserId, @Description, @IsResolved", problem);
+				using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+				connection.Execute("dbo.UpdateProblem @Id, @RoomId, @UserId, @Description, @IsResolved", problem);
 			}
 			catch (SqlException ex)
 			{
