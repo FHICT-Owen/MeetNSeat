@@ -34,7 +34,7 @@
 @code {
     private string _userId;
     private string _authMessage;
-    IpAddress _ipAddress = new IpAddress();
+    IpAddress _ipAddress = new();
     private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
 
     protected override async Task OnInitializedAsync()

@@ -24,7 +24,21 @@
                     {<tr class="color:red">
                         <td>@feedback.Id</td>
                         <td>@feedback.Description</td>
-                        <td>@feedback.FeedbackState</td>
+                        <td>
+
+                            @if (feedback.FeedbackState == 1)
+                            {
+                                <h3>&#128577;</h3>
+                            }
+                            @if(feedback.FeedbackState == 2)
+                            {
+                                <h3>&#128528;</h3>
+                            }
+                            @if(feedback.FeedbackState == 3)
+                            {
+                                <h3>&#128578;</h3>
+                            }
+                        </td>
                     </tr>}
                 }
             </tbody>
