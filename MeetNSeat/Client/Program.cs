@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace MeetNSeat.Client
 {
@@ -17,11 +18,12 @@ namespace MeetNSeat.Client
             builder.RootComponents.Add<App>("#app");
             builder.Services.AddBlazoredSessionStorage();
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddOidcAuthentication(options =>
+            builder.Services.AddOidcAuthentication<RemoteAuthenticationState, CustomRemoteUserAccount>(options =>
             {
                 builder.Configuration.Bind("Auth0", options.ProviderOptions);
+                options.ProviderOptions.DefaultScopes.Add("email");
                 options.ProviderOptions.ResponseType = "code";
-            });
+            }).AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, CustomRemoteUserAccount, CustomUserClaimsPrincipal>();
             builder.Services.AddHttpClient("IP", (options) => {
                 options.BaseAddress = new Uri("https://jsonip.com");
             });

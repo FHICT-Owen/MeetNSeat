@@ -10,9 +10,9 @@ namespace MeetNSeat.Logic
 {
     public enum Role
     {
-        User = 0,
-        FacilityManager,
-        Admin
+        User = 1,
+        FacilityManager = 2,
+        Admin = 3
     }
     
     public class User : IManageUser
@@ -20,9 +20,7 @@ namespace MeetNSeat.Logic
         public string Id { get; set; }
         public string Nickname { get; set; }
         public Role Role { get; set; }
-        private readonly List<Reservation> _reservations = new List<Reservation>();
-        private readonly List<User> _users = new List<User>();
-
+        private readonly List<Reservation> _reservations = new();
         private readonly IReservationDal _dal;
 
         public User(UserDto userDto)
@@ -134,9 +132,7 @@ namespace MeetNSeat.Logic
         
         public UserDto ConvertToDto()
         {
-            return new UserDto(Id, Nickname, (int)Role);
+            return new(Id, Nickname, (int)Role);
         }
-
-        
     }
 }
