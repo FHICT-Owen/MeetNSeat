@@ -1,37 +1,5 @@
 ﻿@page "/"
-@using Blazored.SessionStorage
-@using MeetNSeat.Client.Models
-@using MeetNSeat.Client.Services
-
-@inject AuthenticationStateProvider _authStateProvider
-@inject ISessionStorageService _storage
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
-
-@code
-{
-    protected override async Task OnInitializedAsync()
-    {
-        await GetUserId();
-        await base.OnParametersSetAsync();
-    }
-
-    private async Task GetUserId()
-    {
-        var authState = await _authStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-
-        if (user.Identity.IsAuthenticated)
-        {
-            var userId = $"{user.FindFirst(c => c.Type == "sub")?.Value.Split("|")[1]}";
-            if (userId != "")
-            {
-                await _storage.SetItemAsync("userId", userId);
-                var nickname = user.Identity?.Name;
-                await AuthService.AddUser(new UserModel(userId,nickname,0));
-            }
-        }
-    }
-}
