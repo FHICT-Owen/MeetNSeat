@@ -13,12 +13,25 @@ namespace MeetNSeat.Dal
     {
         public bool AddReservation(CreateReservationDto createReservationDto)
         {
+            try
+            {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             connection.Execute("dbo.CreateReservation @RoomId, @UserId, @Attendees, @StartTime, @EndTime", createReservationDto);
             return true;
+            }
+            catch (SqlException ex)
+            {
+                throw new DalExceptions("Database cannot connect, try again!");
+            }
+            catch (Exception ex)
+            {
+                throw new DalExceptions("something went wrong");
+            }
         }
         public bool ConfirmReservation(int id, DateTime confirmedTime)
         {
+            try
+            {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             DynamicParameters parameter = new DynamicParameters();
             parameter.Add("@id", id);
@@ -26,10 +39,21 @@ namespace MeetNSeat.Dal
 
             var result = connection.Execute("dbo.ConfirmReservation @id, @confirmed", parameter);
             return result > 0;
+            }
+            catch (SqlException ex)
+            {
+                throw new DalExceptions("Database cannot connect, try again!");
+            }
+            catch (Exception ex)
+            {
+                throw new DalExceptions("something went wrong");
+            }
         }
 
         public bool RemoveReservation(int id)
         {
+            try
+            {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             DynamicParameters parameter = new DynamicParameters();
             parameter.Add("@id", id);
@@ -43,11 +67,22 @@ namespace MeetNSeat.Dal
             {
                 return false;
             }
+            }
+            catch (SqlException ex)
+            {
+                throw new DalExceptions("Database cannot connect, try again!");
+            }
+            catch (Exception ex)
+            {
+                throw new DalExceptions("something went wrong");
+            }
 
         }
 
         public bool UpdateReservation(ReservationDto reservationDto)
         {
+            try
+            {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@room", reservationDto.RoomId);
@@ -64,10 +99,21 @@ namespace MeetNSeat.Dal
             {
                 return false;
             }
+            }
+            catch (SqlException ex)
+            {
+                throw new DalExceptions("Database cannot connect, try again!");
+            }
+            catch (Exception ex)
+            {
+                throw new DalExceptions("something went wrong");
+            }
         }
 
         public List<ManageReservationDto> GetReservationByUser(string id)
         {
+            try
+            {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 
             DynamicParameters parameters = new DynamicParameters();
@@ -75,15 +121,35 @@ namespace MeetNSeat.Dal
 
             var output = connection.Query<ManageReservationDto>("dbo.GetAllUserReservations @Id", parameters).ToList();
             return output;
-            
+            }
+            catch (SqlException ex)
+            {
+                throw new DalExceptions("Database cannot connect, try again!");
+            }
+            catch (Exception ex)
+            {
+                throw new DalExceptions("something went wrong");
+            }
+
         }
 
         public List<ManageReservationDto> GetAllReservations()
         {
+            try
+            {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             
             List<ManageReservationDto> output = connection.Query<ManageReservationDto>("dbo.GetAllReservations").ToList();
             return output;
+            }
+            catch (SqlException ex)
+            {
+                throw new DalExceptions("Database cannot connect, try again!");
+            }
+            catch (Exception ex)
+            {
+                throw new DalExceptions("something went wrong");
+            }
         }
     }
 }

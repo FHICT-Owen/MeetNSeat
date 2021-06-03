@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using MeetNSeat.Dal.Interfaces.Dtos;
+using System;
 
 namespace MeetNSeat.Dal
 {
@@ -12,13 +13,26 @@ namespace MeetNSeat.Dal
     {
         public List<FeedbackDto> GetAllFeedback()
         {
+            try
+            {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             var output = connection.Query<FeedbackDto>("dbo.GetAllFeedback").ToList();
             return output;
+            }
+            catch (SqlException ex)
+            {
+                throw new DalExceptions("Database cannot connect, try again!");
+            }
+            catch (Exception ex)
+            {
+                throw new DalExceptions("something went wrong");
+            }
         }
         
         public bool DeleteFeedback(int id)
         {
+            try
+            {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             
             DynamicParameters parameter = new DynamicParameters();
@@ -27,10 +41,21 @@ namespace MeetNSeat.Dal
             var result = connection.Execute("dbo.DeleteFeedback @Id", parameter);
             if (result > 0) return true;
             return false;
+            }
+            catch (SqlException ex)
+            {
+                throw new DalExceptions("Database cannot connect, try again!");
+            }
+            catch (Exception ex)
+            {
+                throw new DalExceptions("something went wrong");
+            }
         }
         
         public List<FeedbackDto> GetFeedbackDtoByUserId(string userId)
         {
+            try
+            {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             
             var parameter = new DynamicParameters();
@@ -42,11 +67,20 @@ namespace MeetNSeat.Dal
             }
 
             return null;
+            }
+            catch (SqlException ex)
+            {
+                throw new DalExceptions("Database cannot connect, try again!");
+            }
+            catch (Exception ex)
+            {
+                throw new DalExceptions("something went wrong");
+            }
         }
         
         public bool InsertFeedback(FeedbackDto feedbackDto)
         {
-
+            try {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             DynamicParameters parameter = new DynamicParameters();
             parameter.Add("@Description", feedbackDto.Description);
@@ -56,9 +90,20 @@ namespace MeetNSeat.Dal
             var result  = connection.Execute("dbo.InsertFeedback @Description, @FeedbackState, @UserId", parameter);
             if (result > 0) return true;
             return false;
+            }
+            catch (SqlException ex)
+            {
+                throw new DalExceptions("Database cannot connect, try again!");
+            }
+            catch (Exception ex)
+            {
+                throw new DalExceptions("something went wrong");
+            }
         }
         public bool UpdateFeedback(FeedbackDto feedbackDto)
         {
+            try
+            {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             DynamicParameters parameter = new DynamicParameters();
             parameter.Add("@Id", feedbackDto.Id);
@@ -68,6 +113,15 @@ namespace MeetNSeat.Dal
             var result = connection.Execute("dbo.UpdateFeedback @Id, @Description, @FeedbackState", feedbackDto);
             if (result > 0) return true;
             return false;
+            }
+            catch (SqlException ex)
+            {
+                throw new DalExceptions("Database cannot connect, try again!");
+            }
+            catch (Exception ex)
+            {
+                throw new DalExceptions("something went wrong");
+            }
         }
     }
 }
