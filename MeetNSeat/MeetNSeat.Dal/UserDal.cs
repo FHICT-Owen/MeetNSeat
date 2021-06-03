@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -10,15 +11,27 @@ namespace MeetNSeat.Dal
 {
     public class UserDal : IUserDal
     {
+        
         public List<FeedbackDto> GetFeedbackByUser(string id)
         {
-            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-            var parameters = new DynamicParameters();
-            parameters.Add("@Id", id);
-            var query = connection.Query<FeedbackDto>("dbo.GetFeedbackByUser @Id", parameters).ToList();
-            return query;
+            try
+            {
+                using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+                var parameters = new DynamicParameters();
+                parameters.Add("@Id", id);
+                var query = connection.Query<FeedbackDto>("dbo.GetFeedbackByUser @Id", parameters).ToList();
+                return query;
+            }
+            catch(SqlException ex)
+            {
+                throw new DalExceptions("Database cannot connect, try again!");
+            }
+            catch(Exception ex)
+            {
+                throw new DalExceptions("something went wrong");
+            }
         }
-
+    
         public int CheckRole(string id)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
@@ -31,15 +44,36 @@ namespace MeetNSeat.Dal
         
         public List<UserDto> GetAllUsers()
         {
+            try 
+            {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             var output = connection.Query<UserDto>("dbo.GetAllUsers").ToList();
             return output;
         }
+            catch(SqlException ex)
+            {
+                throw new DalExceptions("Database cannot connect, try again!");
+    }
+            catch(Exception ex)
+            {
+                throw new DalExceptions("something went wrong");
+}
+        }
         
         public void AddNewUser(UserDto userDto)
         {
+            try {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             connection.Execute("dbo.InsertUser @Id, @Nickname, @RoleId", userDto);
+            }
+            catch (SqlException ex)
+            {
+                throw new DalExceptions("Database cannot connect, try again!");
+            }
+            catch (Exception ex)
+            {
+                throw new DalExceptions("something went wrong");
+            }
         }
     }
 }
