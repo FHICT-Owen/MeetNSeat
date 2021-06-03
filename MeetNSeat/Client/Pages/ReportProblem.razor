@@ -1,13 +1,13 @@
 ﻿@inject ISessionStorageService _sessionStorage;
 
-@page "/issue"
+@page "/report-problem"
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Client.Models
 @using Blazored.SessionStorage
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
-    <h2 class="pt-3 pb-2 mb-3 border-bottom">Report issue</h2>
+    <h2 class="pt-3 pb-2 mb-3 border-bottom">Report problem</h2>
     <div>
         <form>
             <div class="mb-3"> @* TODO: remove when email can be retrieved from auth0 *@
@@ -15,9 +15,9 @@
                 <input class="form-control" placeholder="Enter an your email here" @bind="Email" @bind:event="oninput" maxlength="100"/>
             </div>
             <div class="mb-3">
-                <label class="form-label">Issue</label>
-                <textarea class="form-control" placeholder="Enter your issue here" style="height: 100px" @bind="Description" @bind:event="oninput" maxlength="1000"></textarea>
-                Characters : @Description.Length / 1000
+                <label class="form-label h4">Problem</label>
+                <textarea class="form-control" rows="8" placeholder="Enter your problem here ..." role="textbox" @bind="Description" @bind:event="oninput" maxlength="1000"></textarea>
+                <span style="position: absolute; right: 36px; margin-top: -24px">@Description.Length / 1000</span>
             </div>
             <div class="mb-3">
                 <label class="form-label m-1 pt-2">Location</label>
@@ -46,7 +46,7 @@
                     <option value="3">Kamer 3</option>
                 </select>
             </div>
-            <button @onclick="AddIssue" type="button" disabled="@IsDisabled" class="btn btn-primary">Report issue</button>
+            <button @onclick="AddProblem" type="button" disabled="@IsDisabled" class="btn btn-primary">Report problem</button>
         </form>
     </div>
 </main>
@@ -65,16 +65,18 @@
         Locations = (await LocationService.GetAllLocations()).ToList();
         // Rooms = (await RoomService.GetAllRoomTypes()).ToList();
     }
+
+    private int Rows { get; set; }
     
     private int RoomId { get; set; }
     private string UserId { get; set; }
     private string Email { get; set; }
-    private static string Description { get; set; } = string.Empty;
+    private string Description { get; set; } = string.Empty;
     private byte[] Picture { get; set; }
 
-    private async Task AddIssue()
+    private async Task AddProblem()
     {
         UserId = await _sessionStorage.GetItemAsync<string>("userId");
-        await IssueService.AddIssue(new IssueModel(RoomId, UserId, Email, Description, Picture));
+        await ProblemService.AddProblem(new ProblemModel(RoomId, UserId, Email, Description, Picture));
     }
 }

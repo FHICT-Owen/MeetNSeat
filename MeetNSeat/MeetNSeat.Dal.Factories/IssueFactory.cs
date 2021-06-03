@@ -4,9 +4,9 @@ namespace MeetNSeat.Dal.Factories
 {
 	public static class IssueFactory
 	{
-		public static IIssueDal CreateIssueDal()
+		public static IProblemDal CreateIssueDal()
 		{
-			return new IssueDal();
+			return new ProblemDal();
 		}
 	}
 }

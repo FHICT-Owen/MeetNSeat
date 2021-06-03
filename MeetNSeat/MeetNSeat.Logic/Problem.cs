@@ -4,7 +4,7 @@ using MeetNSeat.Dal.Interfaces.Dtos;
 
 namespace MeetNSeat.Logic
 {
-    public class Issue
+    public class Problem
     {
 	    public int Id { get; set; }
 	    public int RoomId { get; set; }
@@ -16,7 +16,7 @@ namespace MeetNSeat.Logic
 	    public bool IsResolved { get; set; }
 	    public DateTime? ResolvedAt { get; set; }
 
-	    public Issue(int roomId, string userId, string email, string description, byte[] picture) // create issue
+	    public Problem(int roomId, string userId, string email, string description, byte[] picture) // create issue
 	    {
 		    RoomId = roomId;
 		    UserId = userId;
@@ -28,7 +28,7 @@ namespace MeetNSeat.Logic
 		    ResolvedAt = null;
 	    }
 
-	    public Issue(IssueDto dto)
+	    public Problem(ProblemDto dto)
 	    {
 		    Id = dto.Id;
 		    RoomId = dto.RoomId;
@@ -50,10 +50,10 @@ namespace MeetNSeat.Logic
 		    Picture = picture;
 		    IsResolved = isResolved;
 		    ResolvedAt = resolvedAt;
-		    IssueFactory.CreateIssueDal().Update(ConvertToDto());
+		    IssueFactory.CreateIssueDal().UpdateProblem(ConvertToDto());
 	    }
 
-	    public IssueDto ConvertToDto()
+	    public ProblemDto ConvertToDto()
 	    {
 		    return new (Id, RoomId, UserId, Email, Description, Picture, ReportedOn, IsResolved, ResolvedAt);
 	    }

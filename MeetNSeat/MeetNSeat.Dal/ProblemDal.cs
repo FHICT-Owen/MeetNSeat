@@ -8,35 +8,35 @@ using MeetNSeat.Dal.Interfaces.Dtos;
 
 namespace MeetNSeat.Dal
 {
-	public class IssueDal : IIssueDal
+	public class ProblemDal : IProblemDal
 	{
-		public List<IssueDto> GetAllIssues()
+		public List<ProblemDto> GetAllProblems()
 		{
 			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-			var output = connection.Query<IssueDto>("dbo.GetAllIssues").ToList();
+			var output = connection.Query<ProblemDto>("dbo.GetAllIssues").ToList();
 			return output;
 		}
 
-		public void AddIssue(IssueDto issue)
+		public void AddProblem(ProblemDto problem)
 		{
 			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-			connection.Execute("dbo.InsertIssue @RoomId, @UserId, @Email, @Description, @Picture, @ReportedOn, @IsResolved, @ResolvedAt", issue);
+			connection.Execute("dbo.InsertProblem @RoomId, @UserId, @Email, @Description, @Picture, @ReportedOn, @IsResolved, @ResolvedAt", problem);
 		}
 
-		public void DeleteIssueById(int id)
+		public void DeleteProblemById(int id)
 		{
 			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 			
 			var parameters = new DynamicParameters();
 			parameters.Add("@Id", id);
 			
-			connection.Execute("dbo.DeleteIssueById @Id", parameters);
+			connection.Execute("dbo.DeleteProblemById @Id", parameters);
 		}
 		
-		public void Update(IssueDto issue)
+		public void UpdateProblem(ProblemDto problem)
 		{
 			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-			connection.Execute("dbo.UpdateIssue @Id, @RoomId, @UserId, @Description, @IsResolved", issue);
+			connection.Execute("dbo.UpdateProblem @Id, @RoomId, @UserId, @Description, @IsResolved", problem);
 		}
 	}
 }

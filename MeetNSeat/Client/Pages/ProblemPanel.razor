@@ -1,0 +1,88 @@
+﻿@page "/problem-panel"
+@using MeetNSeat.Client.Models
+@using MeetNSeat.Client.Services
+@attribute [Authorize]
+
+<main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
+    <h2 class="pt-3">Problem panel</h2>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Description</th>
+                <th scope="col">Room</th>
+                <th scope="col">Reported by</th>
+                <th scope="col">Reported on</th>
+                <th scope="col"><button @onclick="ToggleResolvedProblemView" disabled="@IsDisabled" class="btn btn-primary p-1">@ButtonText</button></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Problems.Any())
+            {foreach (var problem in Problems)
+                {@if (ShowResolved && problem.IsResolved)
+                    {<tr>
+                         <td>@problem.Description</td>
+                         <td>@problem.RoomId</td>
+                         <td>@problem.UserId</td>
+                         <td>@problem.ReportedOn</td>
+                         <td>
+                             <button @onclick="() => ResolveProblem(problem)" class="btn btn-primary">Re-Open</button>
+                             <button @onclick="() => DeleteProblem(problem.Id)" class="btn btn-primary">Delete</button>
+                         </td>
+                     </tr>
+                    }
+                }
+            @foreach (var problem in Problems)
+            {
+                @if (!problem.IsResolved)
+                {<tr>
+                     <td>@problem.Description</td>
+                     <td>@problem.RoomId</td>
+                     <td>@problem.UserId</td>
+                     <td>@problem.ReportedOn</td>
+                     <td>
+                         <button @onclick="() => ResolveProblem(problem)" class="btn btn-primary">Resolve</button>
+                     </td>
+                 </tr>}
+            }}
+            </tbody>
+        </table>
+    </div>
+</main>
+
+@code {
+
+    private bool ShowResolved { get; set; }
+
+    private string ButtonText { get; set; } = "Show Resolved";
+
+    private bool IsDisabled { get; set; } = true;
+    
+    List<ProblemModel> Problems { get; set; } = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Problems = (await ProblemService.GetAllProblems()).ToList();
+        IsDisabled = !Problems.Any(model => model.IsResolved);
+    }
+
+    private void ToggleResolvedProblemView()
+    {
+        ShowResolved = !ShowResolved;
+        ButtonText = ShowResolved ? "Hide Resolved" : "Show Resolved";
+    }
+    
+    private async Task ResolveProblem(ProblemModel problem)
+    {
+        problem.IsResolved = !problem.IsResolved;
+        await ProblemService.UpdateProblem(problem);
+        IsDisabled = !Problems.Any(model => model.IsResolved);
+    }
+    
+    private async Task DeleteProblem(int id)
+    {
+        Problems.Remove(Problems.Find(problem => problem.Id == id));
+        await ProblemService.DeleteProblem(id);
+        IsDisabled = !Problems.Any(model => model.IsResolved);
+    }
+}

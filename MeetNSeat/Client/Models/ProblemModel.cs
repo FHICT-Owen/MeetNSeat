@@ -1,9 +1,8 @@
 using System;
-using System.Net.Mime;
 
-namespace MeetNSeat.Dal.Interfaces.Dtos
+namespace MeetNSeat.Client.Models
 {
-	public class IssueDto
+	public class ProblemModel
 	{
 		public int Id { get; set; }
 		public int RoomId { get; set; }
@@ -15,18 +14,13 @@ namespace MeetNSeat.Dal.Interfaces.Dtos
 		public bool IsResolved { get; set; }
 		public DateTime? ResolvedAt { get; set; }
 
-		public IssueDto() { }
-		public IssueDto(int id, int roomId, string userId, string email, string description, byte[] picture, DateTime reportedOn, bool isResolved, DateTime? resolvedAt)
+		public ProblemModel(int roomId, string userId, string email, string description, byte[] picture)
 		{
-			Id = id;
 			RoomId = roomId;
 			UserId = userId;
 			Email = email;
 			Description = description;
 			Picture = picture;
-			ReportedOn = reportedOn;
-			IsResolved = isResolved;
-			ResolvedAt = resolvedAt;
 		}
 	}
 }

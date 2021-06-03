@@ -2,7 +2,7 @@ using System;
 
 namespace MeetNSeat.Server.Models
 {
-	public class IssueModel
+	public class ProblemModel
 	{
 		public int Id { get; set; }
 		public int RoomId { get; set; }
