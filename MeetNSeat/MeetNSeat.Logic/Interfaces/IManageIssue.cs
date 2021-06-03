@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace MeetNSeat.Logic.Interfaces
@@ -5,8 +6,8 @@ namespace MeetNSeat.Logic.Interfaces
 	public interface IManageIssue
 	{
 		IReadOnlyCollection<Issue> GetAllIssues();
-		void AddIssue(string description, int roomId, string userId);
+		void AddIssue(int roomId, string userId, string email, string description, byte[] picture);
 		void DeleteIssue(int id);
-		void UpdateIssue(int id, string description, int roomId, string userId, bool isResolved);
+		void UpdateIssue(int id, int roomId, string userId, string email, string description, byte[] picture, bool isResolved, DateTime? resolvedAt);
 	}
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
@@ -25,9 +26,9 @@ namespace MeetNSeat.Logic
       return _issues.AsReadOnly();
     }
     
-    public void AddIssue(string description, int roomId, string userId)
+    public void AddIssue(int roomId, string userId, string email, string description, byte[] picture)
     {
-      var issue = new Issue(description, roomId, userId);
+      var issue = new Issue(roomId, userId, email, description, picture);
       _issues.Add(issue);
       _dal.AddIssue(issue.ConvertToDto());
     }
@@ -38,10 +39,10 @@ namespace MeetNSeat.Logic
       _dal.DeleteIssueById(id);
     }
     
-    public void UpdateIssue(int id, string description, int roomId, string userId, bool isResolved)
+    public void UpdateIssue(int id, int roomId, string userId, string email, string description, byte[] picture, bool isResolved, DateTime? resolvedAt)
     {
       _issues.Find(issue => issue.Id == id)?
-        .Update(description, roomId, userId, isResolved);
+        .Update(roomId, userId, email, description, picture, isResolved, resolvedAt);
     }
   }
 }

@@ -20,7 +20,7 @@ namespace MeetNSeat.Dal
 		public void AddIssue(IssueDto issue)
 		{
 			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-			connection.Execute("dbo.InsertIssue @RoomId, @UserId, @Description, @CreatedOn, @IsResolved", issue);
+			connection.Execute("dbo.InsertIssue @RoomId, @UserId, @Email, @Description, @Picture, @ReportedOn, @IsResolved, @ResolvedAt", issue);
 		}
 
 		public void DeleteIssueById(int id)

@@ -6,43 +6,56 @@ namespace MeetNSeat.Logic
 {
     public class Issue
     {
-	    public int Id { get; }
-	    public int RoomId { get; private set; }
-	    public string UserId { get; private set; }
-	    public string Description { get; private set; }
-	    public DateTime CreatedOn { get; }
-	    public bool IsResolved { get; private set; }
+	    public int Id { get; set; }
+	    public int RoomId { get; set; }
+	    public string UserId { get; set; }
+	    public string Email { get; set; }
+	    public string Description { get; set; }
+	    public byte[] Picture { get; set; }
+	    public DateTime ReportedOn { get; set; }
+	    public bool IsResolved { get; set; }
+	    public DateTime? ResolvedAt { get; set; }
 
-	    public Issue(string description, int roomId, string userId)
+	    public Issue(int roomId, string userId, string email, string description, byte[] picture) // create issue
 	    {
-		    Description = description;
 		    RoomId = roomId;
 		    UserId = userId;
-		    CreatedOn = DateTime.Now;
+		    Email = email;
+		    Description = description;
+		    Picture = picture;
+		    ReportedOn = DateTime.Now;
 		    IsResolved = false;
+		    ResolvedAt = null;
 	    }
 
-	    public Issue(IssueDto dto) {
+	    public Issue(IssueDto dto)
+	    {
 		    Id = dto.Id;
 		    RoomId = dto.RoomId;
 		    UserId = dto.UserId;
+		    Email = dto.Email;
 		    Description = dto.Description;
-		    CreatedOn = dto.CreatedOn;
+		    Picture = dto.Picture;
+		    ReportedOn = dto.ReportedOn;
 		    IsResolved = dto.IsResolved;
+		    ResolvedAt = dto.ResolvedAt;
 	    }
 
-	    public void Update(string description, int roomId, string userId, bool isResolved)
+	    public void Update(int roomId, string userId, string email, string description, byte[] picture, bool isResolved, DateTime? resolvedAt)
 	    {
 		    RoomId = roomId;
 		    UserId = userId;
+		    Email = email;
 		    Description = description;
+		    Picture = picture;
 		    IsResolved = isResolved;
+		    ResolvedAt = resolvedAt;
 		    IssueFactory.CreateIssueDal().Update(ConvertToDto());
 	    }
 
 	    public IssueDto ConvertToDto()
 	    {
-		    return new (Id, RoomId, UserId, Description, CreatedOn, IsResolved);
+		    return new (Id, RoomId, UserId, Email, Description, Picture, ReportedOn, IsResolved, ResolvedAt);
 	    }
     }
 }

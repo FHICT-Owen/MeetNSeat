@@ -24,7 +24,7 @@
                          <td>@issue.Description</td>
                          <td>@issue.RoomId</td>
                          <td>@issue.UserId</td>
-                         <td>@issue.CreatedOn</td>
+                         <td>@issue.ReportedOn</td>
                          <td>
                              <button @onclick="() => Resolve(issue)" class="btn btn-primary">Re-Open</button>
                              <button @onclick="() => DeleteIssue(issue.Id)" class="btn btn-primary">Delete</button>
@@ -39,7 +39,7 @@
                      <td>@issue.Description</td>
                      <td>@issue.RoomId</td>
                      <td>@issue.UserId</td>
-                     <td>@issue.CreatedOn</td>
+                     <td>@issue.ReportedOn</td>
                      <td>
                          <button @onclick="() => Resolve(issue)" class="btn btn-primary">Resolve</button>
                      </td>

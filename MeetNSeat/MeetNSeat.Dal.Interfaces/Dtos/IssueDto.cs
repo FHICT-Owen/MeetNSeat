@@ -1,4 +1,5 @@
 using System;
+using System.Net.Mime;
 
 namespace MeetNSeat.Dal.Interfaces.Dtos
 {
@@ -7,19 +8,25 @@ namespace MeetNSeat.Dal.Interfaces.Dtos
 		public int Id { get; set; }
 		public int RoomId { get; set; }
 		public string UserId { get; set; }
+		public string Email { get; set; }
 		public string Description { get; set; }
-		public DateTime CreatedOn { get; set; }
+		public byte[] Picture { get; set; }
+		public DateTime ReportedOn { get; set; }
 		public bool IsResolved { get; set; }
+		public DateTime? ResolvedAt { get; set; }
 
 		public IssueDto() { }
-		public IssueDto(int id, int roomId, string userId, string description, DateTime createdOn, bool isResolved)
+		public IssueDto(int id, int roomId, string userId, string email, string description, byte[] picture, DateTime reportedOn, bool isResolved, DateTime? resolvedAt)
 		{
 			Id = id;
 			RoomId = roomId;
 			UserId = userId;
+			Email = email;
 			Description = description;
-			CreatedOn = createdOn;
+			Picture = picture;
+			ReportedOn = reportedOn;
 			IsResolved = isResolved;
+			ResolvedAt = resolvedAt;
 		}
 	}
 }

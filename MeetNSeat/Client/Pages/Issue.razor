@@ -10,13 +10,17 @@
     <h2 class="pt-3 pb-2 mb-3 border-bottom">Report issue</h2>
     <div>
         <form>
+            <div class="mb-3"> @* TODO: remove when email can be retrieved from auth0 *@
+                <label class="form-label">Email</label>
+                <input class="form-control" placeholder="Enter an your email here" @bind="Email" @bind:event="oninput" maxlength="100"/>
+            </div>
             <div class="mb-3">
-                <label for="issue" class="form-label">Issue</label>
-                <textarea class="form-control" id="issue" placeholder="Enter your issue here." style="height: 100px" @bind="Description" @bind:event="oninput" maxlength="1000"></textarea>
+                <label class="form-label">Issue</label>
+                <textarea class="form-control" placeholder="Enter your issue here" style="height: 100px" @bind="Description" @bind:event="oninput" maxlength="1000"></textarea>
                 Characters : @Description.Length / 1000
             </div>
             <div class="mb-3">
-                <label for="Location" class="form-label m-1 pt-2">Location</label>
+                <label class="form-label m-1 pt-2">Location</label>
                 <select class="form-control" @bind="Location" aria-label="Default select example">
                     <option placeholder="Select a location here">Select a location</option>
                     @if (Locations.Any())
@@ -27,8 +31,8 @@
                         }
                     }
                 </select>
-                <label for="Room" class="form-label">Room</label>
-                <select class="form-control" @bind="Room" @bind:event="oninput" aria-label="Default select example">
+                <label class="form-label">Room</label>
+                <select class="form-control" @bind="RoomId" @bind:event="oninput" aria-label="Default select example">
                     <option placeholder="Select a location here">Select a room</option>
                     @if (Rooms.Any())
                     {
@@ -51,11 +55,6 @@
 
 @code {
     private string Location { get; set; }
-    
-	private static string Description { get; set; } = string.Empty;
-
-    private int Room { get; set; }
-    
     private bool IsDisabled { get; set; } = true;
     
     List<LocationModel> Locations { get; set; }  = new();
@@ -66,10 +65,16 @@
         Locations = (await LocationService.GetAllLocations()).ToList();
         // Rooms = (await RoomService.GetAllRoomTypes()).ToList();
     }
+    
+    private int RoomId { get; set; }
+    private string UserId { get; set; }
+    private string Email { get; set; }
+    private static string Description { get; set; } = string.Empty;
+    private byte[] Picture { get; set; }
 
     private async Task AddIssue()
     {
-        var userId = await _sessionStorage.GetItemAsync<string>("userId");
-        await IssueService.AddIssue(new IssueModel(Description, Room, userId));
+        UserId = await _sessionStorage.GetItemAsync<string>("userId");
+        await IssueService.AddIssue(new IssueModel(RoomId, UserId, Email, Description, Picture));
     }
 }

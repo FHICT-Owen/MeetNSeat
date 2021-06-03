@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MeetNSeat.Server.Controllers
 {
-	[Route("api/issues")]
-	[ApiController]
-	public class IssueController : ControllerBase
+	public class IssueController : ApiControllerBase
 	{
 		private readonly IManageIssue _manageIssue;
 
@@ -25,7 +23,7 @@ namespace MeetNSeat.Server.Controllers
 		[HttpPost]
 		public void AddIssue([FromBody] IssueModel issueModel)
 		{
-			_manageIssue.AddIssue(issueModel.Description, issueModel.RoomId, issueModel.UserId);
+			_manageIssue.AddIssue(issueModel.RoomId, issueModel.UserId, issueModel.Email, issueModel.Description, issueModel.Picture);
 		}
 		
 		[HttpDelete("{id:int}")]
@@ -37,7 +35,7 @@ namespace MeetNSeat.Server.Controllers
 		[HttpPut]
 		public void UpdateIssue([FromBody] IssueModel issueModel)
 		{
-			_manageIssue.UpdateIssue(issueModel.Id, issueModel.Description, issueModel.RoomId, issueModel.UserId, issueModel.IsResolved);
+			_manageIssue.UpdateIssue(issueModel.Id, issueModel.RoomId, issueModel.UserId, issueModel.Email, issueModel.Description, issueModel.Picture, issueModel.IsResolved, issueModel.ResolvedAt);
 		}
 	}
 }
