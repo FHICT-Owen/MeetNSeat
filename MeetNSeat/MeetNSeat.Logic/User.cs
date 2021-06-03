@@ -88,12 +88,18 @@ namespace MeetNSeat.Logic
             {
                 if (attendees <= room.Spots)
                     foreach (var reservation in reservations)
-                        if (reservation.RoomId == room.Id &&
-                            reservation.StartTime < startTime && startTime < reservation.EndTime ||
-                            reservation.StartTime < endTime && endTime < reservation.EndTime ||
-                            reservation.StartTime > startTime && endTime > reservation.EndTime) 
+                    {
+                        // Check if the endtime in reservation is not in the past.
+                        if (endTime < startTime)
                             isAvailable = false;
-                    
+                        
+                        if (reservation.RoomId == room.Id &&
+                            reservation.StartTime <= startTime && startTime <= reservation.EndTime ||
+                            reservation.StartTime <= endTime && endTime <= reservation.EndTime ||
+                            reservation.StartTime >= startTime && endTime >= reservation.EndTime)
+                            isAvailable = false;
+                    }
+                
                 roomId = room.Id;
             }
             if (!isAvailable) return false;
