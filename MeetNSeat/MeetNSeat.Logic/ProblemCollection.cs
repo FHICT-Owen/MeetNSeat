@@ -13,7 +13,7 @@ namespace MeetNSeat.Logic
 
     public ProblemCollection()
     {
-      _dal = IssueFactory.CreateIssueDal();
+      _dal = ProblemFactory.CreateIssueDal();
     }
     
     public IReadOnlyCollection<Problem> GetAllProblems() 

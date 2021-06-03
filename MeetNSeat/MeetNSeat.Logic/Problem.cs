@@ -50,7 +50,7 @@ namespace MeetNSeat.Logic
 		    Picture = picture;
 		    IsResolved = isResolved;
 		    ResolvedAt = resolvedAt;
-		    IssueFactory.CreateIssueDal().UpdateProblem(ConvertToDto());
+		    ProblemFactory.CreateIssueDal().UpdateProblem(ConvertToDto());
 	    }
 
 	    public ProblemDto ConvertToDto()
