@@ -1,19 +1,17 @@
 ﻿@inject ISessionStorageService _sessionStorage;
+@inject AuthenticationStateProvider _authStateProvider
 
 @page "/report-problem"
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Client.Models
 @using Blazored.SessionStorage
+@using System.Security.Claims
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <h2 class="pt-3 pb-2 mb-3 border-bottom">Report problem</h2>
     <div>
         <form>
-            <div class="mb-3"> @* TODO: remove when email can be retrieved from auth0 *@
-                <label class="form-label">Email</label>
-                <input class="form-control" placeholder="Enter an your email here" @bind="Email" @bind:event="oninput" maxlength="100"/>
-            </div>
             <div class="mb-3">
                 <label class="form-label h4">Problem</label>
                 <textarea class="form-control" rows="8" placeholder="Enter your problem here ..." role="textbox" @bind="Description" @bind:event="oninput" maxlength="1000"></textarea>
@@ -63,11 +61,15 @@
     protected override async Task OnInitializedAsync()
     {
         Locations = (await LocationService.GetAllLocations()).ToList();
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity.IsAuthenticated)
+            UserId = await _sessionStorage.GetItemAsync<string>("userId");
+        
+        Email = user.FindFirst(c => c.Type == "email").Value;
         // Rooms = (await RoomService.GetAllRoomTypes()).ToList();
     }
 
-    private int Rows { get; set; }
-    
     private int RoomId { get; set; }
     private string UserId { get; set; }
     private string Email { get; set; }
@@ -76,7 +78,7 @@
 
     private async Task AddProblem()
     {
-        UserId = await _sessionStorage.GetItemAsync<string>("userId");
+        
         await ProblemService.AddProblem(new ProblemModel(RoomId, UserId, Email, Description, Picture));
     }
 }

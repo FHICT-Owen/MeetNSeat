@@ -31,19 +31,19 @@ namespace MeetNSeat.Dal
 
 		public void AddProblem(ProblemDto problem)
 		{
-			try
-			{
+			// try
+			// {
 				using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 				connection.Execute("dbo.InsertProblem @RoomId, @UserId, @Email, @Description, @Picture, @ReportedOn, @IsResolved, @ResolvedAt", problem);
-			}
-			catch (SqlException ex)
-			{
-				throw new DalExceptions("Database cannot connect, try again!");
-			}
-			catch (Exception ex)
-			{
-				throw new DalExceptions("something went wrong");
-			}
+			// }
+			// catch (SqlException ex)
+			// {
+			// 	throw new DalExceptions("Database cannot connect, try again!");
+			// }
+			// catch (Exception ex)
+			// {
+			// 	throw new DalExceptions("something went wrong");
+			// }
 		}
 
 		public void DeleteProblemById(int id)
