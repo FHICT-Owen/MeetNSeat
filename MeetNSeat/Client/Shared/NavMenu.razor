@@ -12,144 +12,133 @@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
-        <AuthorizeView>
+        <AuthorizeView Roles="1">
             <Authorized>
-                @switch (Role)
-                {
-                    default:
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                                <span class="oi oi-home" aria-hidden="true"></span> Home
-                            </NavLink>
-                        </li>
-                        break;
-
-                    case 1:
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="dashboard" Match="NavLinkMatch.All">
-                                <span class="oi oi-home" aria-hidden="true"></span> Dashboard
-                            </NavLink>
-                        </li>
-
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="data-checker">
-                                <span class="oi oi-plus" aria-hidden="true"></span> Data Checker
-                            </NavLink>
-                        </li>
-
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="reservation">
-                                <span class="oi oi-plus" aria-hidden="true"></span> Make reservation
-                            </NavLink>
-                        </li>
-
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="report-problem">
-                                <span class="oi oi-warning" aria-hidden="true"></span> Report problem
-                            </NavLink>
-                        </li>
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="afeedback">
-                                <span class="oi oi-menu" aria-hidden="true"></span> Feedback
-                            </NavLink>
-                        </li>
-
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="feedback/new">
-                                <span class="oi oi-plus" aria-hidden="true"></span> Add Feedback
-                            </NavLink>
-                        </li>
-                        break;
-
-                    case 2:
-                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">
-                            <span>Facility manager</span>
-                            <a class="d-flex align-items-center text-muted" href="#">
-                                <span data-feather="plus-circle"></span>
-                            </a>
-                        </h6>
-
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="problem-panel">
-                                <span class="oi oi-menu" aria-hidden="true"></span> Problem Panel
-                            </NavLink>
-                        </li>
-
-
-                        break;
-
-                    case 3:
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="dashboard" Match="NavLinkMatch.All">
-                                <span class="oi oi-home" aria-hidden="true"></span> Dashboard
-                            </NavLink>
-                        </li>
-
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="data-checker">
-                                <span class="oi oi-plus" aria-hidden="true"></span> Data Checker
-                            </NavLink>
-                        </li>
-
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="reservation">
-                                <span class="oi oi-plus" aria-hidden="true"></span> Make reservation
-                            </NavLink>
-                        </li>
-
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="report-problem">
-                                <span class="oi oi-warning" aria-hidden="true"></span> Report problem
-                            </NavLink>
-                        </li>
-                        
-                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">
-                            <span>Facility manager</span>
-                            <a class="d-flex align-items-center text-muted" href="#">
-                                <span data-feather="plus-circle"></span>
-                            </a>
-                        </h6>
-
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="problem-panel">
-                                <span class="oi oi-menu" aria-hidden="true"></span> Problem Panel
-                            </NavLink>
-                        </li>
-
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="afeedback">
-                                <span class="oi oi-menu" aria-hidden="true"></span> Feedback
-                            </NavLink>
-                        </li>
-
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="feedback/new">
-                                <span class="oi oi-plus" aria-hidden="true"></span> Add Feedback
-                            </NavLink>
-                        </li>
-                        
-                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">
-                            <span>Admin</span>
-                            <a class="d-flex align-items-center text-muted" href="#">
-                                <span data-feather="plus-circle"></span>
-                            </a>
-                        </h6>
-
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="locations">
-                                <span class="oi oi-home" aria-hidden="true"></span> Locations
-                            </NavLink>
-                        </li>
-                        break;
-                }
-            </Authorized>
-            <NotAuthorized>
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">
+                    <span>User</span>
+                    <a class="d-flex align-items-center text-muted" href="#">
+                        <span data-feather="plus-circle"></span>
+                    </a>
+                </h6>
                 <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                        <span class="oi oi-home" aria-hidden="true"></span> Home
+                    <NavLink class="nav-link" href="dashboard" Match="NavLinkMatch.All">
+                        <span class="oi oi-home" aria-hidden="true"></span> Dashboard
                     </NavLink>
                 </li>
-            </NotAuthorized>
+
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="reservation">
+                        <span class="oi oi-plus" aria-hidden="true"></span> Make reservation
+                    </NavLink>
+                </li>
+
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="report-problem">
+                        <span class="oi oi-warning" aria-hidden="true"></span> Report problem
+                    </NavLink>
+                </li>
+            </Authorized>
+        </AuthorizeView>
+
+        <AuthorizeView Roles="2">
+            <Authorized>
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">
+                    <span>Facility manager</span>
+                    <a class="d-flex align-items-center text-muted" href="#">
+                        <span data-feather="plus-circle"></span>
+                    </a>
+                </h6>
+
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="problem-panel">
+                        <span class="oi oi-menu" aria-hidden="true"></span> Problem Panel
+                    </NavLink>
+                </li>
+
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="afeedback">
+                        <span class="oi oi-menu" aria-hidden="true"></span> Feedback
+                    </NavLink>
+                </li>
+
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="feedback/new">
+                        <span class="oi oi-plus" aria-hidden="true"></span> Add Feedback
+                    </NavLink>
+                </li>
+            </Authorized>
+        </AuthorizeView>
+
+        <AuthorizeView Roles="3">
+            <Authorized>
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">
+                    <span>User</span>
+                    <a class="d-flex align-items-center text-muted" href="#">
+                        <span data-feather="plus-circle"></span>
+                    </a>
+                </h6>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="dashboard" Match="NavLinkMatch.All">
+                        <span class="oi oi-home" aria-hidden="true"></span> Dashboard
+                    </NavLink>
+                </li>
+
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="reservation">
+                        <span class="oi oi-plus" aria-hidden="true"></span> Make reservation
+                    </NavLink>
+                </li>
+
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="report-problem">
+                        <span class="oi oi-warning" aria-hidden="true"></span> Report problem
+                    </NavLink>
+                </li>
+
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">
+                    <span>Facility manager</span>
+                    <a class="d-flex align-items-center text-muted" href="#">
+                        <span data-feather="plus-circle"></span>
+                    </a>
+                </h6>
+
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="problem-panel">
+                        <span class="oi oi-menu" aria-hidden="true"></span> Problem Panel
+                    </NavLink>
+                </li>
+
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="afeedback">
+                        <span class="oi oi-menu" aria-hidden="true"></span> Feedback
+                    </NavLink>
+                </li>
+
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="feedback/new">
+                        <span class="oi oi-plus" aria-hidden="true"></span> Add Feedback
+                    </NavLink>
+                </li>
+
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-white">
+                    <span>Admin</span>
+                    <a class="d-flex align-items-center text-muted" href="#">
+                        <span data-feather="plus-circle"></span>
+                    </a>
+                </h6>
+
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="locations">
+                        <span class="oi oi-home" aria-hidden="true"></span> Locations
+                    </NavLink>
+                </li>
+
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="data-checker">
+                        <span class="oi oi-plus" aria-hidden="true"></span> Data Checker
+                    </NavLink>
+                </li>
+            </Authorized>
         </AuthorizeView>
     </ul>
 </div>
@@ -158,8 +147,6 @@
     private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private int Role;
 
     private void ToggleNavMenu()
     {
@@ -172,8 +159,6 @@
         var user = authState.User;
         if (user.Identity.IsAuthenticated)
         {
-            Role = int.Parse(user.FindFirst(c => c.Type == "role").Value);
-            Console.WriteLine(Role);
             var userId = $"{user.FindFirst(res => res.Type == "sub")?.Value.Split("|")[1]}";
             await _storage.SetItemAsync("userId", userId);
         }

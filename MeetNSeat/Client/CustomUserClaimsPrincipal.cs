@@ -37,7 +37,7 @@ namespace MeetNSeat.Client
                     await AuthService.AddUser(new UserModel(userId, nickname, 1));
                     role = 1;
                 }
-                claimsIdentity.AddClaim(new Claim("role", role.ToString()));
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
             }
             return user;
         }
