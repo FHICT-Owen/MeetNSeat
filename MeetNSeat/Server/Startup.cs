@@ -1,6 +1,8 @@
 using Blazored.SessionStorage;
+using MeetNSeat.Client;
 using MeetNSeat.Logic;
 using MeetNSeat.Logic.Interfaces;
+using MeetNSeat.Server.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -55,6 +57,7 @@ namespace MeetNSeat.Server
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
+            app.ConfigureExceptionHandler();
 
             app.UseRouting();
             

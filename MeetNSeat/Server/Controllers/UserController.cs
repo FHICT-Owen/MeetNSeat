@@ -19,6 +19,7 @@ namespace MeetNSeat.Server.Controllers
         [HttpGet("users{id}")]
         public ActionResult GetAllReservations(string id)
         {
+
             var reservations = _manageUser.GetReservationByUser(id);
             return Ok(reservations);
         }
@@ -59,6 +60,7 @@ namespace MeetNSeat.Server.Controllers
         //}
 
         [HttpPost("confirm{id}")]
+
         public ActionResult ConfirmReservation(int id, [FromBody] string ip)
         {
             Console.WriteLine(id +" "+ip);
