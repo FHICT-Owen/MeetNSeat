@@ -7,11 +7,7 @@ namespace MeetNSeat.Server.Controllers
 	public class ProblemController : ApiControllerBase
 	{
 		private readonly IManageProblems _manageProblems;
-
-		public ProblemController(IManageProblems manageProblems)
-		{
-			_manageProblems = manageProblems;
-		}
+		public ProblemController(IManageProblems manageProblems) => _manageProblems = manageProblems;
 		
 		[HttpGet]
 		public ActionResult GetAllProblems()
@@ -21,9 +17,9 @@ namespace MeetNSeat.Server.Controllers
 		}
 		
 		[HttpPost]
-		public void AddProblem([FromBody] ProblemModel problemModel)
+		public void AddProblem([FromBody]ProblemModel problem)
 		{
-			_manageProblems.AddProblem(problemModel.RoomId, problemModel.UserId, problemModel.Email, problemModel.Description, problemModel.Picture);
+			_manageProblems.AddProblem(problem.RoomId, problem.UserId, problem.Email, problem.Description, problem.Picture);
 		}
 		
 		[HttpDelete("{id:int}")]
@@ -33,9 +29,17 @@ namespace MeetNSeat.Server.Controllers
 		}
 		
 		[HttpPut]
-		public void UpdateProblem([FromBody] ProblemModel problemModel)
+		public void UpdateProblem([FromBody]ProblemModel problem)
 		{
-			_manageProblems.UpdateProblem(problemModel.Id, problemModel.RoomId, problemModel.UserId, problemModel.Email, problemModel.Description, problemModel.Picture, problemModel.IsResolved, problemModel.ResolvedAt);
+			if (problem.IsResolved)
+			{
+				
+			}
+			else
+			{
+				
+			}
+			_manageProblems.UpdateProblem(problem.Id, problem.RoomId, problem.UserId, problem.Email, problem.Description, problem.Picture, problem.IsResolved, problem.ResolvedAt);
 		}
 	}
 }

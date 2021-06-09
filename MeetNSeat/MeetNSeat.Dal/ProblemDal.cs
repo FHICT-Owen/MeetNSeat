@@ -37,7 +37,7 @@ namespace MeetNSeat.Dal
 		public void UpdateProblem(ProblemDto problem)
 		{
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-            connection.Execute("dbo.UpdateProblem @Id, @RoomId, @UserId, @Description, @IsResolved", problem);
+            connection.Execute("dbo.UpdateProblem @Id, @RoomId, @UserId, @Email, @Description, @Picture, @IsResolved, @ResolvedAt", problem);
         }
 	}
 }

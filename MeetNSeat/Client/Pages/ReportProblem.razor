@@ -6,6 +6,7 @@
 @using MeetNSeat.Client.Models
 @using Blazored.SessionStorage
 @using System.Security.Claims
+@using System.IO
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
@@ -17,9 +18,12 @@
                 <textarea class="form-control" rows="8" placeholder="Enter your problem here ..." role="textbox" @bind="Description" @bind:event="oninput" maxlength="1000"></textarea>
                 <span style="position: absolute; right: 36px; margin-top: -24px">@Description.Length / 1000</span>
             </div>
+            <div>
+                <InputFile OnChange="@SingleUpload"/>
+            </div>
             <div class="mb-3">
                 <label class="form-label m-1 pt-2">Location</label>
-                <select class="form-control" @bind="Location" aria-label="Default select example">
+                <select class="form-control"  @onchange="GetRoomsAtLocation" aria-label="Default select example">
                     <option placeholder="Select a location here">Select a location</option>
                     @if (Locations.Any())
                     {
@@ -39,9 +43,6 @@
                             <option value="@room.Id">@room.Name</option>
                         }
                     }
-                    <option value="1">Kamer 1</option>
-                    <option value="2">Kamer 2</option>
-                    <option value="3">Kamer 3</option>
                 </select>
             </div>
             <button @onclick="AddProblem" type="button" disabled="@IsDisabled" class="btn btn-primary">Report problem</button>
@@ -51,11 +52,12 @@
 
 @{ IsDisabled = Description.Length <= 0; }
 
+
+
 @code {
-    private string Location { get; set; }
     private bool IsDisabled { get; set; } = true;
     
-    List<LocationModel> Locations { get; set; }  = new();
+    List<LocationModel> Locations { get; set; } = new();
     List<RoomModel> Rooms { get; set; } = new();
     
     protected override async Task OnInitializedAsync()
@@ -67,7 +69,21 @@
             UserId = await _sessionStorage.GetItemAsync<string>("userId");
         
         Email = user.FindFirst(c => c.Type == "email").Value;
-        // Rooms = (await RoomService.GetAllRoomTypes()).ToList();
+    }
+    
+    private async Task SingleUpload(InputFileChangeEventArgs e)
+    {
+        var ms = new MemoryStream();
+        await e.File.OpenReadStream().CopyToAsync(ms);
+        Picture = ms.ToArray();
+    }
+    
+    private async Task GetRoomsAtLocation()
+    {
+        Rooms.Clear();
+        var floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(21)).ToList();
+        foreach (var floor in floors)
+            Rooms.AddRange(floor.Rooms);
     }
 
     private int RoomId { get; set; }
@@ -78,7 +94,6 @@
 
     private async Task AddProblem()
     {
-        
         await ProblemService.AddProblem(new ProblemModel(RoomId, UserId, Email, Description, Picture));
     }
 }
