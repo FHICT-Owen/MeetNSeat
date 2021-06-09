@@ -1,20 +1,41 @@
 @inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<AuthorizeView>
+    <Authorized>
+        <div class="page">
+            <div class="sidebar">
+                <NavMenu />
+            </div>
+  
+            <div class="main">
+                <div class="top-row px-4">
+                    <AccessControl />
+                </div>
 
-    <div class="main">
-        <div class="top-row px-4">
-            <AccessControl />
+                <div class="content px-4">
+                    @Body
+                </div>
+            </div>
         </div>
 
-        <div class="content px-4">
-            @Body
+    </Authorized>
+    <NotAuthorized>
+        <div class="page" style="height: 100%;">
+            <div class="main">
+                <div class="top-row px-4">
+                    <AccessControl />
+                </div>
+                <div class="home" style="height: 100%; padding-left: 0 !important; padding-right: 0 !important;">
+                    
+                    @Body
+
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+
+    </NotAuthorized>
+</AuthorizeView>
+
 
 <style>
     .sidebar {min-width: 250px !important;}
