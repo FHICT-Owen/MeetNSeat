@@ -66,7 +66,7 @@ namespace MeetNSeat.Logic
 
         public bool AddReservation(string type,int roomId, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
         {
-            if (startTime < DateTime.Now || endTime < DateTime.Now) return false;
+            if (startTime <= DateTime.Now || endTime <= DateTime.Now) return false;
             var sqlStartTime = Convert.ToDateTime(startTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             var sqlEndTime = Convert.ToDateTime(endTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             return _dal.AddReservation(new CreateReservationDto(roomId, userId, attendees, sqlStartTime, sqlEndTime));
@@ -75,35 +75,24 @@ namespace MeetNSeat.Logic
         public List<RoomDto> GetAvailableRooms(int locationId,string roomType, int attendees, DateTime startTime, DateTime endTime)
         {
             var availableRooms = new List<RoomDto>();
+            if (endTime <= startTime || startTime <= DateTime.Now || endTime <= DateTime.Now) return availableRooms;
             var locationObject = new Location();
-            var rooms = locationObject.GetAllRoomsWithType(roomType, Convert.ToInt32(locationId));
+            var rooms = locationObject.GetAllRoomsWithType(roomType, locationId);
             var reservationObject = new Reservation();
             var reservations = reservationObject.GetAllReservations();
             foreach (var room in rooms)
             {
-                if (attendees <= room.Spots)
+                if (attendees > room.Spots) continue;
+                var interferingReservations = reservations.Where(reservation => reservation.RoomId == room.Id && reservation.StartTime <= startTime && startTime <= reservation.EndTime ||
+                    reservation.RoomId == room.Id && reservation.StartTime <= endTime && endTime <= reservation.EndTime ||
+                    reservation.RoomId == room.Id && reservation.StartTime >= startTime && endTime >= reservation.EndTime);
+                if (interferingReservations.Any(reservation => reservation.RoomId == room.Id))
                 {
-                    foreach (var reservation in reservations)
-                    {
-                        // Check if the endTime in reservation is not in the past.
-                        if (endTime < startTime)
-                        { 
-                            room.IsAvailable = false;
-                        }
-                        if (reservation.RoomId == room.Id && reservation.StartTime <= startTime && startTime <= reservation.EndTime ||
-                            reservation.RoomId == room.Id && reservation.StartTime <= endTime && endTime <= reservation.EndTime ||
-                            reservation.RoomId == room.Id && reservation.StartTime >= startTime && endTime >= reservation.EndTime)
-                        {
-                            room.IsAvailable = false;
-                        }
-                        else
-                        {
-                            room.IsAvailable = true;
-                        }
-                    }
+                    room.IsAvailable = false;
                 }
-                if (room.IsAvailable)
+                else
                 {
+                    room.IsAvailable = true;
                     availableRooms.Add(room);
                 }
             }

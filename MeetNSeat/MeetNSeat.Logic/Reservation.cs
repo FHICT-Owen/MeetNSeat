@@ -11,7 +11,7 @@ namespace MeetNSeat.Logic
     {
         #region Properties
         private readonly IReservationDal dal;
-        private readonly List<Reservation> _reservation = new List<Reservation>();
+        private readonly List<Reservation> _reservation = new();
         public int ReservationId { get; private set; }
         public int RoomId { get; private set; }
         public string UserId { get; private set; }
