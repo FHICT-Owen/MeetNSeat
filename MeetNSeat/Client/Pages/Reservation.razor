@@ -11,7 +11,7 @@
         <form>
             <div class="mb-3">
                 <label for="Location" class="form-label m-1 pt-2">Location</label>
-                <select class="form-control" @bind-value="Location" @bind-value:event="oninput" aria-label="Default select example">
+                <select class="form-control" @bind="Location" aria-label="Default select example">
                     <option placeholder="Select a location here">Select a location</option>
                     @if (Locations.Any())
                     {
@@ -23,7 +23,7 @@
                 </select>
 
                 <label for="Room" class="form-label m-1 pt-2">Room type</label>
-                <select class="form-control" @bind-value="Type" @bind-value:event="oninput" aria-label="Default select example">
+                <select class="form-control" @bind="Type" aria-label="Default select example">
                     <option disabled selected placeholder="Select a location here">Select a room type</option>
                     @if (Rooms.Any())
                     {
@@ -35,7 +35,7 @@
                 </select>
 
                 <label for="Attendees" class="form-label m-1 pt-2">Attendees</label>
-                <input type="number" class="form-control" @bind-value="@Attendees" @bind-value:event="oninput" id="Attendees" placeholder="Attendees">
+                <input type="number" class="form-control" @bind="@Attendees" id="Attendees" placeholder="Attendees">
 
                 <label for="StartDate" class="form-label m-1 pt-2">Start</label><br />
                 <input class="mt-3" type="datetime-local" @bind-value="@StartDate"  @bind-value:format="yyyy-MM-ddTHH:mm"><br />
@@ -45,7 +45,7 @@
 
 
                 <label for="AvailableRooms" class="form-label m-1 pt-2">Available rooms</label>
-                <select class="form-control" @bind-value="AvailableRoom" @bind-value:event="oninput" aria-label="Default select example" id="AvailableRooms">
+                <select class="form-control" @bind="AvailableRoom" aria-label="Default select example" id="AvailableRooms">
                     <option>Select a Room</option>
                     @if (AvailableRooms.Any())
                     {
@@ -55,7 +55,7 @@
                         }
                     }
                 </select>
-
+                <br/>
 
                 <button @onclick="GetAvailableRooms" type="button" disabled="@IsGetDisabled" class="btn btn-primary">Get available room</button>
 
