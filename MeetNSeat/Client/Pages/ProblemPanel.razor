@@ -49,7 +49,7 @@
                     @if (!problem.IsCollapsed){
                         <tr>
                             <td colspan="5" style="background: #f2f2f2">
-                                <div class="grid">
+                                <div style="display: grid; grid-template-rows: auto auto;">
                                     <div>
                                         @problem.Description
                                     </div>
@@ -57,7 +57,7 @@
                                     {
                                         var base64 = Convert.ToBase64String(problem.Picture);
                                         var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                                        <img alt src="@imgSrc" style="justify-self: end; max-width: 600px; max-height: 600px "/>
+                                        <img alt src="@imgSrc" style="justify-self: end;"/>
                                     }
                                 </div>
                             </td>
@@ -100,6 +100,8 @@
     private async Task ResolveProblem(ProblemModel problem)
     {
         problem.IsResolved = !problem.IsResolved;
+        problem.IsCollapsed = true;
+        
         if (problem.IsResolved)
         {
             problem.ResolvedAt = DateTime.Now;
@@ -111,7 +113,12 @@
             await ProblemService.UpdateProblem(problem);
         }
         
-        IsDisabled = !Problems.Any(model => model.IsResolved);
+        if (!Problems.Any(model => model.IsResolved))
+        {
+            IsDisabled = true;
+            ToggleResolvedProblemView();
+        }
+        else IsDisabled = false;
     }
     
     private async Task DeleteProblem(int id)
@@ -121,10 +128,3 @@
         IsDisabled = !Problems.Any(model => model.IsResolved);
     }
 }
-
-<style>
-    .grid {
-        display: grid;
-        grid-template-columns: auto auto;
-    }
-</style>
