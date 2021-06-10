@@ -1,4 +1,6 @@
 ﻿@page "/"
+@inject AuthenticationStateProvider _authStateProvider
+@inject NavigationManager _nav
 
 <div class="hero-image">
     <div class="hero-text">
@@ -23,3 +25,13 @@
     <h1>Can we help you?</h1>
     <button class="btn-primary btn-circle">Contact</button>
 </div>
+
+@code
+{
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity.IsAuthenticated) _nav.NavigateTo("dashboard");
+    }
+}

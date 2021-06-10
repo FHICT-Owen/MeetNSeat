@@ -36,9 +36,9 @@ namespace MeetNSeat.Logic
             dal = ReservationFactory.CreateReservationDal();
         }
 
-        public Reservation(int reservationid, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed)
+        public Reservation(int reservationId, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed)
         {
-            ReservationId = reservationid;
+            ReservationId = reservationId;
             RoomId = roomId;
             UserId = userId;
             FeedbackId = feedbackId;
