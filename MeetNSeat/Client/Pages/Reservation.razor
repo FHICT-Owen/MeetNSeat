@@ -11,7 +11,7 @@
         <form>
             <div class="mb-3">
                 <label for="Location" class="form-label m-1 pt-2">Location</label>
-                <select class="form-control" @bind="Location" aria-label="Default select example">
+                <select class="form-control" @bind-value="Location" @bind-value:event="oninput" aria-label="Default select example">
                     <option placeholder="Select a location here">Select a location</option>
                     @if (Locations.Any())
                     {
@@ -23,7 +23,7 @@
                 </select>
 
                 <label for="Room" class="form-label m-1 pt-2">Room type</label>
-                <select class="form-control" @bind="Type" @bind:event="oninput" aria-label="Default select example">
+                <select class="form-control" @bind-value="Type" @bind-value:event="oninput" aria-label="Default select example">
                     <option disabled selected placeholder="Select a location here">Select a room type</option>
                     @if (Rooms.Any())
                     {
@@ -35,17 +35,17 @@
                 </select>
 
                 <label for="Attendees" class="form-label m-1 pt-2">Attendees</label>
-                <input type="number" class="form-control" @bind="@Attendees" id="Attendees" placeholder="Attendees">
+                <input type="number" class="form-control" @bind-value="@Attendees" @bind-value:event="oninput" id="Attendees" placeholder="Attendees">
 
                 <label for="StartDate" class="form-label m-1 pt-2">Start</label><br />
-                <input class="mt-3" type="datetime-local" @bind="@StartDate" @bind:format="yyyy-MM-ddTHH:mm"><br />
+                <input class="mt-3" type="datetime-local" @bind-value="@StartDate"  @bind-value:format="yyyy-MM-ddTHH:mm"><br />
                 <label for="EndDate" class="form-label m-1 pt-2">End</label><br />
-                <input class="mt-3" type="datetime-local" @bind="@EndDate" @bind:format="yyyy-MM-ddTHH:mm"><br />
+                <input class="mt-3" type="datetime-local" @bind-value="@EndDate" @bind-value:format="yyyy-MM-ddTHH:mm"><br />
 
 
 
                 <label for="AvailableRooms" class="form-label m-1 pt-2">Available rooms</label>
-                <select class="form-control" @bind="AvailableRoom" aria-label="Default select example" id="AvailableRooms">
+                <select class="form-control" @bind-value="AvailableRoom" @bind-value:event="oninput" aria-label="Default select example" id="AvailableRooms">
                     <option>Select a Room</option>
                     @if (AvailableRooms.Any())
                     {
@@ -57,13 +57,24 @@
                 </select>
 
 
-                <button @onclick="GetAvailableRooms" type="button" disabled="@IsDisabled" class="btn btn-primary">Get available room</button>
+                <button @onclick="GetAvailableRooms" type="button" disabled="@IsGetDisabled" class="btn btn-primary">Get available room</button>
 
             </div>
-            <button @onclick="AddReservation" type="button" disabled="@IsDisabled" class="btn btn-primary">Plan reservation</button>
+            <button @onclick="AddReservation" type="button" disabled="@IsAddDisabled" class="btn btn-primary">Plan reservation</button>
         </form>
     </div>
 </main>
+
+@if(!string.IsNullOrEmpty(Location) && !string.IsNullOrEmpty(Type) && !string.IsNullOrEmpty(Attendees))
+{
+    IsGetDisabled = false;
+}
+else
+{
+    IsGetDisabled = true;
+}
+
+@{ IsAddDisabled = string.IsNullOrEmpty(AvailableRoom); }
 
 @code {
     private string Location { get; set; }
@@ -72,17 +83,15 @@
     private string AvailableRoom { get; set; }
     private string Attendees { get; set; }
     private int Room { get; set; }
-    private bool IsDisabled { get; set; } = false;
-
+    private bool IsGetDisabled { get; set; } = true;
+    private bool IsAddDisabled { get; set; } = true;
 
     private DateTime StartDate { get; set; } = DateTime.Now;
     private DateTime EndDate { get; set; } = DateTime.Now.AddHours(1);
 
-
-    List<LocationModel> Locations { get; set; }  = new();
+    List<LocationModel> Locations { get; set; } = new();
     List<RoomModel> Rooms { get; set; } = new();
     List<RoomModel> AvailableRooms { get; set; } = new();
-
 
     protected override async Task OnInitializedAsync()
     {
@@ -97,17 +106,16 @@
         // Location, Room type, attendees, Starttime, endtime,userid
         var locationId = Convert.ToInt32(Location);
         var attendees = Convert.ToInt32(Attendees);
-        int roomId = Convert.ToInt32(AvailableRoom);
+        var roomId = Convert.ToInt32(AvailableRoom);
         Console.WriteLine(Location);
         var userId = await _sessionStorage.GetItemAsync<string>("userId");
-
         await UserService.CreateReservation(new ReservationModel(locationId, roomId, Type, userId, attendees, StartDate, EndDate));
     }
+
     private async Task GetAvailableRooms()
     {
         var locationId = Convert.ToInt32(Location);
         var attendees = Convert.ToInt32(Attendees);
-
         AvailableRooms = (await RoomService.GetAllAvailableRooms(locationId, Type, attendees, StartDate, EndDate)).ToList();
     }
 }

@@ -5,7 +5,6 @@
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Client.Models
 @using Blazored.SessionStorage
-@using System.Security.Claims
 @using System.IO
 @attribute [Authorize]
 
@@ -51,8 +50,6 @@
 </main>
 
 @{ IsDisabled = Description.Length <= 0; }
-
-
 
 @code {
     private bool IsDisabled { get; set; } = true;
