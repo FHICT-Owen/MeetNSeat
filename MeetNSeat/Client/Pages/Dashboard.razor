@@ -87,11 +87,10 @@
     protected override async Task OnInitializedAsync()
     {
         UserId = await _sessionStorage.GetItemAsync<string>("userId");
-        var reservations = (await UserService.GetAllReservations(UserId)).ToList();
+        UserReservations = (await UserService.GetUserReservations(UserId)).ToList();
         Locations = (await LocationService.GetAllLocations()).ToList();
         Floors = (await FloorService.GetAllFloors()).ToList();
         Rooms = (await RoomService.GetAllRooms()).ToList();
-        UserReservations = reservations.FindAll(res => res.UserId == UserId);
 
         Msg = Msg;
     }
