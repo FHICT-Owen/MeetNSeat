@@ -16,10 +16,9 @@ namespace MeetNSeat.Server.Controllers
             _manageAuthentication = manageAuthentication;
         }
 
-        [HttpGet("users{id}")]
-        public ActionResult GetAllReservations(string id)
+        [HttpGet("{id}")]
+        public ActionResult GetUserReservations(string id)
         {
-
             var reservations = _manageUser.GetReservationByUser(id);
             return Ok(reservations);
         }

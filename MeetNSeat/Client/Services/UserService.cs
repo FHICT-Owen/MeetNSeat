@@ -8,10 +8,10 @@ namespace MeetNSeat.Client.Services
 {
     public static class UserService
     {
-        public static async Task<IEnumerable<ReservationModel>> GetAllReservations(string userId)
+        public static async Task<IEnumerable<ReservationModel>> GetUserReservations(string userId)
         {
             using var client = new HttpClient();
-            return await client.GetFromJsonAsync<List<ReservationModel>>("https://localhost:5001/api/user/users" + userId);
+            return await client.GetFromJsonAsync<List<ReservationModel>>("https://localhost:5001/api/user/" + userId);
         }
 
         public static async Task<IEnumerable<UserModel>> GetAllUsers()
