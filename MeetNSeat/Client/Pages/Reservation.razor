@@ -45,8 +45,8 @@
 
 
                 <label for="AvailableRooms" class="form-label m-1 pt-2">Available rooms</label>
-                <select class="form-control" @bind="Location" aria-label="Default select example" id="AvailableRooms">
-                    <option placeholder="Select a room here">Select a location</option>
+                <select class="form-control" @bind="AvailableRoom" aria-label="Default select example" id="AvailableRooms">
+                    <option>Select a Room</option>
                     @if (AvailableRooms.Any())
                     {
                         @foreach (var availableRoom in AvailableRooms)
@@ -69,7 +69,7 @@
     private string Location { get; set; }
 
     private string Type { get; set; }
-
+    private string AvailableRoom { get; set; }
     private string Attendees { get; set; }
     private int Room { get; set; }
     private bool IsDisabled { get; set; } = false;
@@ -97,15 +97,17 @@
         // Location, Room type, attendees, Starttime, endtime,userid
         var locationId = Convert.ToInt32(Location);
         var attendees = Convert.ToInt32(Attendees);
+        int roomId = Convert.ToInt32(AvailableRoom);
         Console.WriteLine(Location);
         var userId = await _sessionStorage.GetItemAsync<string>("userId");
-        await UserService.CreateReservation(new ReservationModel(locationId, Type, userId, attendees, StartDate, EndDate));
+
+        await UserService.CreateReservation(new ReservationModel(locationId, roomId, Type, userId, attendees, StartDate, EndDate));
     }
     private async Task GetAvailableRooms()
     {
         var locationId = Convert.ToInt32(Location);
         var attendees = Convert.ToInt32(Attendees);
 
-        AvailableRooms = (await RoomService.GetAllAvailableRooms(locationId, Type, attendees, StartDate, EndDate)).ToList();    
+        AvailableRooms = (await RoomService.GetAllAvailableRooms(locationId, Type, attendees, StartDate, EndDate)).ToList();
     }
 }

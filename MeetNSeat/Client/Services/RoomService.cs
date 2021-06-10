@@ -20,8 +20,6 @@ namespace MeetNSeat.Client.Services
 			using var client = new HttpClient();
 			var sqlStartTime = startTime.ToString("yyyy-MM-ddTHH:mm:ss.fff");
 			var sqlEndTime = endTime.ToString("yyyy-MM-ddTHH:mm:ss");
-			Console.WriteLine("https://localhost:5001/api/room/" + locationId + "/" + roomType + "/" + attendees + "/" + sqlStartTime + "/" + sqlEndTime);
-
 			return await client.GetFromJsonAsync<List<RoomModel>>("https://localhost:5001/api/room/"+locationId+"/"+roomType+"/"+attendees+"/"+sqlStartTime+ "/"+ sqlEndTime);
 		}
 

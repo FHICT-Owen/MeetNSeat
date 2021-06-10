@@ -8,6 +8,7 @@
         public string RoomType { get; set; }
         public int Spots { get; set; }
         public string Facilities { get; set; }
+        public bool IsAvailable { get; set; }
 
         public RoomDto() { }
 

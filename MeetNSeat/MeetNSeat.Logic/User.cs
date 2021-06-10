@@ -64,65 +64,53 @@ namespace MeetNSeat.Logic
             return _dal.GetReservationByUser(id);
         }
 
-        public bool AddReservation(string type, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
+        public bool AddReservation(string type,int roomId, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
         {
             if (startTime < DateTime.Now || endTime < DateTime.Now) return false;
-            // Retrieve rooms by type and location
-            var locationObject = new Location();
-            var rooms = locationObject.GetAllRoomsWithType(type, Convert.ToInt32(locationId));
-
-            var reservationObject = new Reservation();
-            var reservations = reservationObject.GetAllReservations();
-
-            // Check if any room is available on given date
-            // Loop trough reservations with given room id
-            // Check if there is no reservation in given start and end
-            GetAvailableRooms(locationId, type, attendees, startTime, endTime);
-
-
-            // Convert c# format to sql format
             var sqlStartTime = Convert.ToDateTime(startTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             var sqlEndTime = Convert.ToDateTime(endTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            //TODO: Delete
-            int roomId = 1;
             return _dal.AddReservation(new CreateReservationDto(roomId, userId, attendees, sqlStartTime, sqlEndTime));
         }
         public List<RoomDto> GetAvailableRooms(int locationId,string roomType, int attendees, DateTime startTime, DateTime endTime)
         {
             bool isAvailable = true;
             List<RoomDto> availableRooms = new List<RoomDto>();
-
             var locationObject = new Location();
             var rooms = locationObject.GetAllRoomsWithType(roomType, Convert.ToInt32(locationId));
-
             var reservationObject = new Reservation();
-
             var reservations = reservationObject.GetAllReservations();
-
-
+            availableRooms.Clear();
             foreach (var room in rooms)
             {
                 if (attendees <= room.Spots)
                 {
-
                     foreach (var reservation in reservations)
                     {
                         // Check if the endtime in reservation is not in the past.
                         if (endTime < startTime)
-                            isAvailable = false;
+                        { 
+                            room.IsAvailable = false;
+                        }
 
-                        if (reservation.RoomId == room.Id &&
-                            reservation.StartTime <= startTime && startTime <= reservation.EndTime ||
-                            reservation.StartTime <= endTime && endTime <= reservation.EndTime ||
-                            reservation.StartTime >= startTime && endTime >= reservation.EndTime)
-                            isAvailable = false;
+                            if (reservation.RoomId == room.Id && reservation.StartTime <= startTime && startTime <= reservation.EndTime ||
+                                reservation.RoomId == room.Id && reservation.StartTime <= endTime && endTime <= reservation.EndTime ||
+                                reservation.RoomId == room.Id && reservation.StartTime >= startTime && endTime >= reservation.EndTime)
+                            {
+                                room.IsAvailable = false;
+                            }
+                            else
+                            {
+                                room.IsAvailable = true;
+                            }
+                        
+
+                    }
+                    if (room.IsAvailable)
+                    {
+                        availableRooms.Add(room);
                     }
                 }
-                if (isAvailable)
-                {
-                    availableRooms.Add(room);
 
-                }
             }
             return availableRooms;
         }

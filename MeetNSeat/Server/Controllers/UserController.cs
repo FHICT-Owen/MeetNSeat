@@ -34,7 +34,7 @@ namespace MeetNSeat.Server.Controllers
         [HttpPost]
         public void CreateReservation([FromBody] ReservationModel reservationModel)
         {
-            var newReservation = _manageUser.AddReservation(reservationModel.Type, reservationModel.LocationId, reservationModel.UserId, reservationModel.Attendees, reservationModel.StartTime, reservationModel.EndTime);
+            var newReservation = _manageUser.AddReservation(reservationModel.Type,reservationModel.RoomId, reservationModel.LocationId, reservationModel.UserId, reservationModel.Attendees, reservationModel.StartTime, reservationModel.EndTime);
         }
 
         [HttpPost("edit")]
