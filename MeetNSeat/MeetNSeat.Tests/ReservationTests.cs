@@ -1,6 +1,8 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MeetNSeat.Logic;
+using System.Collections.Generic;
+using MeetNSeat.Dal.Interfaces.Dtos;
 namespace MeetNSeat.Tests
 {
     [TestClass]
@@ -100,6 +102,21 @@ namespace MeetNSeat.Tests
             Assert.IsFalse(actual);
         }
 
+        [TestMethod]
+        public void CheckIfAvailableRoomsAddedToList()
+        {
+            var u = new User();
+            var locationObject = new Location();
+            var rooms = locationObject.GetAllRoomsWithType("Conference", Convert.ToInt32(21));
+            var reservationObject = new Reservation();
+            var reservations = reservationObject.GetAllReservations();
+            List<RoomDto> actual = u.GetAvailableRooms(rooms, 1, reservations,
+                Convert.ToDateTime("2026-10-26T14:15"), //startTime
+                Convert.ToDateTime("2026-10-26T14:45")); //endTime
+
+            Assert.IsNotNull(actual);
+        }
+
         #region ReservationTest
         // reservation.startTime = 14:00
         // reservation.endTime = 15:00
@@ -115,7 +132,7 @@ namespace MeetNSeat.Tests
 
 
         #endregion
-        
+
         // var span = new TimeSpan(0,0,0, 0, 0);
         //
         // var q = DateTime.Now + span;
