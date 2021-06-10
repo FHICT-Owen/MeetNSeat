@@ -1,5 +1,7 @@
+using System.Threading.Tasks;
 using MeetNSeat.Logic.Interfaces;
 using MeetNSeat.Server.Models;
+using MeetNSeat.Server.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeetNSeat.Server.Controllers
@@ -29,16 +31,9 @@ namespace MeetNSeat.Server.Controllers
 		}
 		
 		[HttpPut]
-		public void UpdateProblem([FromBody]ProblemModel problem)
+		public async Task UpdateProblem([FromBody]ProblemModel problem)
 		{
-			if (problem.IsResolved)
-			{
-				
-			}
-			else
-			{
-				
-			}
+			if (problem.IsResolved) await EmailSender.SendEmail(problem.Email);
 			_manageProblems.UpdateProblem(problem.Id, problem.RoomId, problem.UserId, problem.Email, problem.Description, problem.Picture, problem.IsResolved, problem.ResolvedAt);
 		}
 	}

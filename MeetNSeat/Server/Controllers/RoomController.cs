@@ -47,7 +47,6 @@ namespace MeetNSeat.Server.Controllers
         public void UpdateRoom([FromBody] RoomModel roomModel)
         {
             _manageRoom.UpdateRoom(roomModel.Id, roomModel.Name, roomModel.Type, roomModel.Spots, roomModel.Facilities);
-            var s = 0;
         }
     }
 }

@@ -24,17 +24,8 @@ namespace MeetNSeat.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IManageProblems, ProblemCollection>();
-            services.AddTransient<IManageFeedback, FeedbackCollection>();
-            services.AddSingleton<IManageLocation, LocationCollection>();
-            services.AddSingleton<IManageRoom, Floor>();
-            services.AddTransient<IManageUser, User>();
-            services.AddTransient<IManageAuthentication, Authentication>();
-            // Location manages floors.
-            services.AddSingleton<IManageFloor, Location>();
-
+            services.AddLogic();
             services.AddBlazoredSessionStorage();
-            
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

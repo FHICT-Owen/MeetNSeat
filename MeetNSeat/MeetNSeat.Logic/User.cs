@@ -50,6 +50,7 @@ namespace MeetNSeat.Logic
                 dto => _reservations.Add(new Reservation(dto)));
             return _reservations.AsReadOnly();
         }
+        
 
        
 
@@ -83,9 +84,10 @@ namespace MeetNSeat.Logic
             foreach (var room in rooms)
             {
                 if (attendees > room.Spots) continue;
-                var interferingReservations = reservations.Where(reservation => reservation.RoomId == room.Id && reservation.StartTime <= startTime && startTime <= reservation.EndTime ||
-                    reservation.RoomId == room.Id && reservation.StartTime <= endTime && endTime <= reservation.EndTime ||
-                    reservation.RoomId == room.Id && reservation.StartTime >= startTime && endTime >= reservation.EndTime);
+                var interferingReservations = 
+                    reservations.Where(reservation => 
+                        reservation.RoomId == room.Id && !CheckForNoOverlap(reservation.StartTime, reservation.EndTime, startTime, endTime));
+                
                 if (interferingReservations.Any(reservation => reservation.RoomId == room.Id))
                 {
                     room.IsAvailable = false;
@@ -124,6 +126,11 @@ namespace MeetNSeat.Logic
         public UserDto ConvertToDto()
         {
             return new(Id, Nickname, (int)Role);
+        }
+
+        public bool CheckForNoOverlap(DateTime dbStart, DateTime dbEnd, DateTime resStart, DateTime resEnd)
+        {
+            return resEnd <= dbStart || dbEnd <= resStart;
         }
     }
 }
