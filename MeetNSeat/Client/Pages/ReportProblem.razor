@@ -44,16 +44,12 @@
                     }
                 </select>
             </div>
-            <button @onclick="AddProblem" type="button" disabled="@IsDisabled" class="btn btn-primary">Report problem</button>
+            <button @onclick="AddProblem" type="button" disabled="@(Description.Length < 1)" class="btn btn-primary">Report problem</button>
         </form>
     </div>
 </main>
 
-@{ IsDisabled = Description.Length <= 0; }
-
 @code {
-    private bool IsDisabled { get; set; } = true;
-    
     List<LocationModel> Locations { get; set; } = new();
     List<RoomModel> Rooms { get; set; } = new();
     

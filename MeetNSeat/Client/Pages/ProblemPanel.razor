@@ -48,14 +48,18 @@
                     }
                     @if (!problem.IsCollapsed){
                         <tr>
-                            <td colspan="5" style="background: #f2f2f2" >
-                                @problem.Description
-                                @if (problem.Picture != null)
-                                {
-                                    var base64 = Convert.ToBase64String(problem.Picture);
-                                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                                    <img alt src="@imgSrc" style="float: right"/>
-                                }
+                            <td colspan="5" style="background: #f2f2f2">
+                                <div class="grid">
+                                    <div>
+                                        @problem.Description
+                                    </div>
+                                    @if (problem.Picture != null)
+                                    {
+                                        var base64 = Convert.ToBase64String(problem.Picture);
+                                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                        <img alt src="@imgSrc" style="justify-self: end; max-width: 600px; max-height: 600px "/>
+                                    }
+                                </div>
                             </td>
                         </tr>
                     }
@@ -117,3 +121,10 @@
         IsDisabled = !Problems.Any(model => model.IsResolved);
     }
 }
+
+<style>
+    .grid {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+</style>
