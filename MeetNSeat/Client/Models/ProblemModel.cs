@@ -14,7 +14,8 @@ namespace MeetNSeat.Client.Models
 		public bool IsResolved { get; set; }
 		public DateTime? ResolvedAt { get; set; }
 		
-		public bool IsCollapsed { get; set; } = true; // Used in problem panel
+		public bool IsCollapsed { get; set; } = true; // Used in problem panel and styling
+		public bool IsHidden { get; set; } // Used for styling
 
 		public ProblemModel(int roomId, string userId, string email, string description, byte[] picture)
 		{

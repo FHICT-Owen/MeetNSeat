@@ -11,29 +11,29 @@
             <tr>
                 <th scope="col">Title</th>
                 <th scope="col">Room</th>
-                <th scope="col">Reported by</th>
-                <th scope="col">Reported on</th>
-                <th scope="col"><button @onclick="ToggleResolvedProblemView" disabled="@IsDisabled" class="btn btn-primary p-1">@ButtonText</button></th>
+                <th style="min-width: 120px" scope="col">Reported by</th>
+                <th style="min-width: 120px" scope="col">Reported on</th>
+                <th style="min-width: 150px" scope="col"><button @onclick="ToggleResolvedProblemView" disabled="@IsDisabled" class="btn btn-primary p-1">@ButtonText</button></th>
             </tr>
             </thead>
             <tbody>
             @if (Problems.Any()){
                 @foreach (var problem in Problems){
                     @if (!problem.IsResolved){
-                        <tr>
+                        <tr class="@(problem.IsCollapsed ? "normal":"active")">
                             <td>
                                 <button class="btn btn-primary" @onclick="() => Toggle(problem)">Details</button>
                             </td>
                             <td>@problem.RoomId</td>
                             <td>@problem.UserId</td>
                             <td>@problem.ReportedOn</td>
-                            <td>
+                            <td style="min-width: 200px">
                                 <button @onclick="() => ResolveProblem(problem)" class="btn btn-primary">Resolve</button>
                             </td>
                         </tr>
                     }
                     @if (ShowResolved && problem.IsResolved){
-                        <tr>
+                        <tr class="@(problem.IsCollapsed ? "normal":"active")">
                             <td>
                                 <button class="btn btn-primary" @onclick="() => Toggle(problem)">Details</button>
                             </td>
@@ -47,9 +47,9 @@
                         </tr>
                     }
                     @if (!problem.IsCollapsed){
-                        <tr>
-                            <td colspan="5" style="background: #f2f2f2">
-                                <div style="display: grid; grid-template-rows: auto auto;">
+                        <tr class="@(problem.IsHidden ? "details":"hidden")">
+                            <td colspan="5" style="background: #f2f2f2; max-width: 100%">
+                                <div class="grid">
                                     <div>
                                         @problem.Description
                                     </div>
@@ -57,7 +57,7 @@
                                     {
                                         var base64 = Convert.ToBase64String(problem.Picture);
                                         var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                                        <img alt src="@imgSrc" style="justify-self: end;"/>
+                                        <img alt src="@imgSrc" style="justify-self: end"/>
                                     }
                                 </div>
                             </td>
@@ -86,9 +86,11 @@
         IsDisabled = !Problems.Any(model => model.IsResolved);
     }
     
-    private static void Toggle(ProblemModel problem)
+    private static async Task Toggle(ProblemModel problem)
     {
         problem.IsCollapsed = !problem.IsCollapsed;
+        await Task.Delay(1);
+        problem.IsHidden = !problem.IsHidden;
     }
 
     private void ToggleResolvedProblemView()
@@ -128,3 +130,31 @@
         IsDisabled = !Problems.Any(model => model.IsResolved);
     }
 }
+
+<style>
+    tr.normal {
+        opacity: 0.9;
+    }
+    tr.normal:hover {
+        background-color: #f2f2f2;
+        transition: 0.1s;
+        opacity: 1;
+    }
+    tr.active {
+        opacity: 1;
+        background-color: #f2f2f2;
+    }
+    
+    tr.hidden {
+        opacity: 0;
+    }
+    tr.details {
+        transition: opacity 0.6s;
+        opacity: 1;
+    }
+    
+    .grid {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+</style>
