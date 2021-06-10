@@ -1,10 +1,10 @@
 ﻿using MeetNSeat.Dal.Factories;
 using MeetNSeat.Dal.Interfaces;
+using MeetNSeat.Dal.Interfaces.Dtos;
 using MeetNSeat.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MeetNSeat.Dal.Interfaces.Dtos;
 
 namespace MeetNSeat.Logic
 {
@@ -71,49 +71,45 @@ namespace MeetNSeat.Logic
             var sqlEndTime = Convert.ToDateTime(endTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             return _dal.AddReservation(new CreateReservationDto(roomId, userId, attendees, sqlStartTime, sqlEndTime));
         }
+
         public List<RoomDto> GetAvailableRooms(int locationId,string roomType, int attendees, DateTime startTime, DateTime endTime)
         {
-            bool isAvailable = true;
-            List<RoomDto> availableRooms = new List<RoomDto>();
+            var availableRooms = new List<RoomDto>();
             var locationObject = new Location();
             var rooms = locationObject.GetAllRoomsWithType(roomType, Convert.ToInt32(locationId));
             var reservationObject = new Reservation();
             var reservations = reservationObject.GetAllReservations();
-            availableRooms.Clear();
             foreach (var room in rooms)
             {
                 if (attendees <= room.Spots)
                 {
                     foreach (var reservation in reservations)
                     {
-                        // Check if the endtime in reservation is not in the past.
+                        // Check if the endTime in reservation is not in the past.
                         if (endTime < startTime)
                         { 
                             room.IsAvailable = false;
                         }
-
-                            if (reservation.RoomId == room.Id && reservation.StartTime <= startTime && startTime <= reservation.EndTime ||
-                                reservation.RoomId == room.Id && reservation.StartTime <= endTime && endTime <= reservation.EndTime ||
-                                reservation.RoomId == room.Id && reservation.StartTime >= startTime && endTime >= reservation.EndTime)
-                            {
-                                room.IsAvailable = false;
-                            }
-                            else
-                            {
-                                room.IsAvailable = true;
-                            }
-                        
-
-                    }
-                    if (room.IsAvailable)
-                    {
-                        availableRooms.Add(room);
+                        if (reservation.RoomId == room.Id && reservation.StartTime <= startTime && startTime <= reservation.EndTime ||
+                            reservation.RoomId == room.Id && reservation.StartTime <= endTime && endTime <= reservation.EndTime ||
+                            reservation.RoomId == room.Id && reservation.StartTime >= startTime && endTime >= reservation.EndTime)
+                        {
+                            room.IsAvailable = false;
+                        }
+                        else
+                        {
+                            room.IsAvailable = true;
+                        }
                     }
                 }
-
+                if (room.IsAvailable)
+                {
+                    availableRooms.Add(room);
+                }
             }
             return availableRooms;
         }
+
         public bool EditReservation(Reservation reservation)
         {
             var result = _reservations.SingleOrDefault(res => res.ReservationId == reservation.ReservationId);
