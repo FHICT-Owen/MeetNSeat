@@ -40,9 +40,16 @@
                 <input type="number" class="form-control" @bind="@Attendees" id="Attendees" placeholder="Attendees">
 
                 <label for="StartDate" class="form-label m-1 pt-2">Start</label><br />
-                <input class="mt-3" type="datetime-local" @bind-value="@StartDate" @bind-value:format="yyyy-MM-ddTHH:mm"><br />
+                <MatDatePicker @bind-Value="StartDate" EnableTime="true"></MatDatePicker><br />
                 <label for="EndDate" class="form-label m-1 pt-2">End</label><br />
-                <input class="mt-3" type="datetime-local" @bind-value="@EndDate" @bind-value:format="yyyy-MM-ddTHH:mm"><br />
+                <MatDatePicker @bind-Value="EndDate" EnableTime="true"></MatDatePicker><br />
+
+                <!--
+                <input class="mt-3" type="datetime-local" @bind-value="@StartDate" @bind-value:format="yyyy-MM-ddTHH:mm">
+                <input class="mt-3" type="datetime-local" @bind-value="@EndDate" @bind-value:format="yyyy-MM-ddTHH:mm">
+
+                -->
+
 
                 <label for="AvailableRooms" class="form-label m-1 pt-2">Available rooms</label>
                 <select class="form-control" @bind="AvailableRoom" aria-label="Default select example" id="AvailableRooms">
@@ -79,6 +86,7 @@ else
 @code {
     private string Location { get; set; }
 
+
     private string Type { get; set; }
     private string AvailableRoom { get; set; }
     private string Attendees { get; set; }
@@ -86,8 +94,8 @@ else
     private bool IsGetDisabled { get; set; } = true;
     private bool IsAddDisabled { get; set; } = true;
 
-    private DateTime StartDate { get; set; } = DateTime.Now;
-    private DateTime EndDate { get; set; } = DateTime.Now.AddHours(1);
+    private DateTime StartDate { get; set; } = DateTime.Today;
+    private DateTime EndDate { get; set; } = DateTime.Today.AddHours(1);
 
     List<LocationModel> Locations { get; set; } = new();
     List<RoomModel> Rooms { get; set; } = new();
