@@ -21,7 +21,7 @@
                 <div class="mr-5">
                     <label class="form-label">Location</label>
                     <select class="form-control" @onchange="GetRoomsAtLocation" aria-label="Default select example">
-                        <option placeholder="Select a location here">Select a location</option>
+                        <option>Select a location</option>
                         @if (Locations.Any())
                         {
                             @foreach (var location in Locations)
@@ -36,7 +36,7 @@
                 <div>
                     <label class="form-label">Room</label>
                     <select class="form-control" @bind="RoomId" @bind:event="oninput" aria-label="Default select example">
-                        <option placeholder="Select a location here">Select a room</option>
+                        <option>Select a room</option>
                         @if (Rooms.Any())
                         {
                             @foreach (var room in Rooms)

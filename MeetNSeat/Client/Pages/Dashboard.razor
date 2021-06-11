@@ -84,7 +84,7 @@
     private List<FloorModel> Floors { get; set; }
     private List<RoomModel> Rooms { get; set; }
     private string UserId { get; set; }
-    List<ReservationModel> UserReservations { get; set; } = new();
+    private List<ReservationModel> UserReservations { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -127,8 +127,9 @@
         _nav.NavigateTo("editreservation");
     }
 
-    private static async Task DeleteReservation(ReservationModel reservation)
+    private async Task DeleteReservation(ReservationModel reservation)
     {
+        UserReservations.Remove(UserReservations.Find(res => res.Id == reservation.Id));
         Msg = await ReservationService.DeleteReservation(reservation.Id);
 
     }

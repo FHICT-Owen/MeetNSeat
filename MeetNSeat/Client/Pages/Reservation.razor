@@ -51,24 +51,22 @@
                 <br/>
                 
                 <label class="form-label m-1 pt-2">Available rooms</label>
-                <select class="form-control" @bind="AvailableRoom" aria-label="Default select example" id="AvailableRooms">
-                    <option>Select a Room</option>
+                <select class="form-control" @bind="AvailableRoom" @bind:event="oninput" aria-label="Default select example" id="AvailableRooms">
+                    <option value="" selected>Select a Room</option>
                     @if (AvailableRooms.Any())
                     {
                         @foreach (var availableRoom in AvailableRooms)
                         {
-                            <option value="@availableRoom.Id">@availableRoom.Name </option>
+                            <option value="@availableRoom.Id">@availableRoom.Name</option>
                         }
                     }
                 </select>
                 <br/>
             </div>
-            <button @onclick="AddReservation" type="button" disabled="@IsAddDisabled" class="btn btn-primary">Plan reservation</button>
+            <button @onclick="AddReservation" type="button" disabled="@(string.IsNullOrEmpty(AvailableRoom) || string.IsNullOrEmpty(Location) || string.IsNullOrEmpty(Type) || string.IsNullOrEmpty(Attendees) || StartDate.Equals(null) || EndDate.Equals(null))" class="btn btn-primary">Plan reservation</button>
         </form>
     </div>
 </main>
-
-@{ IsAddDisabled = string.IsNullOrEmpty(AvailableRoom); }
 
 @code {
     private string Location { get; set; }
@@ -77,9 +75,6 @@
     private string Type { get; set; }
     private string AvailableRoom { get; set; }
     private string Attendees { get; set; }
-    private int Room { get; set; }
-    private bool IsGetDisabled { get; set; } = true;
-    private bool IsAddDisabled { get; set; } = true;
 
     private DateTime StartDate { get; set; } = DateTime.Today;
     private DateTime EndDate { get; set; } = DateTime.Today.AddHours(1);
@@ -96,46 +91,39 @@
     
     async Task OnLocationChange(ChangeEventArgs e)
     {
-        Console.WriteLine("Location");
         Location = (string) e.Value;
         await GetAvailableRooms();
     }
     
     async Task OnTypeChange(ChangeEventArgs e)
     {
-        Console.WriteLine("Type");
         Type = (string) e.Value;
         await GetAvailableRooms();
     }
     
     async Task OnAttendeesChange(ChangeEventArgs e)
     {
-        Console.WriteLine("Attendees");
         Attendees = (string) e.Value;
         await GetAvailableRooms();
     }
 
     async Task OnStartDateChange(DateTime value)
     {
-        Console.WriteLine("Start");
         StartDate = value;
         await GetAvailableRooms();
     }
     
     async Task OnEndDateChange(DateTime value)
     {
-        Console.WriteLine("End");
         EndDate = value;
         await GetAvailableRooms();
     }
 
     private async Task AddReservation()
     {
-        // Location, Room type, attendees, Starttime, endtime,userid
         var locationId = Convert.ToInt32(Location);
         var attendees = Convert.ToInt32(Attendees);
         var roomId = Convert.ToInt32(AvailableRoom);
-        Console.WriteLine(Location);
         var userId = await _sessionStorage.GetItemAsync<string>("userId");
         var success = await UserService.CreateReservation(new ReservationModel(locationId, roomId, Type, userId, attendees, StartDate, EndDate));
         if (success)
@@ -146,6 +134,8 @@
         {
             _snackbar.Add("Failed to add reservation!", Severity.Error);
         }
+        AvailableRooms.Clear();
+        await GetAvailableRooms();
     }
 
     private async Task GetAvailableRooms()
