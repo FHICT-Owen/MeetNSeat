@@ -1,9 +1,11 @@
-﻿@inject ISessionStorageService _sessionStorage;
-@page "/reservation"
+﻿@page "/reservation"
+@attribute [Authorize]
 @using MeetNSeat.Client.Models
 @using MeetNSeat.Client.Services
 @using Blazored.SessionStorage
-@attribute [Authorize]
+
+@inject ISessionStorageService _sessionStorage;
+@inject ISnackbar _snackbar
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <h2 class="pt-3 pb-2 mb-3 border-bottom">Plan a reservation</h2>
@@ -38,7 +40,7 @@
                 <input type="number" class="form-control" @bind="@Attendees" id="Attendees" placeholder="Attendees">
 
                 <label for="StartDate" class="form-label m-1 pt-2">Start</label><br />
-                <input class="mt-3" type="datetime-local" @bind-value="@StartDate"  @bind-value:format="yyyy-MM-ddTHH:mm"><br />
+                <input class="mt-3" type="datetime-local" @bind-value="@StartDate" @bind-value:format="yyyy-MM-ddTHH:mm"><br />
                 <label for="EndDate" class="form-label m-1 pt-2">End</label><br />
                 <input class="mt-3" type="datetime-local" @bind-value="@EndDate" @bind-value:format="yyyy-MM-ddTHH:mm"><br />
 
@@ -53,7 +55,7 @@
                         }
                     }
                 </select>
-                <br/>
+                <br />
 
                 <button @onclick="GetAvailableRooms" type="button" disabled="@IsGetDisabled" class="btn btn-primary">Get available room</button>
 
@@ -63,7 +65,7 @@
     </div>
 </main>
 
-@if(!string.IsNullOrEmpty(Location) && !string.IsNullOrEmpty(Type) && !string.IsNullOrEmpty(Attendees))
+@if (!string.IsNullOrEmpty(Location) && !string.IsNullOrEmpty(Type) && !string.IsNullOrEmpty(Attendees))
 {
     IsGetDisabled = false;
 }
@@ -95,8 +97,6 @@ else
     {
         Locations = (await LocationService.GetAllLocations()).ToList();
         Rooms = (await RoomService.GetAllRoomTypes()).ToList();
-
-
     }
 
     private async Task AddReservation()
@@ -107,7 +107,15 @@ else
         var roomId = Convert.ToInt32(AvailableRoom);
         Console.WriteLine(Location);
         var userId = await _sessionStorage.GetItemAsync<string>("userId");
-        await UserService.CreateReservation(new ReservationModel(locationId, roomId, Type, userId, attendees, StartDate, EndDate));
+        var success = await UserService.CreateReservation(new ReservationModel(locationId, roomId, Type, userId, attendees, StartDate, EndDate));
+        if (success)
+        {
+            _snackbar.Add("Successfully added reservation", Severity.Success);
+        }
+        else
+        {
+            _snackbar.Add("Failed to add reservation!", Severity.Error);
+        }
     }
 
     private async Task GetAvailableRooms()

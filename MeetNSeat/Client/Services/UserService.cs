@@ -27,10 +27,11 @@ namespace MeetNSeat.Client.Services
             return response.IsSuccessStatusCode;
         }
        
-        public static async Task CreateReservation(ReservationModel reservation)
+        public static async Task<bool> CreateReservation(ReservationModel reservation)
         {
             using var client = new HttpClient();
             var response = await client.PostAsJsonAsync("https://localhost:5001/api/user", reservation);
+            return response.IsSuccessStatusCode;
         }
         public static async Task<string> EditReservation(ReservationModel reservation)
         {
