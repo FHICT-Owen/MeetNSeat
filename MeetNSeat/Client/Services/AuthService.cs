@@ -16,7 +16,7 @@ namespace MeetNSeat.Client.Services
         public static async Task<int> GetUserRole(string userId)
         {
             using var client = new HttpClient();
-            return await client.GetFromJsonAsync<int>("https://localhost:5001/api/authentication/user" + userId);
+            return await client.GetFromJsonAsync<int>("https://localhost:5001/api/authentication/user/" + userId);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace MeetNSeat.Server.Controllers
             _manageAuthentication.AddUserIfNonExistent(newUser);
         }
 
-        [HttpGet("user{userId}")]
+        [HttpGet("user/{userId}")]
         public ActionResult GetUser(string userId)
         {
             var user = Authentication.Instance.GetUser(userId);
