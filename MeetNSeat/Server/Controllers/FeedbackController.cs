@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MeetNSeat.Server.Controllers
 {
-    [Route("api/feedback")]
-    [ApiController]
-    public class FeedbackController : ControllerBase
+    public class FeedbackController : ApiControllerBase
     {
         private readonly IManageFeedback _manageFeedback;
         public FeedbackController(IManageFeedback manageFeedback)

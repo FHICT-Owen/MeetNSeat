@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MeetNSeat.Dal.Factories;
@@ -6,7 +7,7 @@ using MeetNSeat.Logic.Interfaces;
 
 namespace MeetNSeat.Logic
 {
-    public class Authentication : IManageAuthentication
+    public class Authentication
     {
         private static Authentication _instance;
         private static readonly object Padlock = new();

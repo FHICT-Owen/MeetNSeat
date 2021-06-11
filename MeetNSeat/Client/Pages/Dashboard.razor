@@ -7,6 +7,8 @@
 @inject IApiClientService _apiClientService
 @inject ISessionStorageService _sessionStorage
 @inject NavigationManager _nav
+@inject AuthenticationStateProvider _authStateProvider
+
 
 @attribute [Authorize]
 
@@ -28,7 +30,7 @@
                 </tr>
             </thead>
             <tbody>
-               @if (UserReservations.Count > 0)
+                @if (UserReservations.Count > 0)
                 {
                     foreach (var reservation in UserReservations)
                     {
@@ -51,8 +53,8 @@
             </tbody>
         </table>
     </div>
-        @* TODO: GetMyFeedback*@
-        @*&nbsp;
+    @* TODO: GetMyFeedback*@
+    @*&nbsp;
         <div class="col-md-6">
             <h1 class="h3">Schandpaal</h1>
             <table class="table table-striped red">
@@ -86,7 +88,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        UserId = await _sessionStorage.GetItemAsync<string>("userId");
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity.IsAuthenticated)
+        {
+            UserId = $"{user.FindFirst(res => res.Type == "sub")?.Value.Split("|")[1]}";
+        }
         UserReservations = (await UserService.GetUserReservations(UserId)).ToList();
         Locations = (await LocationService.GetAllLocations()).ToList();
         Floors = (await FloorService.GetAllFloors()).ToList();

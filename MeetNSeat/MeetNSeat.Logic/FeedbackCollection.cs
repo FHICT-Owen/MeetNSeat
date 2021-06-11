@@ -43,7 +43,7 @@ namespace MeetNSeat.Logic
             }
             
 
-        //_dalReservationDal.GetReservationByUser(userId).ForEach(r => feedbackDto.Add(feedbackDal.GetFeedbackDtoById(r.FeedbackId)));
+            //_dalReservationDal.GetReservationByUser(userId).ForEach(r => feedbackDto.Add(feedbackDal.GetFeedbackDtoById(r.FeedbackId)));
             return feedbackDto;
         }
     }

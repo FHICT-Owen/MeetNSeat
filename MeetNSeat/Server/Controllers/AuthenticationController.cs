@@ -7,19 +7,19 @@ namespace MeetNSeat.Server.Controllers
 {
     public class AuthenticationController : ApiControllerBase
     {
-        private readonly IManageAuthentication _manageAuthentication;
-
-        public AuthenticationController(IManageAuthentication manageAuthentication)
+        [HttpGet]
+        public ActionResult GetAllUsers()
         {
-            _manageAuthentication = manageAuthentication;
+            var users = Authentication.Instance.GetAllUsers();
+            return Ok(users);
         }
-        
+
         [HttpPost("adduser")]
         public void AddUser([FromBody] UserModel userModel)
         {
-            _manageAuthentication.GetAllUsers();
+            Authentication.Instance.GetAllUsers();
             var newUser = new User(userModel.Id, userModel.Nickname, (Role)userModel.Role);
-            _manageAuthentication.AddUserIfNonExistent(newUser);
+            Authentication.Instance.AddUserIfNonExistent(newUser);
         }
 
         [HttpGet("user{userId}")]

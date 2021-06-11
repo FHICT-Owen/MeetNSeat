@@ -8,12 +8,10 @@ namespace MeetNSeat.Server.Controllers
     public class UserController : ApiControllerBase
     {
         private readonly IManageUser _manageUser;
-        private readonly IManageAuthentication _manageAuthentication;
 
-        public UserController(IManageUser manageUser, IManageAuthentication manageAuthentication)
+        public UserController(IManageUser manageUser)
         {
             _manageUser = manageUser;
-            _manageAuthentication = manageAuthentication;
         }
 
         [HttpGet("{id}")]
@@ -23,12 +21,7 @@ namespace MeetNSeat.Server.Controllers
             return Ok(reservations);
         }
 
-        [HttpGet]
-        public ActionResult GetAllUsers()
-        {
-            var users = _manageAuthentication.GetAllUsers();
-            return Ok(users);
-        }
+        
 
         [HttpPost]
         public void CreateReservation([FromBody] ReservationModel reservationModel)

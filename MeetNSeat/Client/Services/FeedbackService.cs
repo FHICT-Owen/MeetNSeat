@@ -18,7 +18,7 @@ namespace MeetNSeat.Client.Services
         {
             using var client = new HttpClient();
             var response = await client.PostAsJsonAsync("https://localhost:5001/api/feedback", feedback);
-            if (response.IsSuccessStatusCode) return "Feedback is Send!";
+            if (response.IsSuccessStatusCode) return "Feedback has been sent!";
             return "Error! Something went wrong, please try again!";
         }
     }

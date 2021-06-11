@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using MeetNSeat.Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -52,6 +53,12 @@ namespace MeetNSeat.Tests
             var actual = new User().CheckForNoOverlap(_dbStart, _dbEnd, resStart, resEnd);
 
             Assert.IsFalse(actual);
+        }
+
+        [TestMethod]
+        public void GetAllUsers()
+        {
+            Assert.IsTrue(Authentication.Instance.GetAllUsers().Any());
         }
     }
 }
