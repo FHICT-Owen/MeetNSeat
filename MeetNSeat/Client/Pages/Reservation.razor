@@ -135,6 +135,7 @@
             _snackbar.Add("Failed to add reservation!", Severity.Error);
         }
         AvailableRooms.Clear();
+        AvailableRoom = null;
         await GetAvailableRooms();
     }
 
