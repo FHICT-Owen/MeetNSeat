@@ -18,7 +18,7 @@
                     <input class="form-control mb-2" type="text" style="max-width: 36%" @bind="Title" placeholder="Enter a title here ..." @bind:event="oninput" maxlength="50">
                 </div>
                 <span style="position: absolute; right: 65%;; margin-top: -28px">@Title.Length / 50</span>
-                <textarea class="form-control" style="min-height: 40px" rows="8" placeholder="Enter your problem here ..." role="textbox" @bind="Description" @bind:event="oninput" maxlength="1000"></textarea>
+                <textarea class="form-control" style="min-height: 40px; white-space: pre-line" rows="8" placeholder="Enter your problem here ..." role="textbox" @bind="Description" @bind:event="oninput" maxlength="1000"></textarea>
                 <span style="position: absolute; right: 36px; margin-top: -24px">@Description.Length / 1000</span>
             </div>
             <div class="mb-3 p-2" style="display: grid; grid-template-columns: auto auto; border: thin solid #ced4da; border-radius: 4px;">
@@ -51,7 +51,7 @@
                     </select>
                 </div>
             </div>
-            <button @onclick="AddProblem" type="button" disabled="@(Description.Length < 1)" class="btn btn-primary">Report problem</button>
+            <button @onclick="AddProblem" type="button" disabled="@(Description.Length < 1 || Title.Length < 1)" class="btn btn-primary">Report problem</button>
         </form>
     </div>
 </main>
@@ -111,6 +111,7 @@
 
     private async Task AddProblem()
     {
+        Console.WriteLine(Description);
         await ProblemService.AddProblem(new ProblemModel(LocationName, RoomName, UserId, Nickname, Email, Title, Description, Picture));
     }
 }
