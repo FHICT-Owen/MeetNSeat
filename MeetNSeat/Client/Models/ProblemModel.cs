@@ -5,8 +5,10 @@ namespace MeetNSeat.Client.Models
 	public class ProblemModel
 	{
 		public int Id { get; set; }
-		public int RoomId { get; set; }
+		public string LocationName { get; set; }
+		public string RoomName { get; set; }
 		public string UserId { get; set; }
+		public string Nickname { get; set; }
 		public string Email { get; set; }
 		public string Title { get; set; }
 		public string Description { get; set; }
@@ -18,10 +20,12 @@ namespace MeetNSeat.Client.Models
 		public bool IsCollapsed { get; set; } = true; // Used in problem panel and styling
 		public bool IsHidden { get; set; } // Used for styling
 
-		public ProblemModel(int roomId, string userId, string email, string title, string description, byte[] picture)
+		public ProblemModel(string locationName, string roomName, string userId, string nickname, string email, string title, string description, byte[] picture)
 		{
-			RoomId = roomId;
+			LocationName = locationName;
+			RoomName = roomName;
 			UserId = userId;
+			Nickname = nickname;
 			Email = email;
 			Title = title;
 			Description = description;

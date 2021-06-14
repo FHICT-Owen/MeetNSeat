@@ -21,7 +21,7 @@ namespace MeetNSeat.Dal
 		public void AddProblem(ProblemDto problem)
 		{
 			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-			connection.Execute("dbo.InsertProblem @RoomId, @UserId, @Email, @Title, @Description, @Picture, @ReportedOn, @IsResolved, @ResolvedAt", problem);
+			connection.Execute("dbo.InsertProblem @LocationName, @RoomName, @UserId, @Nickname, @Email, @Title, @Description, @Picture, @ReportedOn, @IsResolved, @ResolvedAt", problem);
 		}
 
 		public void DeleteProblemById(int id)
@@ -37,7 +37,7 @@ namespace MeetNSeat.Dal
 		public void UpdateProblem(ProblemDto problem)
 		{
 			using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
-			connection.Execute("dbo.UpdateProblem @Id, @RoomId, @UserId, @Email, @Title, @Description, @Picture, @IsResolved, @ResolvedAt", problem);
+			connection.Execute("dbo.UpdateProblem @Id, @LocationName, @RoomName, @UserId, @Nickname, @Email, @Title, @Description, @Picture, @IsResolved, @ResolvedAt", problem);
 		}
 	}
 }

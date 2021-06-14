@@ -22,7 +22,7 @@
             <div class="mb-3 p-2" style="display: grid; grid-template-columns: auto auto; border: thin solid #ced4da; border-radius: 4px;">
                 <div class="mr-5">
                     <label class="form-label">Location</label>
-                    <select class="form-control" @onchange="GetRoomsAtLocation" aria-label="Default select example">
+                    <select class="form-control" @onchange="OnLocationChange" aria-label="Default select example">
                         <option>Select a location</option>
                         @if (Locations.Any())
                         {
@@ -37,13 +37,13 @@
                 </div>
                 <div>
                     <label class="form-label">Room</label>
-                    <select class="form-control" @bind="RoomId" @bind:event="oninput" aria-label="Default select example">
+                    <select class="form-control" @bind="RoomName" @bind:event="oninput" aria-label="Default select example">
                         <option>Select a room</option>
                         @if (Rooms.Any())
                         {
                             @foreach (var room in Rooms)
                             {
-                                <option value="@room.Id">@room.Name</option>
+                                <option value="@room.Name">@room.Name</option>
                             }
                         }
                     </select>
@@ -61,12 +61,15 @@
     protected override async Task OnInitializedAsync()
     {
         Locations = (await LocationService.GetAllLocations()).ToList();
+        
         var authState = await _authStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         if (user.Identity.IsAuthenticated)
-            UserId = await _sessionStorage.GetItemAsync<string>("userId");
-        
-        Email = user.FindFirst(c => c.Type == "email").Value;
+        {
+            UserId = user.FindFirst(res => res.Type == "sub")?.Value.Split("|")[1];
+            Nickname = user.FindFirst(c => c.Type == "nickname")?.Value;
+            Email = user.FindFirst(c => c.Type == "email")?.Value;
+        }
     }
     
     private async Task SingleUpload(InputFileChangeEventArgs e)
@@ -80,16 +83,25 @@
         Picture = ms.ToArray();
     }
     
-    private async Task GetRoomsAtLocation()
+    async Task OnLocationChange(ChangeEventArgs e)
+    {
+        var locationId = Convert.ToInt32(e.Value);
+        LocationName = Locations.Find(location => location.Id == locationId)?.Name;
+        await GetRoomsAtLocation(locationId);
+    }
+    
+    private async Task GetRoomsAtLocation(int id)
     {
         Rooms.Clear();
-        var floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(21)).ToList();
+        var floors = (await FloorService.GetAllFloorsAndRoomsByLocationId(id)).ToList();
         foreach (var floor in floors)
             Rooms.AddRange(floor.Rooms);
     }
-
-    private int RoomId { get; set; }
+    
+    private string LocationName { get; set; }
+    private string RoomName { get; set; }
     private string UserId { get; set; }
+    private string Nickname { get; set; }
     private string Email { get; set; }
     private string Title { get; set; } = string.Empty;
     private string Description { get; set; } = string.Empty;
@@ -97,6 +109,6 @@
 
     private async Task AddProblem()
     {
-        await ProblemService.AddProblem(new ProblemModel(RoomId, UserId, Email, Title, Description, Picture));
+        await ProblemService.AddProblem(new ProblemModel(LocationName, RoomName, UserId, Nickname, Email, Title, Description, Picture));
     }
 }

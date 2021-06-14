@@ -7,8 +7,10 @@ namespace MeetNSeat.Logic
     public class Problem
     {
 	    public int Id { get; set; }
-	    public int RoomId { get; set; }
+	    public string LocationName { get; set; }
+	    public string RoomName { get; set; }
 	    public string UserId { get; set; }
+	    public string Nickname { get; set; }
 	    public string Email { get; set; }
 	    public string Title { get; set; }
 	    public string Description { get; set; }
@@ -17,10 +19,12 @@ namespace MeetNSeat.Logic
 	    public bool IsResolved { get; set; }
 	    public DateTime? ResolvedAt { get; set; }
 
-	    public Problem(int roomId, string userId, string email, string title, string description, byte[] picture) // create issue
+	    public Problem(string locationName, string roomName, string userId, string nickname, string email, string title, string description, byte[] picture) // create problem
 	    {
-		    RoomId = roomId;
+		    LocationName = locationName;
+		    RoomName = roomName;
 		    UserId = userId;
+		    Nickname = nickname;
 		    Email = email;
 		    Title = title;
 		    Description = description;
@@ -33,8 +37,10 @@ namespace MeetNSeat.Logic
 	    public Problem(ProblemDto dto)
 	    {
 		    Id = dto.Id;
-		    RoomId = dto.RoomId;
+		    LocationName = dto.LocationName;
+		    RoomName = dto.RoomName;
 		    UserId = dto.UserId;
+		    Nickname = dto.Nickname;
 		    Email = dto.Email;
 		    Title = dto.Title;
 		    Description = dto.Description;
@@ -44,10 +50,12 @@ namespace MeetNSeat.Logic
 		    ResolvedAt = dto.ResolvedAt;
 	    }
 
-	    public void Update(int roomId, string userId, string email, string title, string description, byte[] picture, bool isResolved, DateTime? resolvedAt)
+	    public void Update(string locationName, string roomName, string userId, string nickname, string email, string title, string description, byte[] picture, bool isResolved, DateTime? resolvedAt)
 	    {
-		    RoomId = roomId;
+		    LocationName = locationName;
+		    RoomName = roomName;
 		    UserId = userId;
+		    Nickname = nickname;
 		    Email = email;
 		    Title = title;
 		    Description = description;
@@ -59,7 +67,7 @@ namespace MeetNSeat.Logic
 
 	    public ProblemDto ConvertToDto()
 	    {
-		    return new (Id, RoomId, UserId, Email, Title, Description, Picture, ReportedOn, IsResolved, ResolvedAt);
+		    return new (Id, LocationName, RoomName, UserId, Nickname, Email, Title, Description, Picture, ReportedOn, IsResolved, ResolvedAt);
 	    }
     }
 }
