@@ -20,7 +20,7 @@
             <form>
                 <div class="form-group mx-sm-3 mb-3">
                     <label for="attendees">Attendees</label>
-                    <input type="number" class="form-control" Value="_model.Attendees" @onchange="OnAttendeesChange" id="Attendees" placeholder="Attendees">
+                    <input type="number" class="form-control" @bind-value="@_model.Attendees" id="Attendees" placeholder="Attendees">
                 </div>
 
                 <label class="form-label m-1 pt-2">Start</label>
@@ -68,12 +68,6 @@
     async Task OnEndDateChange(DateTime value)
     {
         _model.EndTime = value;
-        await GetAvailableRooms();
-    }
-
-    async Task OnAttendeesChange(ChangeEventArgs e)
-    {
-        _model.Attendees = (int)e.Value;
         await GetAvailableRooms();
     }
 
