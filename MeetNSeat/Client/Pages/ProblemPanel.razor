@@ -9,37 +9,44 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Room</th>
-                <th style="min-width: 120px" scope="col">Reported by</th>
-                <th style="min-width: 120px" scope="col">Reported on</th>
-                <th style="min-width: 150px" scope="col"><button @onclick="ToggleResolvedProblemView" disabled="@IsDisabled" class="btn btn-primary p-1">@ButtonText</button></th>
+                <th scope="col" style="min-width: 3%"></th>
+                <th scope="col" style="max-font-size: 20%">Title</th>
+                <th scope="col" style="min-width: 16%; max-font-size: 16%">Room</th>
+                <th scope="col" style="min-width: 16%; max-font-size: 16%">Reported by</th>
+                <th scope="col" style="min-width: 16%; max-font-size: 16%">Reported on</th>
+                <th scope="col" style="min-width: 16%; max-font-size: 16%">Reported at</th>
+                <th scope="col" style="min-width: 13%"><button @onclick="ToggleResolvedProblemView" disabled="@IsDisabled" class="btn btn-primary p-1">@ButtonText</button></th>
             </tr>
             </thead>
             <tbody>
             @if (Problems.Any()){
                 @foreach (var problem in Problems){
                     @if (!problem.IsResolved){
-                        <tr class="@(problem.IsCollapsed ? "normal":"active")">
+                        <tr class="@(problem.IsCollapsed ? "normal" : "active")">
                             <td>
                                 <button class="btn btn-primary" @onclick="() => Toggle(problem)">Details</button>
                             </td>
+                            <td>@problem.Title</td>
                             <td>@problem.RoomId</td>
                             <td>@problem.UserId</td>
                             <td>@problem.ReportedOn</td>
+                            <td>Not resolved</td>
                             <td style="min-width: 200px">
                                 <button @onclick="() => ResolveProblem(problem)" class="btn btn-primary">Resolve</button>
                             </td>
+
                         </tr>
                     }
                     @if (ShowResolved && problem.IsResolved){
-                        <tr class="@(problem.IsCollapsed ? "normal":"active")">
+                        <tr class="@(problem.IsCollapsed ? "normal" : "active")">
                             <td>
                                 <button class="btn btn-primary" @onclick="() => Toggle(problem)">Details</button>
                             </td>
+                            <td>@problem.Title</td>
                             <td>@problem.RoomId</td>
                             <td>@problem.UserId</td>
                             <td>@problem.ReportedOn</td>
+                            <td>@problem.ResolvedAt</td>
                             <td>
                                 <button @onclick="() => ResolveProblem(problem)" class="btn btn-primary">Re-Open</button>
                                 <button @onclick="() => DeleteProblem(problem.Id)" class="btn btn-primary">Delete</button>
@@ -48,7 +55,7 @@
                     }
                     @if (!problem.IsCollapsed){
                         <tr class="@(problem.IsHidden ? "details":"hidden")">
-                            <td colspan="5" style="background: #f2f2f2; max-width: 100%">
+                            <td colspan="7" style="background: #f2f2f2; max-width: 100%">
                                 <div class="grid">
                                     <div>
                                         @problem.Description
