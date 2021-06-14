@@ -13,9 +13,11 @@
     <div>
         <form>
             <div class="mb-3">
-                <label class="form-label h4">Problem</label>
-                <input class="form-control mb-2" type="text" style="max-width: 36%" @bind="Title" placeholder="Enter a title here ..." @bind:event="oninput" maxlength="50">
-                <span style="position: absolute; left: 32.5%; margin-top: -28px">@Title.Length / 50</span>
+                <div>
+                    <label class="form-label h4">Problem</label>
+                    <input class="form-control mb-2" type="text" style="max-width: 36%" @bind="Title" placeholder="Enter a title here ..." @bind:event="oninput" maxlength="50">
+                </div>
+                <span style="position: absolute; right: 65%;; margin-top: -28px">@Title.Length / 50</span>
                 <textarea class="form-control" style="min-height: 40px" rows="8" placeholder="Enter your problem here ..." role="textbox" @bind="Description" @bind:event="oninput" maxlength="1000"></textarea>
                 <span style="position: absolute; right: 36px; margin-top: -24px">@Description.Length / 1000</span>
             </div>
