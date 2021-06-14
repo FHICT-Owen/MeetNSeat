@@ -15,8 +15,9 @@ namespace MeetNSeat.Dal.Interfaces.Dtos
         public DateTime IsConfirmed { get; set; }
         public string Start { get; set; }
         public string End { get; set; }
+        public string ConfirmedTime { get; set; }
 
-        public ManageReservationDto(int id, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime confirmed, DateTime deletedAt, string start, string end){
+        public ManageReservationDto(int id, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime confirmed, DateTime deletedAt, string start, string end, string confirmedTime){
             Id = id;
             RoomId = roomId;
             UserId = userId;
@@ -28,6 +29,7 @@ namespace MeetNSeat.Dal.Interfaces.Dtos
             IsConfirmed = confirmed;
             Start = start;
             End = end;
+            ConfirmedTime = confirmedTime;
         }
 
         public ManageReservationDto(int id, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime confirmed, DateTime deletedAt)
