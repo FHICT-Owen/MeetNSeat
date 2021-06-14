@@ -50,7 +50,7 @@ namespace MeetNSeat.Server
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
-            app.ConfigureExceptionHandler();
+            //app.ConfigureExceptionHandler();
 
             app.UseRouting();
             
@@ -62,7 +62,7 @@ namespace MeetNSeat.Server
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapRazorPages();  
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
             });

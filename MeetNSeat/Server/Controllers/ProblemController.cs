@@ -31,10 +31,10 @@ namespace MeetNSeat.Server.Controllers
 		}
 		
 		[HttpPut]
-		public void UpdateProblem([FromBody]ProblemModel problem)
+		public async Task UpdateProblem([FromBody]ProblemModel problem)
 		{
-			// if (problem.IsResolved) await EmailSender.SendEmail(problem.Email);
-			_manageProblems.UpdateProblem(problem.Id, problem.LocationName, problem.RoomName, problem.UserId, problem.Nickname, problem.Email, problem.Title, problem.Description, problem.Picture, problem.IsResolved, problem.ResolvedAt);
+            if (problem.IsResolved) await EmailSender.Execute(problem.Email);
+            _manageProblems.UpdateProblem(problem.Id, problem.LocationName, problem.RoomName, problem.UserId, problem.Nickname, problem.Email, problem.Title, problem.Description, problem.Picture, problem.IsResolved, problem.ResolvedAt);
 		}
 	}
 }
