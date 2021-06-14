@@ -15,11 +15,11 @@ namespace MeetNSeat.Dal
                 .Build();
             return configuration.GetConnectionString("DefaultConnection");
             }
-            catch (SqlException ex)
+            catch (SqlException)
             {
                 throw new DalExceptions("Database cannot connect, try again!");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new DalExceptions("something went wrong");
             }
