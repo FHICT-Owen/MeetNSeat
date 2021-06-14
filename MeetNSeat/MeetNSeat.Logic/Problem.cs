@@ -10,17 +10,19 @@ namespace MeetNSeat.Logic
 	    public int RoomId { get; set; }
 	    public string UserId { get; set; }
 	    public string Email { get; set; }
+	    public string Title { get; set; }
 	    public string Description { get; set; }
 	    public byte[] Picture { get; set; }
 	    public DateTime ReportedOn { get; set; }
 	    public bool IsResolved { get; set; }
 	    public DateTime? ResolvedAt { get; set; }
 
-	    public Problem(int roomId, string userId, string email, string description, byte[] picture) // create issue
+	    public Problem(int roomId, string userId, string email, string title, string description, byte[] picture) // create issue
 	    {
 		    RoomId = roomId;
 		    UserId = userId;
 		    Email = email;
+		    Title = title;
 		    Description = description;
 		    Picture = picture;
 		    ReportedOn = DateTime.Now;
@@ -34,6 +36,7 @@ namespace MeetNSeat.Logic
 		    RoomId = dto.RoomId;
 		    UserId = dto.UserId;
 		    Email = dto.Email;
+		    Title = dto.Title;
 		    Description = dto.Description;
 		    Picture = dto.Picture;
 		    ReportedOn = dto.ReportedOn;
@@ -41,11 +44,12 @@ namespace MeetNSeat.Logic
 		    ResolvedAt = dto.ResolvedAt;
 	    }
 
-	    public void Update(int roomId, string userId, string email, string description, byte[] picture, bool isResolved, DateTime? resolvedAt)
+	    public void Update(int roomId, string userId, string email, string title, string description, byte[] picture, bool isResolved, DateTime? resolvedAt)
 	    {
 		    RoomId = roomId;
 		    UserId = userId;
 		    Email = email;
+		    Title = title;
 		    Description = description;
 		    Picture = picture;
 		    IsResolved = isResolved;
@@ -55,7 +59,7 @@ namespace MeetNSeat.Logic
 
 	    public ProblemDto ConvertToDto()
 	    {
-		    return new (Id, RoomId, UserId, Email, Description, Picture, ReportedOn, IsResolved, ResolvedAt);
+		    return new (Id, RoomId, UserId, Email, Title, Description, Picture, ReportedOn, IsResolved, ResolvedAt);
 	    }
     }
 }
