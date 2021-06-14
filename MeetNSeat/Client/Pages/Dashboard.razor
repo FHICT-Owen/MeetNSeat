@@ -19,7 +19,6 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Id</th>
                     <th scope="col">Time</th>
                     <th scope="col">Location</th>
                     <th scope="col">Room</th>
@@ -35,7 +34,6 @@
                     foreach (var reservation in UserReservations)
                     {
                         <tr>
-                            <td>@reservation.Id</td>
                             <td>@reservation.StartTime - @reservation.EndTime</td>
                             <td>@GetLocation(reservation.RoomId).City</td>
                             <td>@GetRoom(reservation.RoomId).Name</td>
