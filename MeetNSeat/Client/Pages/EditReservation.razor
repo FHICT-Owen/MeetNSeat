@@ -7,27 +7,41 @@
 @using Blazored.SessionStorage
 
 @inject ISessionStorageService _sessionStorage
+@inject ISnackbar _snackbar
+
 @inject NavigationManager _nav
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Edit reservation</h1>
+        <h1 class="h2">EditReservation(@_model.Id)</h1>
     </div>
     <div class="row">
         <div class="col-md-12">
             <form>
                 <div class="form-group mx-sm-3 mb-3">
                     <label for="attendees">Attendees</label>
-                    <input type="text" class="form-control" @bind="@_model.Attendees">
+                    <input type="number" class="form-control" Value="_model.Attendees" @onchange="OnAttendeesChange" id="Attendees" placeholder="Attendees">
                 </div>
-                <div class="form-group mx-sm-3 mb-3">
-                    <label for="starttime">Start Time</label>
-                    <input type="datetime" class="form-control" id="starttime" @bind="@_model.StartTime">
-                </div>
-                <div class="form-group mx-sm-3 mb-3">
-                    <label for="endtime">End Time</label>
-                    <input type="datetime" class="form-control" id="endtime" @bind="@_model.EndTime">
-                </div>
+
+                <label class="form-label m-1 pt-2">Start</label>
+                <br />
+                <MatDatePicker Value="_model.StartTime" ValueChanged="(DateTime i) => OnStartDateChange(i)" Outlined="true" AllowInput="false" EnableTime="true" Enable24hours="true" Format="MM/dd/yy HH:mm"></MatDatePicker>
+                <br />
+
+                <label class="form-label m-1 pt-2">End</label>
+                <br />
+                <MatDatePicker Value="_model.EndTime" ValueChanged="(DateTime i) => OnEndDateChange(i)" Outlined="true" AllowInput="false" EnableTime="true" Enable24hours="true" Format="MM/dd/yy HH:mm"></MatDatePicker>
+                <br />
+
+                @*<div class="form-group mx-sm-3 mb-3">
+                        <label for="starttime">Start Time</label>
+                        <input type="datetime" class="form-control" id="starttime" @bind="@_model.StartTime">
+                    </div>
+                    <div class="form-group mx-sm-3 mb-3">
+                        <label for="endtime">End Time</label>
+                        <input type="datetime" class="form-control" id="endtime" @bind="@_model.EndTime">
+                    </div>*@
+
                 <button @onclick="EditReservations" type="button" class="btn btn-primary mb-2">Confirm Change</button>
             </form>
         </div>
@@ -38,9 +52,42 @@
 {
     private ReservationModel _model = new();
 
+    List<RoomModel> AvailableRooms { get; set; } = new();
+
     protected override async Task OnInitializedAsync()
     {
         _model = await _sessionStorage.GetItemAsync<ReservationModel>("reservation");
+    }
+
+    async Task OnStartDateChange(DateTime value)
+    {
+        _model.StartTime = value;
+        await GetAvailableRooms();
+    }
+
+    async Task OnEndDateChange(DateTime value)
+    {
+        _model.EndTime = value;
+        await GetAvailableRooms();
+    }
+
+    async Task OnAttendeesChange(ChangeEventArgs e)
+    {
+        _model.Attendees = (int)e.Value;
+        await GetAvailableRooms();
+    }
+
+    private async Task GetAvailableRooms()
+    {
+        var attendees = Convert.ToInt32(_model.Attendees);
+        try
+        {
+            AvailableRooms = (await RoomService.GetAllAvailableRooms(_model.LocationId, _model.Type, _model.Attendees, _model.StartTime, _model.EndTime)).ToList();
+        }
+        catch (Exception)
+        {
+            _snackbar.Add("Unable to retrieve rooms!", Severity.Error);
+        }
     }
 
     private async Task EditReservations()

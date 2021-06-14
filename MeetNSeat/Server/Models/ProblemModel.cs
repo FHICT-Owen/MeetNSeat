@@ -8,6 +8,7 @@ namespace MeetNSeat.Server.Models
 		public int RoomId { get; set; }
 		public string UserId { get; set; }
 		public string Email { get; set; }
+		public string Title { get; set; }
 		public string Description { get; set; }
 		public byte[] Picture { get; set; }
 		public bool IsResolved { get; set; }
