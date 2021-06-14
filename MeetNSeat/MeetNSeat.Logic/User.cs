@@ -62,7 +62,17 @@ namespace MeetNSeat.Logic
 
         public IReadOnlyCollection<ManageReservationDto> GetReservationByUser(string id)
         {
-            return _dal.GetReservationByUser(id);
+            var reservations = _dal.GetReservationByUser(id);
+
+            for (int i = 0; i < reservations.Count; i++)
+            {
+                if (reservations[i].StartTime < DateTime.Now )
+                {
+                    reservations.RemoveAt(i);
+                }
+            }
+
+            return reservations;
         }
 
         public bool AddReservation(string type,int roomId, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
