@@ -88,19 +88,19 @@
         Locations = (await LocationService.GetAllLocations()).ToList();
         Rooms = (await RoomService.GetAllRoomTypes()).ToList();
     }
-    
+
     async Task OnLocationChange(ChangeEventArgs e)
     {
         Location = (string) e.Value;
         await GetAvailableRooms();
     }
-    
+
     async Task OnTypeChange(ChangeEventArgs e)
     {
         Type = (string) e.Value;
         await GetAvailableRooms();
     }
-    
+
     async Task OnAttendeesChange(ChangeEventArgs e)
     {
         Attendees = (string) e.Value;
@@ -112,7 +112,7 @@
         StartDate = value;
         await GetAvailableRooms();
     }
-    
+
     async Task OnEndDateChange(DateTime value)
     {
         EndDate = value;
@@ -121,6 +121,12 @@
 
     private async Task AddReservation()
     {
+        if ((EndDate - StartDate).Hours > 8)
+        {
+            _snackbar.Add("Reservation is longer than 8 hours!", Severity.Error);
+            return;
+        }
+
         var locationId = Convert.ToInt32(Location);
         var attendees = Convert.ToInt32(Attendees);
         var roomId = Convert.ToInt32(AvailableRoom);
