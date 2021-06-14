@@ -18,12 +18,13 @@ namespace MeetNSeat.Client.Models
         public DateTime DeletedAt { get; set; }
         public string Start { get; set; }
         public string End { get; set; }
+        public string ConfirmedTime { get; set; }
         public ReservationModel()
         {
             
         }
 
-        public ReservationModel(int id, int roomId, int locationId, string type, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed, DateTime deletedAt, string start, string end)
+        public ReservationModel(int id, int roomId, int locationId, string type, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed, DateTime deletedAt, string start, string end, string confirmedTime)
         {
             Id = id;
             RoomId = roomId;
@@ -39,6 +40,7 @@ namespace MeetNSeat.Client.Models
             DeletedAt = deletedAt;
             Start = start;
             End = end;
+            ConfirmedTime = confirmedTime;
         }
 
         public ReservationModel(int id, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed, DateTime deletedAt)
