@@ -31,9 +31,9 @@ namespace MeetNSeat.Server.Controllers
 		}
 		
 		[HttpPut]
-		public async Task UpdateProblem([FromBody]ProblemModel problem)
+		public void UpdateProblem([FromBody]ProblemModel problem)
 		{
-			if (problem.IsResolved) await EmailSender.SendEmail(problem.Email);
+			// if (problem.IsResolved) await EmailSender.SendEmail(problem.Email);
 			_manageProblems.UpdateProblem(problem.Id, problem.RoomId, problem.UserId, problem.Email, problem.Title, problem.Description, problem.Picture, problem.IsResolved, problem.ResolvedAt);
 		}
 	}
