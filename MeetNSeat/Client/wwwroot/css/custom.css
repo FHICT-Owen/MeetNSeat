@@ -86,3 +86,7 @@ body, html, #app {
         display: flex !important;
     }
 }
+
+.table-breakword > td {
+    word-break: break-word;
+}

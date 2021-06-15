@@ -26,9 +26,9 @@ namespace MeetNSeat.Logic
       return _problems.AsReadOnly();
     }
     
-    public void AddProblem(int roomId, string userId, string email, string title, string description, byte[] picture)
+    public void AddProblem(string locationName, string roomName, string userId, string nickname, string email, string title, string description, byte[] picture)
     {
-      var issue = new Problem(roomId, userId, email, title, description, picture);
+      var issue = new Problem(locationName, roomName, userId, nickname, email, title, description, picture);
       _problems.Add(issue);
       _dal.AddProblem(issue.ConvertToDto());
     }
@@ -39,10 +39,10 @@ namespace MeetNSeat.Logic
       _dal.DeleteProblemById(id);
     }
     
-    public void UpdateProblem(int id, int roomId, string userId, string email, string title, string description, byte[] picture, bool isResolved, DateTime? resolvedAt)
+    public void UpdateProblem(int id, string locationName, string roomName, string userId, string nickname, string email, string title, string description, byte[] picture, bool isResolved, DateTime? resolvedAt)
     {
       _problems.Find(issue => issue.Id == id)?
-        .Update(roomId, userId, email, title, description, picture, isResolved, resolvedAt);
+        .Update(locationName, roomName, userId, nickname, email, title, description, picture, isResolved, resolvedAt);
     }
   }
 }

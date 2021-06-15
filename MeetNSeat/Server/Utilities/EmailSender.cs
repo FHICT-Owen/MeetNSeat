@@ -1,39 +1,22 @@
 using System;
-using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
-using FluentEmail.Core;
-using FluentEmail.Razor;
-using FluentEmail.Smtp;
-using Microsoft.AspNetCore.Mvc;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace MeetNSeat.Server.Utilities
 {
     public static class EmailSender
     {
-        public static async Task SendEmail(string emailAddress)
+        public static async Task Execute(string email)
         {
-            var sender = new SmtpSender(() => new SmtpClient("localhost")
-            {
-                EnableSsl = false,
-                DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory,
-                PickupDirectoryLocation = $"{Environment.GetEnvironmentVariable("HOME")}/Desktop/Emails"
-            });
-
-            StringBuilder template = new();
-            template.AppendLine("Dear user");
-            template.AppendLine("<p>Test</p>");
-            template.AppendLine("The MeatNSeat Team");
-
-            Email.DefaultSender = sender;
-            Email.DefaultRenderer = new RazorRenderer();
-
-            await Email
-                .From("koen@kschellingerhout.nl")
-                .To(emailAddress)
-                .Subject("Your problem has been resolved!")
-                .UsingTemplate(template.ToString(), new {})
-                .SendAsync();
+            var client = new SendGridClient("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");
+            var from = new EmailAddress("owendbgta1@gmail.com", "MeetNSeat");
+            var subject = "Problem is resolved";
+            var to = new EmailAddress(email, email);
+            var plainTextContent = "and easy to do anywhere, even with C#";
+            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
         }
     }
 }

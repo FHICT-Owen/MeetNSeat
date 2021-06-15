@@ -6,16 +6,17 @@
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <h2 class="pt-3">Problem panel</h2>
     <div>
-        <table class="table">
+        <table class="table table-responsive table-breakword">
             <thead>
             <tr>
-                <th scope="col" style="min-width: 3%"></th>
-                <th scope="col" style="max-font-size: 20%">Title</th>
-                <th scope="col" style="min-width: 16%; max-font-size: 16%">Room</th>
-                <th scope="col" style="min-width: 16%; max-font-size: 16%">Reported by</th>
-                <th scope="col" style="min-width: 16%; max-font-size: 16%">Reported on</th>
-                <th scope="col" style="min-width: 16%; max-font-size: 16%">Reported at</th>
-                <th scope="col" style="min-width: 13%"><button @onclick="ToggleResolvedProblemView" disabled="@IsDisabled" class="btn btn-primary p-1">@ButtonText</button></th>
+                <th scope="col"></th>
+                <th scope="col">Title</th>
+                <th scope="col">Location</th>
+                <th scope="col">Room</th>
+                <th scope="col">Reported by</th>
+                <th scope="col">Reported on</th>
+                <th scope="col">Resolved at</th>
+                <th scope="col"><button @onclick="ToggleResolvedProblemView" disabled="@IsDisabled" class="btn btn-primary p-1">@ButtonText</button></th>
             </tr>
             </thead>
             <tbody>
@@ -27,11 +28,12 @@
                                 <button class="btn btn-primary" @onclick="() => Toggle(problem)">Details</button>
                             </td>
                             <td>@problem.Title</td>
-                            <td>@problem.RoomId</td>
-                            <td>@problem.UserId</td>
-                            <td>@problem.ReportedOn</td>
+                            <td>@problem.LocationName</td>
+                            <td>@problem.RoomName</td>
+                            <td class="user" @onclick="() => OpenDialog(problem)">@problem.Nickname</td>
+                            <td>@problem.ReportedOn.ToString("dddd, dd MMMM yyyy")</td>
                             <td>Not resolved</td>
-                            <td style="min-width: 200px">
+                            <td>
                                 <button @onclick="() => ResolveProblem(problem)" class="btn btn-primary">Resolve</button>
                             </td>
 
@@ -43,9 +45,10 @@
                                 <button class="btn btn-primary" @onclick="() => Toggle(problem)">Details</button>
                             </td>
                             <td>@problem.Title</td>
-                            <td>@problem.RoomId</td>
-                            <td>@problem.UserId</td>
-                            <td>@problem.ReportedOn</td>
+                            <td>@problem.LocationName</td>
+                            <td>@problem.RoomName</td>
+                            <td class="user" @onclick="() => OpenDialog(problem)">@problem.Nickname</td>
+                            <td>@problem.ReportedOn.ToString("dddd, dd MMMM yyyy")</td>
                             <td>@problem.ResolvedAt</td>
                             <td>
                                 <button @onclick="() => ResolveProblem(problem)" class="btn btn-primary">Re-Open</button>
@@ -55,16 +58,16 @@
                     }
                     @if (!problem.IsCollapsed){
                         <tr class="@(problem.IsHidden ? "details":"hidden")">
-                            <td colspan="7" style="background: #f2f2f2; max-width: 100%">
+                            <td colspan="8" style="background: #f2f2f2; max-width: 100%">
                                 <div class="grid">
-                                    <div>
+                                    <div style="white-space: pre-line">
                                         @problem.Description
                                     </div>
                                     @if (problem.Picture != null)
                                     {
                                         var base64 = Convert.ToBase64String(problem.Picture);
                                         var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                                        <img alt src="@imgSrc" style="justify-self: end"/>
+                                        <img class="mt-3" src="@imgSrc"/>
                                     }
                                 </div>
                             </td>
@@ -74,6 +77,31 @@
             }
             </tbody>
         </table>
+        @if (DialogIsOpen)
+        {
+            <div class="modal" style="display:block; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">User</h3>
+                            <button type="button" class="close" @onclick="CloseDialog">
+                                <span aria-hidden="true">X</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <label class="form-label m-1 pt-2">UserId : </label>
+                                @UserId
+                            </div>
+                            <div>
+                                <label class="form-label m-1 pt-2">Email : </label>
+                                @Email
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </main>
 
@@ -84,6 +112,11 @@
     private string ButtonText { get; set; } = "Show Resolved";
 
     private bool IsDisabled { get; set; } = true;
+
+    private bool DialogIsOpen { get; set; }
+    
+    private string UserId { get; set; }
+    private string Email { get; set; }
     
     List<ProblemModel> Problems { get; set; } = new();
     
@@ -98,6 +131,18 @@
         problem.IsCollapsed = !problem.IsCollapsed;
         await Task.Delay(1);
         problem.IsHidden = !problem.IsHidden;
+    }
+
+    private void OpenDialog(ProblemModel problem)
+    {
+        UserId = problem.UserId;
+        Email = problem.Email;
+        DialogIsOpen = true;
+    }
+    
+    private void CloseDialog()
+    {
+        DialogIsOpen = false;
     }
 
     private void ToggleResolvedProblemView()
@@ -163,6 +208,11 @@
     
     .grid {
         display: grid;
-        grid-template-columns: auto auto;
+        grid-template-rows: auto auto;
+    }
+    
+    .user:hover {
+        cursor: pointer;
+        background-color: #eaeaea;
     }
 </style>
