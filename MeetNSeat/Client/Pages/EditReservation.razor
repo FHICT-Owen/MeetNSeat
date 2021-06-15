@@ -73,26 +73,28 @@
         _model.EndTime = value;
     }
 
-    private async Task<bool> CheckDate()
+    private async Task<List<RoomModel>> CheckDate()
     {
         AvailableRooms = (await RoomService.GetAllAvailableRooms(_model.LocationId, _model.Type, _model.Attendees, _model.StartTime, _model.EndTime, _model.RoomId)).ToList();
 
         if (AvailableRooms.Any())
         {
-            return true;
+            return AvailableRooms;
         }
         else
         {
-            _snackbar.Add("Unable to retrieve rooms!", Severity.Error);
-            return false;
+            _snackbar.Add("Reservation is not possible!", Severity.Error);
+            return AvailableRooms;
         }
     }
 
     private async Task EditReservations()
     {
         //Check date.
-
-        if (await CheckDate())
+        List<RoomModel> availableRoom = await CheckDate();
+        var matchingvalues = availableRoom
+            .Where(r =>r.Id == _model.RoomId);
+        if (matchingvalues.Count() > 0)
         {
             if ((_model.EndTime - _model.StartTime).Hours > 8)
             {
@@ -103,6 +105,10 @@
             await UserService.EditReservation(_model);
             await _sessionStorage.RemoveItemAsync("reservation");
             _nav.NavigateTo("dashboard");
+        }
+        else
+        {
+            _snackbar.Add("Unavailable date has been given!", Severity.Error);
         }
     }
 }

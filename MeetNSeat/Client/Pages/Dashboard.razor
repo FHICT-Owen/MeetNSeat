@@ -124,10 +124,7 @@
     {
         reservation.LocationId = locationId;
         reservation.Type = roomModel.Type;
-
-        Console.WriteLine(reservation.LocationId);
-        Console.WriteLine(reservation.Type);
-
+        
         await _sessionStorage.SetItemAsync("reservation", reservation);
         // ReSharper disable once StringLiteralTypo
         _nav.NavigateTo("editreservation");
