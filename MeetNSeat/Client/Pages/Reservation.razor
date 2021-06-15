@@ -153,7 +153,6 @@
         try
         {
             if (locationId != 0 && Type != null && attendees != 0 && StartDate != DateTime.MinValue && EndDate != DateTime.MinValue)
-            AvailableRooms = (await RoomService.GetAllAvailableRooms(locationId, Type, attendees, StartDate, EndDate)).ToList();
             AvailableRooms = (await RoomService.GetAllAvailableRooms(locationId, Type, attendees, StartDate, EndDate, RoomId)).ToList();
         }
         catch (Exception)
