@@ -32,8 +32,6 @@ namespace MeetNSeat.Server.Controllers
         [HttpPost("edit")]
         public bool UpdateReservation([FromBody] ReservationModel reservation)
         {
-            Console.WriteLine("HIT");
-            Console.WriteLine(reservation.Id);
             return _manageUser.EditReservation(reservation.ConvertToReservation());
         }
 

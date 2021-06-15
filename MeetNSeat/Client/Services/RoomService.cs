@@ -15,12 +15,12 @@ namespace MeetNSeat.Client.Services
 			return await client.GetFromJsonAsync<List<RoomModel>>("https://localhost:5001/api/room");
 		}
 
-		public static async Task<IEnumerable<RoomModel>> GetAllAvailableRooms(int locationId, string roomType, int attendees, DateTime startTime, DateTime endTime)
+		public static async Task<IEnumerable<RoomModel>> GetAllAvailableRooms(int locationId, string roomType, int attendees, DateTime startTime, DateTime endTime, int roomId)
 		{
 			using var client = new HttpClient();
 			var sqlStartTime = startTime.ToString("yyyy-MM-ddTHH:mm:ss.fff");
 			var sqlEndTime = endTime.ToString("yyyy-MM-ddTHH:mm:ss");
-			return await client.GetFromJsonAsync<List<RoomModel>>("https://localhost:5001/api/room/"+locationId+"/"+roomType+"/"+attendees+"/"+sqlStartTime+ "/"+ sqlEndTime);
+			return await client.GetFromJsonAsync<List<RoomModel>>("https://localhost:5001/api/room/"+locationId+"/"+roomType+"/"+attendees+"/"+sqlStartTime+ "/"+ sqlEndTime+ "/" + roomId);
 		}
 
 		public static async Task<IEnumerable<RoomModel>> GetAllRoomTypes()

@@ -63,6 +63,7 @@
     {
         _model.StartTime = value;
         await GetAvailableRooms();
+
     }
 
     async Task OnEndDateChange(DateTime value)
@@ -73,15 +74,22 @@
 
     private async Task GetAvailableRooms()
     {
+
         var attendees = Convert.ToInt32(_model.Attendees);
         try
         {
-            AvailableRooms = (await RoomService.GetAllAvailableRooms(_model.LocationId, _model.Type, _model.Attendees, _model.StartTime, _model.EndTime)).ToList();
+            AvailableRooms = (await RoomService.GetAllAvailableRooms(_model.LocationId, _model.Type, _model.Attendees, _model.StartTime, _model.EndTime, _model.RoomId)).ToList();
+            //if (AvailableRooms == null)
+            //{
+            //    _snackbar.Add("Date is not available.", Severity.Error);
+            //    _model.EndTime = _model.StartTime.AddHours(1);
+            //}
         }
         catch (Exception)
         {
             _snackbar.Add("Unable to retrieve rooms!", Severity.Error);
         }
+
     }
 
     private async Task EditReservations()

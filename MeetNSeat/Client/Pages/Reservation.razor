@@ -72,6 +72,7 @@
     private string Location { get; set; }
 
 
+    private int RoomId { get; set; }
     private string Type { get; set; }
     private string AvailableRoom { get; set; }
     private string Attendees { get; set; }
@@ -151,7 +152,7 @@
         var attendees = Convert.ToInt32(Attendees);
         try
         {
-            AvailableRooms = (await RoomService.GetAllAvailableRooms(locationId, Type, attendees, StartDate, EndDate)).ToList();
+            AvailableRooms = (await RoomService.GetAllAvailableRooms(locationId, Type, attendees, StartDate, EndDate, RoomId)).ToList();
         }
         catch (Exception)
         {
