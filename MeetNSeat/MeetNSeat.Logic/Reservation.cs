@@ -94,7 +94,7 @@ namespace MeetNSeat.Logic
 
         public void ConfirmReservation(int id)
         {
-            IsConfirmed = DateTime.Now;
+            IsConfirmed = DateTime.UtcNow;
             dal.ConfirmReservation(id, IsConfirmed);
         }
 

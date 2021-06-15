@@ -83,7 +83,7 @@ namespace MeetNSeat.Logic
             return _dal.AddReservation(new CreateReservationDto(roomId, userId, attendees, sqlStartTime, sqlEndTime));
         }
 
-        public List<RoomDto> GetAvailableRooms(int locationId,string roomType, int attendees, DateTime startTime, DateTime endTime)
+        public List<RoomDto> GetAvailableRooms(int locationId,string roomType, int attendees, DateTime startTime, DateTime endTime, int roomId)
         {
             var availableRooms = new List<RoomDto>();
             if (endTime <= startTime || startTime <= DateTime.Now || endTime <= DateTime.Now) return availableRooms;

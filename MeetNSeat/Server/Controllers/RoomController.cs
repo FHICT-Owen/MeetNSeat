@@ -23,10 +23,10 @@ namespace MeetNSeat.Server.Controllers
             var rooms = _manageRoom.GetAllRooms();
             return Ok(rooms);
         }
-        [HttpGet("{locationId}/{roomType}/{attendees}/{startTime}/{endTime}")]
-        public ActionResult GetAvailableRooms(int locationId, string roomType, int attendees, DateTime startTime, DateTime endTime)
+        [HttpGet("{locationId}/{roomType}/{attendees}/{startTime}/{endTime}/{roomId}")]
+        public ActionResult GetAvailableRooms(int locationId, string roomType, int attendees, DateTime startTime, DateTime endTime, int roomId)
         {
-            var rooms = _manageUser.GetAvailableRooms(locationId,roomType, attendees, startTime, endTime);
+            var rooms = _manageUser.GetAvailableRooms(locationId,roomType, attendees, startTime, endTime, roomId);
 
             return Ok(rooms);
         }

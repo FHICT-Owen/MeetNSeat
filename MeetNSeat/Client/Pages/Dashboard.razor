@@ -3,6 +3,7 @@
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Client.Models
 @using Blazored.SessionStorage
+@using System.Globalization
 
 @inject IApiClientService _apiClientService
 @inject ISessionStorageService _sessionStorage
@@ -35,13 +36,13 @@
                     foreach (var reservation in UserReservations)
                     {
                 <tr>
-                    <td>@reservation.StartTime.ToString("dddd, dd MMMM yyyy")</td>
-                    <td>@reservation.EndTime.ToString("dddd, dd MMMM yyyy")</td>
+                    <td>@reservation.StartTime.AddHours(2).ToString(CultureInfo.CurrentCulture)</td>
+                    <td>@reservation.EndTime.AddHours(2).ToString(CultureInfo.CurrentCulture)</td>
                     <td>@GetLocation(reservation.RoomId).City</td>
                     <td>@GetRoom(reservation.RoomId).Name</td>
                     <td>@GetRoom(reservation.RoomId).Type</td>
                     <td>@reservation.Attendees</td>
-                    <td>@reservation.IsConfirmed.ToString("dddd, dd MMMM yyyy")</td>
+                    <td>@reservation.ConfirmedTime</td>
                     <td style="min-width: 100px">
                         <button @onclick="() => ConfirmReservation(reservation)" style="margin: 5px" type="button" class="btn btn-primary">Confirm</button>
                         <button @onclick="() => EditReservation(reservation)" style="margin: 5px" type="button" class="btn btn-danger">Edit</button>
