@@ -42,7 +42,6 @@
                     <td>@GetRoom(reservation.RoomId).Name</td>
                     <td>@GetRoom(reservation.RoomId).Type</td>
                     <td>@reservation.Attendees</td>
-                    <td>@reservation.ConfirmedTime</td>
                     <td style="min-width: 100px">
                         <button @onclick="() => ConfirmReservation(reservation)" style="margin: 5px" type="button" class="btn btn-primary">Confirm</button>
                         <button @onclick="() => EditReservation(reservation)" style="margin: 5px" type="button" class="btn btn-danger">Edit</button>
