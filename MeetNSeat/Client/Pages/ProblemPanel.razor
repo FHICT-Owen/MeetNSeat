@@ -6,7 +6,7 @@
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <h2 class="pt-3">Problem panel</h2>
     <div>
-        <table class="table table-responsive table-breakword">
+        <table class="table table-breakword">
             <thead>
             <tr>
                 <th scope="col"></th>
@@ -49,7 +49,7 @@
                             <td>@problem.RoomName</td>
                             <td class="user" @onclick="() => OpenDialog(problem)">@problem.Nickname</td>
                             <td>@problem.ReportedOn.ToString("dddd, dd MMMM yyyy")</td>
-                            <td>@problem.ResolvedAt</td>
+                            <td>@problem.ResolvedAt?.ToString("dddd, dd MMMM yyyy")</td>
                             <td>
                                 <button @onclick="() => ResolveProblem(problem)" class="btn btn-primary">Re-Open</button>
                                 <button @onclick="() => DeleteProblem(problem.Id)" class="btn btn-primary">Delete</button>
