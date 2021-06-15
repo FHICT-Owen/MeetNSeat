@@ -50,10 +50,6 @@ namespace MeetNSeat.Logic
                 dto => _reservations.Add(new Reservation(dto)));
             return _reservations.AsReadOnly();
         }
-        
-
-       
-
         public IReadOnlyCollection<Room> GetAllRoomTypes()
         {
             var room = new Room();

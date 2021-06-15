@@ -42,10 +42,9 @@
                     <td>@GetRoom(reservation.RoomId).Name</td>
                     <td>@GetRoom(reservation.RoomId).Type</td>
                     <td>@reservation.Attendees</td>
-                    <td>@reservation.ConfirmedTime</td>
                     <td style="min-width: 100px">
                         <button @onclick="() => ConfirmReservation(reservation)" style="margin: 5px" type="button" class="btn btn-primary">Confirm</button>
-                        <button @onclick="() => EditReservation(reservation)" style="margin: 5px" type="button" class="btn btn-danger">Edit</button>
+                        <button @onclick="() => EditReservation(reservation, GetRoom(reservation.RoomId), GetLocation(reservation.RoomId).Id)" style="margin: 5px" type="button" class="btn btn-danger">Edit</button>
                         <button @onclick="() => DeleteReservation(reservation)" style="margin: 5px" type="button" class="btn btn-danger">Cancel</button>
                     </td>
                 </tr>
@@ -121,8 +120,14 @@
         await UserService.ConfirmReservation(reservation.Id, ip.Ip);
     }
 
-    private async Task EditReservation(ReservationModel reservation)
+    private async Task EditReservation(ReservationModel reservation, RoomModel roomModel, int locationId)
     {
+        reservation.LocationId = locationId;
+        reservation.Type = roomModel.Type;
+
+        Console.WriteLine(reservation.LocationId);
+        Console.WriteLine(reservation.Type);
+
         await _sessionStorage.SetItemAsync("reservation", reservation);
         // ReSharper disable once StringLiteralTypo
         _nav.NavigateTo("editreservation");

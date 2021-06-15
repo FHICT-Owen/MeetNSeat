@@ -42,7 +42,7 @@
                         <input type="datetime" class="form-control" id="endtime" @bind="@_model.EndTime">
                     </div>*@
 
-                <button @onclick="EditReservations" type="button" class="btn btn-primary mb-2">Confirm Change</button>
+                <button @onclick="EditReservations" type="button" disabled="@(_model.StartTime.Equals(null) || _model.EndTime.Equals(null))" class="btn btn-primary mb-2">Confirm Change</button>
             </form>
         </div>
     </div>
@@ -50,8 +50,12 @@
 
 @code
 {
-    private ReservationModel _model = new();
+    private string Attendees { get; set; }
+    private DateTime StartDate { get; set; }
+    private DateTime EndDate { get; set; }
 
+
+    private ReservationModel _model = new();
     List<RoomModel> AvailableRooms { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
@@ -59,49 +63,46 @@
         _model = await _sessionStorage.GetItemAsync<ReservationModel>("reservation");
     }
 
-    async Task OnStartDateChange(DateTime value)
+    private void OnStartDateChange(DateTime value)
     {
         _model.StartTime = value;
-        await GetAvailableRooms();
-
     }
 
-    async Task OnEndDateChange(DateTime value)
+    private void OnEndDateChange(DateTime value)
     {
         _model.EndTime = value;
-        await GetAvailableRooms();
     }
 
-    private async Task GetAvailableRooms()
+    private async Task<bool> CheckDate()
     {
+        AvailableRooms = (await RoomService.GetAllAvailableRooms(_model.LocationId, _model.Type, _model.Attendees, _model.StartTime, _model.EndTime, _model.RoomId)).ToList();
 
-        var attendees = Convert.ToInt32(_model.Attendees);
-        try
+        if (AvailableRooms.Any())
         {
-            AvailableRooms = (await RoomService.GetAllAvailableRooms(_model.LocationId, _model.Type, _model.Attendees, _model.StartTime, _model.EndTime, _model.RoomId)).ToList();
-            //if (AvailableRooms == null)
-            //{
-            //    _snackbar.Add("Date is not available.", Severity.Error);
-            //    _model.EndTime = _model.StartTime.AddHours(1);
-            //}
+            return true;
         }
-        catch (Exception)
+        else
         {
             _snackbar.Add("Unable to retrieve rooms!", Severity.Error);
+            return false;
         }
-
     }
 
     private async Task EditReservations()
     {
-        if ((_model.EndTime - _model.StartTime).Hours > 8)
-        {
-            _snackbar.Add("Reservation is longer than 8 hours!", Severity.Error);
-            return;
-        }
+        //Check date.
 
-        await UserService.EditReservation(_model);
-        await _sessionStorage.RemoveItemAsync("reservation");
-        _nav.NavigateTo("dashboard");
+        if (await CheckDate())
+        {
+            if ((_model.EndTime - _model.StartTime).Hours > 8)
+            {
+                _snackbar.Add("Reservation is longer than 8 hours!", Severity.Error);
+                return;
+            }
+
+            await UserService.EditReservation(_model);
+            await _sessionStorage.RemoveItemAsync("reservation");
+            _nav.NavigateTo("dashboard");
+        }
     }
 }
