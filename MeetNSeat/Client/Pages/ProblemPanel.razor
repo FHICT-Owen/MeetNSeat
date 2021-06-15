@@ -30,7 +30,7 @@
                             <td>@problem.Title</td>
                             <td>@problem.LocationName</td>
                             <td>@problem.RoomName</td>
-                            <td>@problem.UserId</td>
+                            <td class="user" @onclick="() => OpenDialog(problem)">@problem.Nickname</td>
                             <td>@problem.ReportedOn</td>
                             <td>Not resolved</td>
                             <td>
@@ -47,7 +47,7 @@
                             <td>@problem.Title</td>
                             <td>@problem.LocationName</td>
                             <td>@problem.RoomName</td>
-                            <td>@problem.UserId</td>
+                            <td class="user" @onclick="() => OpenDialog(problem)">@problem.Nickname</td>
                             <td>@problem.ReportedOn</td>
                             <td>@problem.ResolvedAt</td>
                             <td>
@@ -77,6 +77,31 @@
             }
             </tbody>
         </table>
+        @if (DialogIsOpen)
+        {
+            <div class="modal" style="display:block; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">User</h3>
+                            <button type="button" class="close" @onclick="CloseDialog">
+                                <span aria-hidden="true">X</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <label class="form-label m-1 pt-2">UserId : </label>
+                                @UserId
+                            </div>
+                            <div>
+                                <label class="form-label m-1 pt-2">Email : </label>
+                                @Email
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </main>
 
@@ -87,6 +112,11 @@
     private string ButtonText { get; set; } = "Show Resolved";
 
     private bool IsDisabled { get; set; } = true;
+
+    private bool DialogIsOpen { get; set; }
+    
+    private string UserId { get; set; }
+    private string Email { get; set; }
     
     List<ProblemModel> Problems { get; set; } = new();
     
@@ -101,6 +131,18 @@
         problem.IsCollapsed = !problem.IsCollapsed;
         await Task.Delay(1);
         problem.IsHidden = !problem.IsHidden;
+    }
+
+    private void OpenDialog(ProblemModel problem)
+    {
+        UserId = problem.UserId;
+        Email = problem.Email;
+        DialogIsOpen = true;
+    }
+    
+    private void CloseDialog()
+    {
+        DialogIsOpen = false;
     }
 
     private void ToggleResolvedProblemView()
@@ -167,5 +209,10 @@
     .grid {
         display: grid;
         grid-template-rows: auto auto;
+    }
+    
+    .user:hover {
+        cursor: pointer;
+        background-color: #eaeaea;
     }
 </style>
