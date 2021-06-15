@@ -151,6 +151,7 @@
         var attendees = Convert.ToInt32(Attendees);
         try
         {
+            if (locationId != 0 && Type != null && attendees != 0 && StartDate != DateTime.MinValue && EndDate != DateTime.MinValue)
             AvailableRooms = (await RoomService.GetAllAvailableRooms(locationId, Type, attendees, StartDate, EndDate)).ToList();
         }
         catch (Exception)
