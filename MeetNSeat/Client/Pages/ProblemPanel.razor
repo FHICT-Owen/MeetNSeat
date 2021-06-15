@@ -6,7 +6,7 @@
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <h2 class="pt-3">Problem panel</h2>
     <div>
-        <table class="table">
+        <table class="table table-responsive table-breakword">
             <thead>
             <tr>
                 <th scope="col"></th>
@@ -15,7 +15,7 @@
                 <th scope="col">Room</th>
                 <th scope="col">Reported by</th>
                 <th scope="col">Reported on</th>
-                <th scope="col">Reported at</th>
+                <th scope="col">Resolved at</th>
                 <th scope="col"><button @onclick="ToggleResolvedProblemView" disabled="@IsDisabled" class="btn btn-primary p-1">@ButtonText</button></th>
             </tr>
             </thead>
@@ -31,7 +31,7 @@
                             <td>@problem.LocationName</td>
                             <td>@problem.RoomName</td>
                             <td class="user" @onclick="() => OpenDialog(problem)">@problem.Nickname</td>
-                            <td>@problem.ReportedOn</td>
+                            <td>@problem.ReportedOn.ToString("dddd, dd MMMM yyyy")</td>
                             <td>Not resolved</td>
                             <td>
                                 <button @onclick="() => ResolveProblem(problem)" class="btn btn-primary">Resolve</button>
@@ -48,7 +48,7 @@
                             <td>@problem.LocationName</td>
                             <td>@problem.RoomName</td>
                             <td class="user" @onclick="() => OpenDialog(problem)">@problem.Nickname</td>
-                            <td>@problem.ReportedOn</td>
+                            <td>@problem.ReportedOn.ToString("dddd, dd MMMM yyyy")</td>
                             <td>@problem.ResolvedAt</td>
                             <td>
                                 <button @onclick="() => ResolveProblem(problem)" class="btn btn-primary">Re-Open</button>
