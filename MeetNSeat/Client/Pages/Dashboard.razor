@@ -31,23 +31,33 @@
                 </tr>
             </thead>
             <tbody>
-                @if (UserReservations.Count > 0)
+                @if (UserReservations.Any())
                 {
                     foreach (var reservation in UserReservations)
                     {
-                <tr>
-                    <td>@reservation.StartTime.AddHours(2).ToString(CultureInfo.CurrentCulture)</td>
-                    <td>@reservation.EndTime.AddHours(2).ToString(CultureInfo.CurrentCulture)</td>
-                    <td>@GetLocation(reservation.RoomId).City</td>
-                    <td>@GetRoom(reservation.RoomId).Name</td>
-                    <td>@GetRoom(reservation.RoomId).Type</td>
-                    <td>@reservation.Attendees</td>
-                    <td style="min-width: 100px">
-                        <button @onclick="() => ConfirmReservation(reservation)" style="margin: 5px" type="button" class="btn btn-primary">Confirm</button>
-                        <button @onclick="() => EditReservation(reservation, GetRoom(reservation.RoomId), GetLocation(reservation.RoomId).Id)" style="margin: 5px" type="button" class="btn btn-danger">Edit</button>
-                        <button @onclick="() => DeleteReservation(reservation)" style="margin: 5px" type="button" class="btn btn-danger">Cancel</button>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@reservation.StartTime.AddHours(2).ToString(CultureInfo.CurrentCulture)</td>
+                        <td>@reservation.EndTime.AddHours(2).ToString(CultureInfo.CurrentCulture)</td>
+                        <td>@GetLocation(reservation.RoomId).City</td>
+                        <td>@GetRoom(reservation.RoomId).Name</td>
+                        <td>@GetRoom(reservation.RoomId).Type</td>
+                        <td>@reservation.Attendees</td>
+                        <td style="min-width: 100px">
+                            @if (reservation.IsConfirmed.HasValue)
+                                {
+                                    <span class="oi oi-check mx-2 p-4" aria-hidden="true"></span>
+                                }
+                                else
+                                {
+                                    if (reservation.StartTime.Date == DateTime.Today)
+                                    {
+                                        <button @onclick="() => ConfirmReservation(reservation)" style="margin: 5px" type="button" class="btn btn-primary">Confirm</button>
+                                    }
+                                    <button @onclick="() => EditReservation(reservation, GetRoom(reservation.RoomId), GetLocation(reservation.RoomId).Id)" style="margin: 5px" type="button" class="btn btn-danger">Edit</button>
+                                    <button @onclick="() => DeleteReservation(reservation)" style="margin: 5px" type="button" class="btn btn-danger">Cancel</button>
+                                }
+                        </td>
+                    </tr>
                     }
                 }
             </tbody>
@@ -117,7 +127,8 @@
     private async Task ConfirmReservation(ReservationModel reservation)
     {
         var ip = await _apiClientService.GetUserIpAsync();
-        await UserService.ConfirmReservation(reservation.Id, ip.Ip);
+        reservation.IsConfirmed = DateTime.UtcNow;
+        await UserService.ConfirmReservation(ip.Ip, reservation);
     }
 
     private async Task EditReservation(ReservationModel reservation, RoomModel roomModel, int locationId)

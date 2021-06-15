@@ -13,14 +13,11 @@ namespace MeetNSeat.Dal.Interfaces.Dtos
         public DateTime CreatedOn { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public DateTime IsConfirmed { get; set; }
-        public DateTime DeletedAt { get; set; }
+        public DateTime? IsConfirmed { get; set; }
         #endregion
 
         public ReservationDto() { }
-        public ReservationDto(
-            int reservationId, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime confirmed
-        )
+        public ReservationDto(int reservationId, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime? isConfirmed)
         {
             Id = reservationId;
             RoomId = roomId;
@@ -30,16 +27,7 @@ namespace MeetNSeat.Dal.Interfaces.Dtos
             StartTime = startTime;
             EndTime = endTime;
             CreatedOn = createdOn;
-            IsConfirmed = confirmed;
-        }
-
-        public ReservationDto(int roomId, string userId, int attendees, DateTime startTime, DateTime endTime)
-        {
-            RoomId = roomId;
-            UserId = userId;
-            Attendees = attendees;
-            StartTime = startTime;
-            EndTime = endTime;
+            IsConfirmed = isConfirmed;
         }
     }
 }

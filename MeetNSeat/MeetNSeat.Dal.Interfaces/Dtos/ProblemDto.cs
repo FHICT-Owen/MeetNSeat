@@ -19,7 +19,6 @@ namespace MeetNSeat.Dal.Interfaces.Dtos
 		public DateTime? ResolvedAt { get; set; }
 
 		public ProblemDto() { }
-
 		public ProblemDto(int id, string locationName, string roomName, string userId, string nickname, string email, string title, string description, byte[] picture, DateTime reportedOn, bool isResolved, DateTime? resolvedAt)
 		{
 			Id = id;

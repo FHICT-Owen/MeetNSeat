@@ -17,15 +17,14 @@ namespace MeetNSeat.Dal
             connection.Execute("dbo.CreateReservation @RoomId, @UserId, @Attendees, @StartTime, @EndTime", createReservationDto);
             return true;
         }
-        public bool ConfirmReservation(int id, DateTime confirmedTime)
+        public bool ConfirmReservation(int id, DateTime? confirmedTime)
         {
-
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             DynamicParameters parameter = new DynamicParameters();
-            parameter.Add("@id", id);
-            parameter.Add("@confirmed", confirmedTime);
+            parameter.Add("@Id", id);
+            parameter.Add("@IsConfirmed", confirmedTime);
 
-            var result = connection.Execute("dbo.ConfirmReservation @id, @confirmed", parameter);
+            var result = connection.Execute("dbo.ConfirmReservation @Id, @IsConfirmed", parameter);
             return result > 0;
         }
 
@@ -66,22 +65,22 @@ namespace MeetNSeat.Dal
             }
         }
 
-        public List<ManageReservationDto> GetReservationByUser(string id)
+        public List<ReservationDto> GetReservationByUser(string id)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
 
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@Id", id);
 
-            var output = connection.Query<ManageReservationDto>("dbo.GetAllUserReservations @Id", parameters).ToList();
+            var output = connection.Query<ReservationDto>("dbo.GetAllUserReservations @Id", parameters).ToList();
             return output;
         }
 
-        public List<ManageReservationDto> GetAllReservations()
+        public List<ReservationDto> GetAllReservations()
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             
-            List<ManageReservationDto> output = connection.Query<ManageReservationDto>("dbo.GetAllReservations").ToList();
+            List<ReservationDto> output = connection.Query<ReservationDto>("dbo.GetAllReservations").ToList();
             return output;
         }
     }

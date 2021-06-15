@@ -56,7 +56,7 @@ namespace MeetNSeat.Logic
             return room.GetRoomTypes().Select(roomDto => new Room(roomDto)).ToList();
         }
 
-        public IReadOnlyCollection<ManageReservationDto> GetReservationByUser(string id)
+        public IReadOnlyCollection<ReservationDto> GetReservationByUser(string id)
         {
             var reservations = _dal.GetReservationByUser(id);
 
@@ -109,19 +109,9 @@ namespace MeetNSeat.Logic
 
         public bool EditReservation(Reservation reservation)
         {
-            var result = _reservations.SingleOrDefault(res => res.ReservationId == reservation.ReservationId);
+            var result = _reservations.SingleOrDefault(res => res.Id == reservation.Id);
             result?.EditReservation(reservation);
             return _dal.UpdateReservation(reservation.ConvertToDto());
-        }
-
-        public bool ConfirmReservation(int id, string ip)
-        {
-            var reservation = _reservations.SingleOrDefault(res => res.ReservationId == id);
-            var locations = LocationCollection.Instance.GetAllLocations();
-            var match = locations.Any(res => res.IpAddress == ip);
-            if (!match) return false;
-            reservation?.ConfirmReservation(id);
-            return true;
         }
 
         public bool DeleteReservation(int id)

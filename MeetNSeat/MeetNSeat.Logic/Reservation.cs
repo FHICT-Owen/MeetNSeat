@@ -10,9 +10,9 @@ namespace MeetNSeat.Logic
     public class Reservation
     {
         #region Properties
-        private readonly IReservationDal dal;
+        private readonly IReservationDal _dal;
         private readonly List<Reservation> _reservation = new();
-        public int ReservationId { get; private set; }
+        public int Id { get; private set; }
         public int RoomId { get; private set; }
         public string UserId { get; private set; }
         public int FeedbackId { get; private set; }
@@ -20,8 +20,7 @@ namespace MeetNSeat.Logic
         public DateTime CreatedOn { get; private set; }
         public DateTime StartTime { get; private set; }
         public DateTime EndTime { get; private set; }
-        public DateTime IsConfirmed { get; private set; }
-        public DateTime DeletedAt { get; private set; }
+        public DateTime? IsConfirmed { get; private set; }
         #endregion Properties
 
         // Optional
@@ -33,12 +32,12 @@ namespace MeetNSeat.Logic
 
         public Reservation()
         {
-            dal = ReservationFactory.CreateReservationDal();
+            _dal = ReservationFactory.CreateReservationDal();
         }
 
-        public Reservation(int reservationId, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime isConfirmed)
+        public Reservation(int id, int roomId, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime? isConfirmed)
         {
-            ReservationId = reservationId;
+            Id = id;
             RoomId = roomId;
             UserId = userId;
             FeedbackId = feedbackId;
@@ -47,27 +46,27 @@ namespace MeetNSeat.Logic
             StartTime = startTime;
             EndTime = endTime;
             IsConfirmed = isConfirmed;
-            dal = ReservationFactory.CreateReservationDal();
+            _dal = ReservationFactory.CreateReservationDal();
         }
 
-        public Reservation(ManageReservationDto reservationDto)
+        public Reservation(ReservationDto reservationDto)
             : this(reservationDto.Id, reservationDto.RoomId, reservationDto.UserId, reservationDto.FeedbackId, reservationDto.Attendees, reservationDto.CreatedOn, reservationDto.StartTime, reservationDto.EndTime, reservationDto.IsConfirmed)
         {
         }
 
-        public List<ManageReservationDto> GetAllReservations()
+        public List<ReservationDto> GetAllReservations()
         {
-            return dal.GetAllReservations();
+            return _dal.GetAllReservations();
         }
 
         public bool EditReservation(Reservation reservation)
         {
             var user = Authentication.Instance.GetAllUsers().SingleOrDefault(res => res.Id == reservation.UserId);
-            var result = user?.GetAllReservations().SingleOrDefault(res => res.ReservationId == reservation.ReservationId);
-            var Locations = LocationCollection.Instance.GetAllLocations();
+            var result = user?.GetAllReservations().SingleOrDefault(res => res.Id == reservation.Id);
+            var locations = LocationCollection.Instance.GetAllLocations();
             var reservations = GetAllReservations();
             var targetRoom = new Room();
-            foreach (var location in Locations)
+            foreach (var location in locations)
             {
                 var floors = location.GetAllFloors();
                 foreach (var floor in floors)
@@ -89,18 +88,20 @@ namespace MeetNSeat.Logic
                         result.StartTime = reservation.StartTime;
                         result.EndTime = reservation.EndTime;
                     }
-            return dal.UpdateReservation(result.ConvertToDto());
+            return _dal.UpdateReservation(result.ConvertToDto());
         }
 
-        public void ConfirmReservation(int id)
+        public bool ConfirmReservation(string ip)
         {
-            IsConfirmed = DateTime.UtcNow;
-            dal.ConfirmReservation(id, IsConfirmed);
+            var locations = LocationCollection.Instance.GetAllLocations();
+            var match = locations.Any(res => res.IpAddress == ip);
+            if (!match) return false;
+            return _dal.ConfirmReservation(Id, IsConfirmed);
         }
 
         public ReservationDto ConvertToDto()
         {
-            return new(ReservationId, RoomId, UserId, FeedbackId, Attendees, CreatedOn, StartTime, EndTime, IsConfirmed);
+            return new(Id, RoomId, UserId, FeedbackId, Attendees, CreatedOn, StartTime, EndTime, IsConfirmed);
         }
     }
 }

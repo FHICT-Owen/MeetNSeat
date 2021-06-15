@@ -1,4 +1,5 @@
 ﻿using System;
+using MeetNSeat.Logic;
 using MeetNSeat.Logic.Interfaces;
 using MeetNSeat.Server.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +22,6 @@ namespace MeetNSeat.Server.Controllers
             return Ok(reservations);
         }
 
-        
-
         [HttpPost]
         public void CreateReservation([FromBody] ReservationModel reservationModel)
         {
@@ -40,21 +39,12 @@ namespace MeetNSeat.Server.Controllers
         {
             return _manageUser.DeleteReservation(id);
         }
-        
 
-        //[HttpGet]
-        //public ActionResult GetAllLocations()
-        //{
-        //    var locations = _manageUser.GetAllLocations();
-        //    return Ok(locations);
-        //}
-
-        [HttpPost("confirm{id}")]
-
-        public ActionResult ConfirmReservation(int id, [FromBody] string ip)
+        [HttpPut("confirm/{ip}")]
+        public ActionResult ConfirmReservation(string ip, [FromBody]ReservationModel reservation)
         {
-            Console.WriteLine(id +" "+ip);
-            var confirmed = _manageUser.ConfirmReservation(id, ip);
+            var confirmed = reservation.ConvertToReservation().ConfirmReservation(ip);
+            Console.WriteLine(confirmed);
             if (confirmed)
             {
                 return Ok();

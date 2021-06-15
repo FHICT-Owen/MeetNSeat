@@ -15,7 +15,7 @@ namespace MeetNSeat.Server.Models
         public DateTime StartTime { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime EndTime { get; set; }
-        public DateTime IsConfirmed { get; set; }
+        public DateTime? IsConfirmed { get; set; }
 
         public Reservation ConvertToReservation()
         {

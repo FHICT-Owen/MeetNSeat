@@ -6,11 +6,11 @@ namespace MeetNSeat.Dal.Interfaces
 {
     public interface IReservationDal
     {
-        List<ManageReservationDto> GetAllReservations();
+        List<ReservationDto> GetAllReservations();
         bool AddReservation(CreateReservationDto createReservationDto);
-        bool ConfirmReservation(int id, DateTime confirmedTime);
+        bool ConfirmReservation(int id, DateTime? confirmedTime);
         bool RemoveReservation(int id);
         bool UpdateReservation(ReservationDto reservationDto);
-        List<ManageReservationDto> GetReservationByUser(string id);
+        List<ReservationDto> GetReservationByUser(string id);
     }
 }

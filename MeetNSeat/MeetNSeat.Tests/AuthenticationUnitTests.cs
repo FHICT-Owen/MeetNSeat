@@ -7,13 +7,13 @@ namespace MeetNSeat.Tests
     [TestClass]
     public class AuthenticationUnitTests
     {
-        private readonly IManageAuthentication _manageAuthentication = new Authentication();
+        // private readonly IManageAuthentication _manageAuthentication = new Authentication();
             
         [TestMethod]
         public void UserShouldBeAddedToTheDatabase()
         {
             var newUser = new User("KOEK", "AAP", 0);
-            _manageAuthentication.AddUserIfNonExistent(newUser);
+            // _manageAuthentication.AddUserIfNonExistent(newUser);
         }
 
         [TestMethod]
@@ -22,6 +22,8 @@ namespace MeetNSeat.Tests
             var newUser = new User("KOEK", "AAP", 0);
             
         }
+        
+        
 
 
     }
