@@ -5,7 +5,7 @@
 @using MeetNSeat.Client.Models
 @using Blazored.SessionStorage
 
-@attribute [Authorize]
+@attribute [Authorize(Roles = "3")]
 @inject IApiClientService _apiClientService;
 @inject ISessionStorageService _storage
 @inject AuthenticationStateProvider _authStateProvider

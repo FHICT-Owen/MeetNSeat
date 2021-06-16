@@ -1,7 +1,7 @@
 ﻿@page "/problem-panel"
 @using MeetNSeat.Client.Models
 @using MeetNSeat.Client.Services
-@attribute [Authorize]
+@attribute [Authorize(Roles = "2,3")]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <h2 class="pt-3">Problem panel</h2>
