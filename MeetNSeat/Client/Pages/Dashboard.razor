@@ -215,12 +215,12 @@
                     repeatReservation.StartTime = reoccurringStartDates[i];
                     repeatReservation.EndTime = reoccurringEndDates[i];
                     repeatSuccess = await UserService.CreateReservation(repeatReservation);
-                    UserReservations.Add(repeatReservation);
                 }
                 var success = await UserService.EditReservation(reservation);
                 if (success) _snackbar.Add("Successfully edited reservation!", Severity.Success);
                 if (repeatSuccess) _snackbar.Add("Successfully added repeating reservations!", Severity.Success);
             }
+            UserReservations = (await UserService.GetUserReservations(UserId)).ToList();
             StateHasChanged();
         }
         catch (Exception ex)
