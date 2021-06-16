@@ -33,12 +33,11 @@ namespace MeetNSeat.Client.Services
             var response = await client.PostAsJsonAsync("https://localhost:5001/api/user", reservation);
             return response.IsSuccessStatusCode;
         }
-        public static async Task<string> EditReservation(ReservationModel reservation)
+        public static async Task<bool> EditReservation(ReservationModel reservation)
         {
             using var client = new HttpClient();
-            var msg = await client.PostAsJsonAsync("https://localhost:5001/api/user/edit", reservation);
-            if (msg.IsSuccessStatusCode) return "Your reservation has been edited";
-            return "Something went wrong :( Please try again later";
+            var response = await client.PostAsJsonAsync("https://localhost:5001/api/user/edit", reservation);
+            return response.IsSuccessStatusCode;
         }
     }
 }

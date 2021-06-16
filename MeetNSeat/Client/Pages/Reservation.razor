@@ -77,8 +77,8 @@
     private string AvailableRoom { get; set; }
     private string Attendees { get; set; }
 
-    private DateTime StartDate { get; set; } = DateTime.Today;
-    private DateTime EndDate { get; set; } = DateTime.Today.AddHours(1);
+    private DateTime StartDate { get; set; } = DateTime.Now;
+    private DateTime EndDate { get; set; } = DateTime.Now.AddHours(1);
 
     List<LocationModel> Locations { get; set; } = new();
     List<RoomModel> Rooms { get; set; } = new();

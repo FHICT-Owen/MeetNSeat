@@ -1,0 +1,91 @@
+﻿@using MeetNSeat.Client.Models
+@inject ISnackbar _snackbar
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            @ContentText
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <EditForm Model="@Reservation">
+            <DataAnnotationsValidator />
+           @if (IsEdit)
+            {
+                <MudTextField @bind-Value="Reservation.Attendees" For="() => Reservation.Attendees" Label="Attendees"></MudTextField><br/>
+                <MatDatePicker @bind-Value="StartTime" Outlined="false" AllowInput="false" EnableTime="true" Enable24hours="true" Format="MM/dd/yy HH:mm" Label="Start Time"></MatDatePicker>
+                <MatDatePicker @bind-Value="EndTime" Outlined="false" AllowInput="false" EnableTime="true" Enable24hours="true" Format="MM/dd/yy HH:mm" Label="End Time"></MatDatePicker>
+            }
+            <MudExpansionPanel Text="Set reoccurance">
+                <MudMenu Variant="Variant.Filled" Direction="Direction.Bottom" Label="@GetTimePeriod(Time).ToString()">
+                    <MudMenuItem OnClick="() => SetPeriod(1)">@TimePeriod.Day.ToString()</MudMenuItem>
+                    <MudMenuItem OnClick="() => SetPeriod(2)">@TimePeriod.Week.ToString()</MudMenuItem>
+                    <MudMenuItem OnClick="() => SetPeriod(3)">@TimePeriod.Month.ToString()</MudMenuItem>
+                </MudMenu>
+                <MudTextField @bind-Value="Interval" For="() => Interval" Label="Interval (1 = every period, 2 = every other period, 3 = once in 3 periods)"></MudTextField>
+                <MudTextField @bind-Value="Repetitions" For="() => Repetitions" Label="Amount of repetitions"></MudTextField>
+            </MudExpansionPanel>
+        </EditForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton OnClick="Submit">@ButtonText</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    public enum TimePeriod
+    {
+        Day = 1,
+        Week = 2,
+        Month = 3
+    }
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public ReservationModel Reservation { get; set; }
+    [Parameter] public bool IsEdit { get; set; }
+    [Parameter] public string ContentText { get; set; }
+    [Parameter] public string ButtonText { get; set; }
+    private DateTime StartTime { get; set; }
+    private DateTime EndTime { get; set; }
+    private int Time { get; set; }
+    private int Interval { get; set; }
+    private int Repetitions { get; set; }
+
+    protected override void OnInitialized()
+    {
+        StartTime = Reservation.StartTime.ToLocalTime();
+        EndTime = Reservation.EndTime.ToLocalTime();
+    }
+
+    private TimePeriod GetTimePeriod(int set)
+    {
+        return set switch
+        {
+            1 => TimePeriod.Day,
+            2 => TimePeriod.Week,
+            3 => TimePeriod.Month,
+            _ => TimePeriod.Day
+        };
+    }
+
+    private void SetPeriod(int time)
+    {
+        Time = time;
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Close(DialogResult.Cancel());
+    }
+
+    private void Submit()
+    {
+        if ((Reservation.EndTime - Reservation.StartTime).Hours > 8)
+        {
+            _snackbar.Add("Reservation is longer than 8 hours!", Severity.Error);
+            return;
+        }
+        MudDialog.Close(DialogResult.Ok($"{Reservation.Attendees}|{StartTime.ToUniversalTime()}|{EndTime.ToUniversalTime()}|{Time}|{Interval}|{Repetitions}"));
+    }
+}

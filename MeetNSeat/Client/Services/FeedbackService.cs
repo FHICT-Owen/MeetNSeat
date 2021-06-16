@@ -20,12 +20,11 @@ namespace MeetNSeat.Client.Services
             return await client.GetFromJsonAsync<List<FeedbackModel>>("https://localhost:5001/api/feedback/" + userId);
         }
 
-        public static async Task<string> AddFeedback(FeedbackModel feedback)
+        public static async Task<bool> AddFeedback(FeedbackModel feedback)
         {
             using var client = new HttpClient();
             var response = await client.PostAsJsonAsync("https://localhost:5001/api/feedback", feedback);
-            if (response.IsSuccessStatusCode) return "Feedback has been sent!";
-            return "Error! Something went wrong, please try again!";
+            return response.IsSuccessStatusCode;
         }
     }
 }

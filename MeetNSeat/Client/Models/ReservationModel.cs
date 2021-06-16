@@ -16,9 +16,26 @@ namespace MeetNSeat.Client.Models
         public DateTime EndTime { get; set; }
         public DateTime? IsConfirmed { get; set; }
         public DateTime DeletedAt { get; set; }
+
         public ReservationModel()
         {
             
+        }
+
+        public ReservationModel(ReservationModel reservation)
+        {
+            Id = reservation.Id;
+            RoomId = reservation.RoomId;
+            LocationId = reservation.LocationId;
+            Type = reservation.Type;
+            UserId = reservation.UserId;
+            FeedbackId = reservation.FeedbackId;
+            Attendees = reservation.Attendees;
+            CreatedOn = reservation.CreatedOn;
+            StartTime = reservation.StartTime;
+            EndTime = reservation.EndTime;
+            IsConfirmed = reservation.IsConfirmed;
+            DeletedAt = reservation.DeletedAt;
         }
 
         public ReservationModel(int id, int roomId, int locationId, string type, string userId, int feedbackId, int attendees, DateTime createdOn, DateTime startTime, DateTime endTime, DateTime? isConfirmed, DateTime deletedAt)

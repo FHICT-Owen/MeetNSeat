@@ -1,4 +1,4 @@
-﻿@inject ISessionStorageService _sessionStorage;
+﻿@inject ISnackbar _snackbar
 
 @page "/feedback/new/"
 @using MeetNSeat.Client.Services
@@ -9,7 +9,6 @@
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <h2 class="pt-3 pb-2 mb-3 border-bottom">Add new feedback</h2>
     <div>
-        <p>@Msg</p>
         <form>
             <div class="form-group">
                 <label>Select a user</label>
@@ -48,16 +47,16 @@
     private static string UserId { get; set; }
     private static string Description { get; set; } = string.Empty;
     private static int? FeedbackState { get; set; }
-    private static string Msg { get; set; }
+
     
     protected override async Task OnInitializedAsync()
     {
         Users = (await UserService.GetAllUsers()).ToList();
-        Msg = Msg;
     }
 
     private async Task AddNewFeedback()
     {
-        Msg = await FeedbackService.AddFeedback(new FeedbackModel(UserId, Description, FeedbackState));
+        var success = await FeedbackService.AddFeedback(new FeedbackModel(UserId, Description, FeedbackState));
+        if (success) _snackbar.Add("Feedback has been sent!", Severity.Success);
     }
 }

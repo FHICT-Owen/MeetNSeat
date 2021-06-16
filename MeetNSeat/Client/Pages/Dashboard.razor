@@ -4,9 +4,12 @@
 @using MeetNSeat.Client.Models
 @using Blazored.SessionStorage
 @using System.Globalization
+@using MeetNSeat.Client.Dialogs
 
 @inject IApiClientService _apiClientService
 @inject ISessionStorageService _sessionStorage
+@inject IDialogService _dialog
+@inject ISnackbar _snackbar
 @inject NavigationManager _nav
 @inject AuthenticationStateProvider _authStateProvider
 
@@ -16,7 +19,6 @@
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <h2 class="pt-3">Dashboard</h2>
     <div>
-        <p>@Msg</p>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -53,7 +55,7 @@
                                     {
                                         <button @onclick="() => ConfirmReservation(reservation)" style="margin: 5px" type="button" class="btn btn-primary">Confirm</button>
                                     }
-                                    <button @onclick="() => EditReservation(reservation, GetRoom(reservation.RoomId), GetLocation(reservation.RoomId).Id)" style="margin: 5px" type="button" class="btn btn-danger">Edit</button>
+                                    <button @onclick="() => EditReservation(reservation, GetRoom(reservation.RoomId), GetLocation(reservation.RoomId).Id)" style="margin: 5px" type="button" class="btn btn-primary">Edit</button>
                                     <button @onclick="() => DeleteReservation(reservation)" style="margin: 5px" type="button" class="btn btn-danger">Cancel</button>
                                 }
                             </td>
@@ -100,13 +102,11 @@
 </main>
 
 @code{
-    private static string Msg { get; set; }
     private List<LocationModel> Locations { get; set; }
     private List<FloorModel> Floors { get; set; }
     private List<RoomModel> Rooms { get; set; }
     private string UserId { get; set; }
     List<FeedbackModel> Feedback { get; set; } = new();
-
     private List<ReservationModel> UserReservations { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
@@ -123,8 +123,6 @@
         Rooms = (await RoomService.GetAllRooms()).ToList();
         UserId = await _sessionStorage.GetItemAsync<string>("userId");
         Feedback = (await FeedbackService.GetAllFeedbackByUserId(UserId)).ToList();
-
-        Msg = Msg;
     }
 
     private RoomModel GetRoom(int roomId)
@@ -146,22 +144,87 @@
         await UserService.ConfirmReservation(ip.Ip, reservation);
     }
 
+    private IEnumerable<DateTime> FindInterval(DateTime from,
+        EditDialog.TimePeriod period,
+        int count)
+    {
+        while (true)
+        {
+            from = period switch
+            {
+                EditDialog.TimePeriod.Day => @from.AddDays(count),
+                EditDialog.TimePeriod.Week => @from.AddDays(7 * count),
+                EditDialog.TimePeriod.Month => @from.AddMonths(count),
+                _ => @from
+            };
+
+            yield return from;
+        }
+    }
+
     private async Task EditReservation(ReservationModel reservation, RoomModel roomModel, int locationId)
     {
-        reservation.LocationId = locationId;
-        reservation.Type = roomModel.Type;
+        try
+        {
+            reservation.LocationId = locationId;
+            reservation.Type = roomModel.Type;
 
-        await _sessionStorage.SetItemAsync("reservation", reservation);
+            var parameters = new DialogParameters { ["Reservation"] = reservation };
+            parameters.Add("ContentText", "Edit the reservation below");
+            parameters.Add("ButtonText", "Edit");
+            parameters.Add("IsEdit", true);
+            var dialog = _dialog.Show<EditDialog>("Edit Reservation", parameters);
+            var result = await dialog.Result;
 
-        Console.WriteLine(reservation.StartTime + " " + reservation.EndTime);
-        // ReSharper disable once StringLiteralTypo
-        _nav.NavigateTo("editreservation");
+            if (!result.Cancelled)
+            {
+                var res = result.Data.ToString();
+                if (string.IsNullOrEmpty(res))
+                {
+                    _snackbar.Add("Unable to convert result string!", Severity.Error);
+                    return;
+                }
+                var list = res.Split("|").ToList();
+                reservation.Attendees = int.Parse(list[0]);
+                reservation.StartTime = Convert.ToDateTime(list[1]);
+                reservation.EndTime = Convert.ToDateTime(list[2]);
+
+                var period = int.Parse(list[3]) switch{
+                    1 => EditDialog.TimePeriod.Day,
+                    2 => EditDialog.TimePeriod.Week,
+                    3 => EditDialog.TimePeriod.Month,
+                    _ => EditDialog.TimePeriod.Day
+                };
+                var interval = int.Parse(list[4]);
+                var repetitions = int.Parse(list[5]);
+
+                var reoccurringStartDates = FindInterval(reservation.StartTime, period, interval).Take(repetitions).ToList();
+                var reoccurringEndDates = FindInterval(reservation.EndTime, period, interval).Take(repetitions).ToList();
+                var repeatSuccess = false;
+                for (var i = 0; i < reoccurringStartDates.Count(); i++)
+                {
+                    var repeatReservation = new ReservationModel(reservation);
+                    repeatReservation.StartTime = reoccurringStartDates[i];
+                    repeatReservation.EndTime = reoccurringEndDates[i];
+                    repeatSuccess = await UserService.CreateReservation(repeatReservation);
+                    UserReservations.Add(repeatReservation);
+                }
+                var success = await UserService.EditReservation(reservation);
+                if (success) _snackbar.Add("Successfully edited reservation!", Severity.Success);
+                if (repeatSuccess) _snackbar.Add("Successfully added repeating reservations!", Severity.Success);
+            }
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            _snackbar.Add(ex.Message, Severity.Error);
+        }
     }
 
     private async Task DeleteReservation(ReservationModel reservation)
     {
         UserReservations.Remove(UserReservations.Find(res => res.Id == reservation.Id));
-        Msg = await ReservationService.DeleteReservation(reservation.Id);
-
+        var success = await ReservationService.DeleteReservation(reservation.Id);
+        if (success) _snackbar.Add("Successfully removed reservation!", Severity.Success);
     }
 }
