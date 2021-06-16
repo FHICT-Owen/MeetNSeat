@@ -36,8 +36,8 @@
                     foreach (var reservation in UserReservations)
                     {
                         <tr>
-                            <td>@reservation.StartTime</td>
-                            <td>@reservation.EndTime</td>
+                            <td>@reservation.StartTime.ToLocalTime()</td>
+                            <td>@reservation.EndTime.ToLocalTime()</td>
                             <td>@GetLocation(reservation.RoomId).City</td>
                             <td>@GetRoom(reservation.RoomId).Name</td>
                             <td>@GetRoom(reservation.RoomId).Type</td>
@@ -152,6 +152,8 @@
         reservation.Type = roomModel.Type;
 
         await _sessionStorage.SetItemAsync("reservation", reservation);
+
+        Console.WriteLine(reservation.StartTime + " " + reservation.EndTime);
         // ReSharper disable once StringLiteralTypo
         _nav.NavigateTo("editreservation");
     }

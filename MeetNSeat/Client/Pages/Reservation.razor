@@ -42,12 +42,12 @@
 
                 <label class="form-label m-1 pt-2">Start</label>
                 <br/>
-                <MatDatePicker Value="StartDate" ValueChanged="(DateTime i) => OnStartDateChange(i)" Outlined="true" AllowInput="false" EnableTime="true" Enable24hours="true" Format="MM/dd/yy HH:mm"></MatDatePicker>
+                <MatDatePicker Value="StartDate.ToLocalTime()" ValueChanged="(DateTime i) => OnStartDateChange(i)" Outlined="true" AllowInput="false" EnableTime="true" Enable24hours="true" Format="MM/dd/yy HH:mm"></MatDatePicker>
                 <br/>
                 
                 <label class="form-label m-1 pt-2">End</label>
                 <br/>
-                <MatDatePicker Value="EndDate" ValueChanged="(DateTime i) => OnEndDateChange(i)" Outlined="true" AllowInput="false" EnableTime="true" Enable24hours="true" Format="MM/dd/yy HH:mm"></MatDatePicker>
+                <MatDatePicker Value="EndDate.ToLocalTime()" ValueChanged="(DateTime i) => OnEndDateChange(i)" Outlined="true" AllowInput="false" EnableTime="true" Enable24hours="true" Format="MM/dd/yy HH:mm"></MatDatePicker>
                 <br/>
                 
                 <label class="form-label m-1 pt-2">Available rooms</label>

@@ -79,10 +79,7 @@ namespace MeetNSeat.Logic
             if (result == null) return false;
             if (reservation.Attendees <= targetRoom.Spots)
                 foreach (var res in reservations)
-                    if (res.RoomId == targetRoom.Id &&
-                        res.StartTime < reservation.StartTime && reservation.StartTime < res.EndTime ||
-                        res.StartTime < reservation.EndTime && reservation.EndTime < res.EndTime ||
-                        res.StartTime > reservation.StartTime && reservation.EndTime > res.EndTime)
+                    if (res.RoomId == targetRoom.Id && !User.CheckForNoOverlap(res.StartTime, res.EndTime, reservation.StartTime, reservation.EndTime))
                     {
                         result.Attendees = reservation.Attendees;
                         result.StartTime = reservation.StartTime;

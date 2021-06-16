@@ -124,7 +124,7 @@ namespace MeetNSeat.Logic
             return new(Id, Nickname, (int)Role);
         }
 
-        public bool CheckForNoOverlap(DateTime dbStart, DateTime dbEnd, DateTime resStart, DateTime resEnd)
+        public static bool CheckForNoOverlap(DateTime dbStart, DateTime dbEnd, DateTime resStart, DateTime resEnd)
         {
             return resEnd <= dbStart || dbEnd <= resStart;
         }
