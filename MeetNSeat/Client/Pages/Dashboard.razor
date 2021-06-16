@@ -36,8 +36,8 @@
                     foreach (var reservation in UserReservations)
                     {
                     <tr>
-                        <td>@reservation.StartTime.AddHours(2).ToString(CultureInfo.CurrentCulture)</td>
-                        <td>@reservation.EndTime.AddHours(2).ToString(CultureInfo.CurrentCulture)</td>
+                        <td>@reservation.StartTime</td>
+                        <td>@reservation.EndTime</td>
                         <td>@GetLocation(reservation.RoomId).City</td>
                         <td>@GetRoom(reservation.RoomId).Name</td>
                         <td>@GetRoom(reservation.RoomId).Type</td>
@@ -63,29 +63,37 @@
             </tbody>
         </table>
     </div>
-    @* TODO: GetMyFeedback*@
-    @*&nbsp;
-        <div class="col-md-6">
-            <h1 class="h3">Schandpaal</h1>
-            <table class="table table-striped red">
-                <thead>
-                    <tr>
-                        <th scope="col">Tijd</th>
-                        <th scope="col">Locatie</th>
-                        <th scope="col">Kamer</th>
-                        <th scope="col">Presentie</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="color:red">
-                        <td>13:00 - 14:00</td>
-                        <td>Eindhoven</td>
-                        <td>2.20</td>
-                        <td>Afwezig</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>*@
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Description</th>
+            <th scope="col">FeedbackState</th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (Feedback.Any())
+        {
+            foreach (var feedback in Feedback)
+            {<tr class="color:red">
+                 <td style="white-space: pre-line">@feedback.Description</td>
+                 <td>
+                     @if (feedback.FeedbackState == 1)
+                     {
+                         <h3>&#128577;</h3>
+                     }
+                     @if(feedback.FeedbackState == 2)
+                     {
+                         <h3>&#128528;</h3>
+                     }
+                     @if(feedback.FeedbackState == 3)
+                     {
+                         <h3>&#128578;</h3>
+                     }
+                 </td>
+             </tr>}
+        }
+        </tbody>
+    </table>
 </main>
 
 @code{
@@ -94,6 +102,8 @@
     private List<FloorModel> Floors { get; set; }
     private List<RoomModel> Rooms { get; set; }
     private string UserId { get; set; }
+    List<FeedbackModel> Feedback { get; set; } = new();
+
     private List<ReservationModel> UserReservations { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
@@ -108,6 +118,8 @@
         Locations = (await LocationService.GetAllLocations()).ToList();
         Floors = (await FloorService.GetAllFloors()).ToList();
         Rooms = (await RoomService.GetAllRooms()).ToList();
+        UserId = await _sessionStorage.GetItemAsync<string>("userId");
+        Feedback = (await FeedbackService.GetAllFeedbackByUserId(UserId)).ToList();
 
         Msg = Msg;
     }
@@ -135,7 +147,7 @@
     {
         reservation.LocationId = locationId;
         reservation.Type = roomModel.Type;
-        
+
         await _sessionStorage.SetItemAsync("reservation", reservation);
         // ReSharper disable once StringLiteralTypo
         _nav.NavigateTo("editreservation");
