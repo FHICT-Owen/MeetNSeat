@@ -77,14 +77,17 @@ namespace MeetNSeat.Logic
                 }
             }
             if (result == null) return false;
-            if (reservation.Attendees <= targetRoom.Spots)
-                foreach (var res in reservations)
-                    if (res.RoomId == targetRoom.Id && !User.CheckForNoOverlap(res.StartTime, res.EndTime, reservation.StartTime, reservation.EndTime))
-                    {
-                        result.Attendees = reservation.Attendees;
-                        result.StartTime = reservation.StartTime;
-                        result.EndTime = reservation.EndTime;
-                    }
+            if (reservation.Attendees > targetRoom.Spots) return _dal.UpdateReservation(result.ConvertToDto());
+            {
+                foreach (var unused in reservations.Where(res => res.RoomId == targetRoom.Id && !User.CheckForNoOverlap(res.StartTime, res.EndTime,
+                    reservation.StartTime, reservation.EndTime)))
+                {
+                    result.Attendees = reservation.Attendees;
+                    result.StartTime = reservation.StartTime;
+                    result.EndTime = reservation.EndTime;
+                }
+            }
+
             return _dal.UpdateReservation(result.ConvertToDto());
         }
 
