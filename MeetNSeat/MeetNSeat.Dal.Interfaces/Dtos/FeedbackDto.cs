@@ -10,13 +10,17 @@
         public int? FeedbackState { get; set; }
         #nullable disable
 
-        public FeedbackDto() { }
+        public FeedbackDto()
+        {
+
+        }
+
         public FeedbackDto(string description, int? feedbackState)
         {
             Description = description;
             FeedbackState = feedbackState;
         }
-        
+
         public FeedbackDto(int id, string userId, string? description, int? feedbackState)
         {
             Id = id;

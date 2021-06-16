@@ -17,7 +17,6 @@ namespace MeetNSeat.Dal
             var output = connection.Query<FeedbackDto>("dbo.GetAllFeedback").ToList();
             return output;
         }
-
         public bool DeleteFeedback(int id)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
@@ -29,7 +28,6 @@ namespace MeetNSeat.Dal
             if (result > 0) return true;
             return false;
         }
-
         public List<FeedbackDto> GetFeedbackDtoByUserId(string userId)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
@@ -44,7 +42,6 @@ namespace MeetNSeat.Dal
 
             return null;
         }
-        
         public bool InsertFeedback(FeedbackDto feedbackDto)
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
@@ -69,6 +66,13 @@ namespace MeetNSeat.Dal
             var result = connection.Execute("dbo.UpdateFeedback @Id, @Description, @FeedbackState", feedbackDto);
             if (result > 0) return true;
             return false;
+        }
+
+        public List<UserScoreDto> GetAllUsersWithFeedback()
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+            var output = connection.Query<UserScoreDto>("dbo.GetAllUsersWithFeedback").ToList();
+            return output;
         }
     }
 }

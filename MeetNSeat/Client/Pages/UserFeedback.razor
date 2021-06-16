@@ -7,37 +7,71 @@
 @attribute [Authorize(Roles = "2,3")]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
+    <h2 class="pt-3 pb-2 mb-3 border-bottom">Select a User</h2>
+    <div id="unique_id_scroll_section" class="ma-0" style="height:300px;overflow: auto;">
+        <MudPaper Elevation="0" Height="auto" Class="d-flex flex-column justify-space-between py-6">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Nickname</th>
+                    <th scope="col">Score</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if (Users.Any())
+                {
+                    foreach (var user in Users)
+                    {
+                        <tr @onclick="() => GetUserFeedback(user.UserId)">
+                            <td>@user.NickName</td>
+                            <td>@user.AvaragePerc</td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+
+            
+            <MudScrollToTop
+                            Selector="#unique_id_scroll_section"
+                            VisibleCssClass="visible absolute"
+                            HiddenCssClass="invisible">
+            </MudScrollToTop>
+        </MudPaper>
+    </div>
+
+
     <h2 class="pt-3 pb-2 mb-3">User feedback</h2>
     <div>
         <table class="table table-striped">
             <thead>
-                <tr>
-                    <th scope="col">Description</th>
-                    <th scope="col">FeedbackState</th>
-                </tr>
+            <tr>
+                <th scope="col">Description</th>
+                <th scope="col">FeedbackState</th>
+            </tr>
             </thead>
             <tbody>
-                @if (Feedback.Any())
-                {
-                    foreach (var feedback in Feedback)
-                    {<tr class="color:red">
-                        <td style="white-space: pre-line">@feedback.Description</td>
-                        <td>
-                            @if (feedback.FeedbackState == 1)
-                            {
-                                <h3>&#128577;</h3>
-                            }
-                            @if(feedback.FeedbackState == 2)
-                            {
-                                <h3>&#128528;</h3>
-                            }
-                            @if(feedback.FeedbackState == 3)
-                            {
-                                <h3>&#128578;</h3>
-                            }
-                        </td>
-                    </tr>}
-                }
+            @if (Feedback.Any())
+            {
+                foreach (var feedback in Feedback)
+                {<tr class="color:red">
+                     <td style="white-space: pre-line">@feedback.Description</td>
+                     <td>
+                         @if (feedback.FeedbackState == 1)
+                         {
+                             <h3>&#128577;</h3>
+                         }
+                         @if (feedback.FeedbackState == 2)
+                         {
+                             <h3>&#128528;</h3>
+                         }
+                         @if (feedback.FeedbackState == 3)
+                         {
+                             <h3>&#128578;</h3>
+                         }
+                     </td>
+                 </tr>}
+            }
             </tbody>
         </table>
     </div>
@@ -45,12 +79,18 @@
 
 @code
 {
-    string UserId { get; set; }
     List<FeedbackModel> Feedback { get; set; } = new();
-
+    List<UserScoreModel> Users { get; set; } = new();
+   
     protected override async Task OnInitializedAsync()
     {
-        UserId = await _sessionStorage.GetItemAsync<string>("userId");
-        Feedback = (await FeedbackService.GetAllFeedbackByUserId(UserId)).ToList();
+        Users = (await FeedbackService.GetAllUsersWithFeedback()).ToList();
+        Console.WriteLine(Users.Count);
+    }
+
+    private async Task GetUserFeedback(string userId)
+    {
+        Console.WriteLine(userId);
+        Feedback = (await FeedbackService.GetAllFeedbackByUserId(userId)).ToList();
     }
 }

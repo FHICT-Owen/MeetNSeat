@@ -12,7 +12,14 @@ namespace MeetNSeat.Server.Controllers
         {
             _manageFeedback = manageFeedback;
         }
-        
+
+        [HttpGet]
+        public ActionResult GetAllUsersWithFeedback()
+        {
+            var allUsers = _manageFeedback.GetAllUsersWithFeedback();
+            return Ok(allUsers);
+        }
+
         [HttpGet("{id}")]
         public ActionResult GetAllFeedback(string id)
         {

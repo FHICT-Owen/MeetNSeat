@@ -5,7 +5,6 @@ namespace MeetNSeat.Logic
     public class Feedback
     {
         public int FeedbackId { get; }
-
         public string UserId { get; }
         #nullable enable
         public string? Description { get;  }
@@ -34,7 +33,7 @@ namespace MeetNSeat.Logic
             FeedbackState = feedbackState;
             UserId = userId;
         }
-
+        
         public FeedbackDto ConvertToDto()
         {
             return new FeedbackDto(FeedbackId, UserId , Description, FeedbackState);

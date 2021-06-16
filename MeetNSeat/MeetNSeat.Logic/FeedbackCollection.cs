@@ -10,6 +10,8 @@ namespace MeetNSeat.Logic
     public class FeedbackCollection : IManageFeedback
     {
         private readonly List<Feedback> _feedback = new ();
+        private readonly List<UserScore> _usersWithFeedback = new();
+
         private readonly IFeedbackDal _dal;
         private readonly IReservationDal _dalReservationDal;
 
@@ -31,7 +33,17 @@ namespace MeetNSeat.Logic
                 dto => _feedback.Add(new  Feedback(dto)));
             return _feedback.AsReadOnly();
         }
-        
+
+        public List<UserScore> GetAllUsersWithFeedback()
+        {
+            _usersWithFeedback.Clear();
+
+            _dal.GetAllUsersWithFeedback().ForEach(
+                dto => _usersWithFeedback.Add(new UserScore(dto)));
+
+            return _usersWithFeedback;
+        }
+
         public List<FeedbackDto> GetFeedbackByUser(string userId)
         {
             FeedbackDal feedbackDal = new FeedbackDal();
