@@ -1,6 +1,6 @@
 ﻿@*TODO: Get id*@
 @page "/editreservation"
-@attribute [Authorize]
+@attribute [Authorize(Roles = "1,2,3")]
 
 @using MeetNSeat.Client.Services
 @using MeetNSeat.Client.Models

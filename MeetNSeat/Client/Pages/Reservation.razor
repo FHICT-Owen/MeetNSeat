@@ -1,5 +1,5 @@
 ﻿@page "/reservation"
-@attribute [Authorize]
+@attribute [Authorize(Roles = "1,2,3")]
 @using MeetNSeat.Client.Models
 @using MeetNSeat.Client.Services
 @using Blazored.SessionStorage
