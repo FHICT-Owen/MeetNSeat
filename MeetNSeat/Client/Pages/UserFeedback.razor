@@ -7,7 +7,7 @@
 @attribute [Authorize]
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
-    <h2 class="pt-3 pb-2 mb-3 border-bottom">User feedback</h2>
+    <h2 class="pt-3 pb-2 mb-3">User feedback</h2>
     <div>
         <table class="table table-striped">
             <thead>
@@ -21,9 +21,8 @@
                 {
                     foreach (var feedback in Feedback)
                     {<tr class="color:red">
-                        <td>@feedback.Description</td>
+                        <td style="white-space: pre-line">@feedback.Description</td>
                         <td>
-
                             @if (feedback.FeedbackState == 1)
                             {
                                 <h3>&#128577;</h3>
