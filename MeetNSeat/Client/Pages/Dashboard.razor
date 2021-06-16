@@ -35,15 +35,15 @@
                 {
                     foreach (var reservation in UserReservations)
                     {
-                    <tr>
-                        <td>@reservation.StartTime</td>
-                        <td>@reservation.EndTime</td>
-                        <td>@GetLocation(reservation.RoomId).City</td>
-                        <td>@GetRoom(reservation.RoomId).Name</td>
-                        <td>@GetRoom(reservation.RoomId).Type</td>
-                        <td>@reservation.Attendees</td>
-                        <td style="min-width: 100px">
-                            @if (reservation.IsConfirmed.HasValue)
+                        <tr>
+                            <td>@reservation.StartTime</td>
+                            <td>@reservation.EndTime</td>
+                            <td>@GetLocation(reservation.RoomId).City</td>
+                            <td>@GetRoom(reservation.RoomId).Name</td>
+                            <td>@GetRoom(reservation.RoomId).Type</td>
+                            <td>@reservation.Attendees</td>
+                            <td style="min-width: 100px">
+                                @if (reservation.IsConfirmed.HasValue)
                                 {
                                     <span class="oi oi-check mx-2 p-4" aria-hidden="true"></span>
                                 }
@@ -56,42 +56,45 @@
                                     <button @onclick="() => EditReservation(reservation, GetRoom(reservation.RoomId), GetLocation(reservation.RoomId).Id)" style="margin: 5px" type="button" class="btn btn-danger">Edit</button>
                                     <button @onclick="() => DeleteReservation(reservation)" style="margin: 5px" type="button" class="btn btn-danger">Cancel</button>
                                 }
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
                     }
                 }
             </tbody>
         </table>
     </div>
+    <h2 class="pt-3 pb-2 mb-3">User feedback</h2>
     <table class="table table-striped">
         <thead>
-        <tr>
-            <th scope="col">Description</th>
-            <th scope="col">FeedbackState</th>
-        </tr>
+            <tr>
+                <th scope="col">Description</th>
+                <th scope="col">FeedbackState</th>
+            </tr>
         </thead>
         <tbody>
-        @if (Feedback.Any())
-        {
-            foreach (var feedback in Feedback)
-            {<tr class="color:red">
-                 <td style="white-space: pre-line">@feedback.Description</td>
-                 <td>
-                     @if (feedback.FeedbackState == 1)
-                     {
-                         <h3>&#128577;</h3>
-                     }
-                     @if(feedback.FeedbackState == 2)
-                     {
-                         <h3>&#128528;</h3>
-                     }
-                     @if(feedback.FeedbackState == 3)
-                     {
-                         <h3>&#128578;</h3>
-                     }
-                 </td>
-             </tr>}
-        }
+            @if (Feedback.Any())
+            {
+                foreach (var feedback in Feedback)
+                {
+                    <tr class="color:red">
+                        <td style="white-space: pre-line">@feedback.Description</td>
+                        <td>
+                            @if (feedback.FeedbackState == 1)
+                            {
+                                <h3>&#128577;</h3>
+                            }
+                            @if (feedback.FeedbackState == 2)
+                            {
+                                <h3>&#128528;</h3>
+                            }
+                            @if (feedback.FeedbackState == 3)
+                            {
+                                <h3>&#128578;</h3>
+                            }
+                        </td>
+                    </tr>
+}
+            }
         </tbody>
     </table>
 </main>
