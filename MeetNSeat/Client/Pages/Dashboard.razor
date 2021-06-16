@@ -36,8 +36,8 @@
                     foreach (var reservation in UserReservations)
                     {
                         <tr>
-                            <td>@reservation.StartTime.ToLocalTime()</td>
-                            <td>@reservation.EndTime.ToLocalTime()</td>
+                            <td>@reservation.StartTime.ToLocalTime().ToString("dddd, dd MMMM yyyy HH:mm:ss")</td>
+                            <td>@reservation.EndTime.ToLocalTime().ToString("dddd, dd MMMM yyyy HH:mm:ss")</td>
                             <td>@GetLocation(reservation.RoomId).City</td>
                             <td>@GetRoom(reservation.RoomId).Name</td>
                             <td>@GetRoom(reservation.RoomId).Type</td>
