@@ -18,52 +18,60 @@
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <h2 class="pt-3">Dashboard</h2>
-    <div>
+    <div id="unique_id_scroll_section" class="ma-0" style="height:400px;overflow: auto;">
+        <MudPaper Elevation="0" Height="auto" Class="d-flex flex-column justify-space-between py-6">
+
         <table class="table table-striped">
             <thead>
-                <tr>
-                    <th scope="col">Start time</th>
-                    <th scope="col">End time</th>
-                    <th scope="col">Location</th>
-                    <th scope="col">Room</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Attendees</th>
-                    <th scope="col">Confirmed</th>
-                    <th scope="col"></th> @* this needs to be here *@
-                </tr>
+            <tr>
+                <th scope="col">Start time</th>
+                <th scope="col">End time</th>
+                <th scope="col">Location</th>
+                <th scope="col">Room</th>
+                <th scope="col">Type</th>
+                <th scope="col">Attendees</th>
+                <th scope="col">Confirmed</th>
+                <th scope="col"></th> @* this needs to be here *@
+            </tr>
             </thead>
             <tbody>
-                @if (UserReservations.Any())
+            @if (UserReservations.Any())
+            {
+                foreach (var reservation in UserReservations)
                 {
-                    foreach (var reservation in UserReservations)
-                    {
-                        <tr>
-                            <td>@reservation.StartTime.ToLocalTime().ToString("dddd, dd MMMM yyyy HH:mm:ss")</td>
-                            <td>@reservation.EndTime.ToLocalTime().ToString("dddd, dd MMMM yyyy HH:mm:ss")</td>
-                            <td>@GetLocation(reservation.RoomId).City</td>
-                            <td>@GetRoom(reservation.RoomId).Name</td>
-                            <td>@GetRoom(reservation.RoomId).Type</td>
-                            <td>@reservation.Attendees</td>
-                            <td style="min-width: 100px">
-                                @if (reservation.IsConfirmed.HasValue)
+                    <tr>
+                        <td>@reservation.StartTime.ToLocalTime().ToString("dddd, dd MMMM yyyy HH:mm:ss", new CultureInfo("en-US"))</td>
+                        <td>@reservation.EndTime.ToLocalTime().ToString("dddd, dd MMMM yyyy HH:mm:ss", new CultureInfo("en-US"))</td>
+                        <td>@GetLocation(reservation.RoomId).City</td>
+                        <td>@GetRoom(reservation.RoomId).Name</td>
+                        <td>@GetRoom(reservation.RoomId).Type</td>
+                        <td>@reservation.Attendees</td>
+                        <td style="min-width: 100px">
+                            @if (reservation.IsConfirmed.HasValue)
+                            {
+                                <span class="oi oi-check mx-2 p-4" aria-hidden="true"></span>
+                            }
+                            else
+                            {
+                                if (reservation.StartTime.Date == DateTime.Today)
                                 {
-                                    <span class="oi oi-check mx-2 p-4" aria-hidden="true"></span>
+                                    <button @onclick="() => ConfirmReservation(reservation)" style="margin: 5px" type="button" class="btn btn-primary">Confirm</button>
                                 }
-                                else
-                                {
-                                    if (reservation.StartTime.Date == DateTime.Today)
-                                    {
-                                        <button @onclick="() => ConfirmReservation(reservation)" style="margin: 5px" type="button" class="btn btn-primary">Confirm</button>
-                                    }
-                                    <button @onclick="() => EditReservation(reservation, GetRoom(reservation.RoomId), GetLocation(reservation.RoomId).Id)" style="margin: 5px" type="button" class="btn btn-primary">Edit</button>
-                                    <button @onclick="() => DeleteReservation(reservation)" style="margin: 5px" type="button" class="btn btn-danger">Cancel</button>
-                                }
-                            </td>
-                        </tr>
-                    }
+                                <button @onclick="() => EditReservation(reservation, GetRoom(reservation.RoomId), GetLocation(reservation.RoomId).Id)" style="margin: 5px" type="button" class="btn btn-primary">Edit</button>
+                                <button @onclick="() => DeleteReservation(reservation)" style="margin: 5px" type="button" class="btn btn-danger">Cancel</button>
+                            }
+                        </td>
+                    </tr>
                 }
+            }
             </tbody>
         </table>
+            <MudScrollToTop
+                Selector="#unique_id_scroll_section"
+                VisibleCssClass="visible absolute"
+                HiddenCssClass="invisible">
+            </MudScrollToTop>
+        </MudPaper>
     </div>
     <h2 class="pt-3 pb-2 mb-3">User feedback</h2>
     <table class="table table-striped">
