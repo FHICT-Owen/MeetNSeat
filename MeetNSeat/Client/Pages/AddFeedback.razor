@@ -12,7 +12,7 @@
         <p>@Msg</p>
         <form>
             <div class="form-group">
-                <label for="selecteduser">Select a user</label>
+                <label>Select a user</label>
                 <select class="form-control" @bind="UserId" @bind:event="oninput" id="selecteduser">
                     <option>Select a user...</option>
                     @if (Users.Any())
@@ -25,11 +25,12 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="feedback">Feedback</label>
-                <input type="text" @bind="Description" @bind:event="oninput" class="form-control" id="feedback" placeholder="Feedback">
+                <label>Feedback</label>
+                <textarea class="form-control" style="min-height: 40px; white-space: pre-line" rows="8" placeholder="Enter your feedback here ..." role="textbox" @bind="Description" @bind:event="oninput" maxlength="1000"></textarea>
+                <span style="position: absolute; right: 36px; margin-top: -24px">@Description.Length / 1000</span>
             </div>
             <div class="form-group">
-                <label for="feedbackstate">Give me a smiley</label>
+                <label>Give me a smiley</label>
                 <select class="form-control" @bind="FeedbackState" @bind:event="oninput" id="feedbackstate">
                     <option>Select a smiley...</option>
                     <option value="1">&#128577;</option>
@@ -37,27 +38,26 @@
                     <option value="3">&#128578;</option>
                 </select>
             </div>
-
             <button @onclick="AddNewFeedback" type="button" class="btn btn-primary">Submit your feedback</button>
         </form>
     </div>
 </main>
 
 @code {
-    public List<UserModel> Users { get; set; } = new List<UserModel>();
-    private static string UserId { get; set; } = null;
-    private static string Description { get; set; } = null;
-    private static int? FeedbackState { get; set; } = null;
+    private List<UserModel> Users { get; set; } = new ();
+    private static string UserId { get; set; }
+    private static string Description { get; set; } = string.Empty;
+    private static int? FeedbackState { get; set; }
     private static string Msg { get; set; }
-
-    private async Task AddNewFeedback()
-    {
-        Msg = await FeedbackService.AddFeedback(new FeedbackModel(UserId, Description, FeedbackState));
-    }
-
+    
     protected override async Task OnInitializedAsync()
     {
         Users = (await UserService.GetAllUsers()).ToList();
         Msg = Msg;
+    }
+
+    private async Task AddNewFeedback()
+    {
+        Msg = await FeedbackService.AddFeedback(new FeedbackModel(UserId, Description, FeedbackState));
     }
 }
