@@ -36,8 +36,8 @@
                     foreach (var reservation in UserReservations)
                     {
                         <tr>
-                            <td>@reservation.StartTime</td>
-                            <td>@reservation.EndTime</td>
+                            <td>@reservation.StartTime.ToString("dddd, dd MMMM yyyy HH:mm:ss")</td>
+                            <td>@reservation.EndTime.ToString("dddd, dd MMMM yyyy HH:mm:ss")</td>
                             <td>@GetLocation(reservation.RoomId).City</td>
                             <td>@GetRoom(reservation.RoomId).Name</td>
                             <td>@GetRoom(reservation.RoomId).Type</td>
@@ -53,9 +53,11 @@
                                     {
                                         <button @onclick="() => ConfirmReservation(reservation)" style="margin: 5px" type="button" class="btn btn-primary">Confirm</button>
                                     }
-                                    <button @onclick="() => EditReservation(reservation, GetRoom(reservation.RoomId), GetLocation(reservation.RoomId).Id)" style="margin: 5px" type="button" class="btn btn-danger">Edit</button>
-                                    <button @onclick="() => DeleteReservation(reservation)" style="margin: 5px" type="button" class="btn btn-danger">Cancel</button>
                                 }
+                            </td>   
+                            <td>
+                                <button @onclick="() => EditReservation(reservation, GetRoom(reservation.RoomId), GetLocation(reservation.RoomId).Id)" style="margin: 5px" type="button" class="btn btn-danger">Edit</button>
+                                <button @onclick="() => DeleteReservation(reservation)" style="margin: 5px" type="button" class="btn btn-danger">Cancel</button>
                             </td>
                         </tr>
                     }
