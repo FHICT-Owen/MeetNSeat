@@ -38,8 +38,7 @@
                 </select>
 
                 <label class="form-label m-1 pt-2">Attendees</label>
-                
-                <input type="number" min="1" max="30" class="form-control" @onchange="OnAttendeesChange" id="Attendees" placeholder="Attendees">
+                <input type="number" min="1" max="30" class="form-control" Value="@Attendees" @onchange="OnAttendeesChange" id="Attendees" placeholder="Attendees" disabled="@IsDisabled">
 
                 <label class="form-label m-1 pt-2">Start</label>
                 <br/>
@@ -77,6 +76,7 @@
     private string Type { get; set; }
     private string AvailableRoom { get; set; }
     private string Attendees { get; set; }
+    private bool IsDisabled { get; set; }
 
     private DateTime StartDate { get; set; } = DateTime.Now;
     private DateTime EndDate { get; set; } = DateTime.Now.AddHours(1);
@@ -87,6 +87,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        IsDisabled = false;
         Locations = (await LocationService.GetAllLocations()).ToList();
         Rooms = (await RoomService.GetAllRoomTypes()).ToList();
     }
@@ -100,12 +101,28 @@
     async Task OnTypeChange(ChangeEventArgs e)
     {
         Type = (string) e.Value;
+        if (Type == "Workspace")
+        {
+            Attendees = "1";
+            Console.WriteLine(Attendees);
+            IsDisabled = true;
+            StateHasChanged();
+
+        }
+        else if (Type == "Conference")
+        {
+            Attendees = "1";
+            IsDisabled = false;
+        }
+        StateHasChanged();
+
         await GetAvailableRooms();
     }
 
     async Task OnAttendeesChange(ChangeEventArgs e)
     {
         Attendees = (string) e.Value;
+        Console.WriteLine(Attendees);
         await GetAvailableRooms();
     }
 
@@ -154,7 +171,7 @@
         try
         {
             if (locationId != 0 && Type != null && attendees != 0 && StartDate != DateTime.MinValue && EndDate != DateTime.MinValue && attendees > 0)
-            AvailableRooms = (await RoomService.GetAllAvailableRooms(locationId, Type, attendees, StartDate, EndDate, RoomId)).ToList();
+                AvailableRooms = (await RoomService.GetAllAvailableRooms(locationId, Type, attendees, StartDate, EndDate, RoomId)).ToList();
         }
         catch (Exception)
         {
