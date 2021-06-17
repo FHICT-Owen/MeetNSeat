@@ -87,9 +87,9 @@ namespace MeetNSeat.Logic
                 if (attendees > room.Spots) continue;
                 var interferingReservations = 
                     reservations.Where(reservation =>
-                        reservation.RoomId == room.Id && !CheckForNoOverlap(reservation.StartTime, reservation.EndTime, startTime, endTime));
-                if (interferingReservations.All(reservation => reservation.RoomId != roomId))
-                { 
+                        reservation.RoomId == room.Id && !CheckForNoOverlap(startTime, endTime, reservation.StartTime, reservation.EndTime));
+                if (interferingReservations.Any(reservation => reservation.RoomId == roomId) == false)
+                {
                     return _dal.AddReservation(new CreateReservationDto(roomId, userId, attendees, sqlStartTime, sqlEndTime));
                 }
             }
@@ -108,7 +108,7 @@ namespace MeetNSeat.Logic
             {
                 if (attendees > room.Spots) continue;
                 var interferingReservations = reservations.Where(reservation => 
-                        reservation.RoomId == room.Id && !CheckForNoOverlap(reservation.StartTime, reservation.EndTime, startTime, endTime));
+                        reservation.RoomId == room.Id && !CheckForNoOverlap(startTime, endTime,reservation.StartTime, reservation.EndTime));
                 
                 if (interferingReservations.Any(reservation => reservation.RoomId == room.Id))
                 {

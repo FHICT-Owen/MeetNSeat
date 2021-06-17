@@ -79,8 +79,8 @@ namespace MeetNSeat.Logic
             if (result == null) return false;
             if (Attendees > targetRoom.Spots) return _dal.UpdateReservation(result.ConvertToDto());
             {
-                foreach (var unused in reservations.Where(res => res.RoomId == targetRoom.Id && !User.CheckForNoOverlap(res.StartTime, res.EndTime,
-                    StartTime, EndTime)))
+                foreach (var unused in reservations.Where(res => res.RoomId == targetRoom.Id && !User.CheckForNoOverlap(StartTime, EndTime,
+                    res.StartTime, res.EndTime)))
                 {
                     result.Attendees = Attendees;
                     result.StartTime = StartTime;
