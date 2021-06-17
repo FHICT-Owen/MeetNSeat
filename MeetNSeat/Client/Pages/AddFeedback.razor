@@ -37,7 +37,7 @@
                     <option value="3">&#128578;</option>
                 </select>
             </div>
-            <button @onclick="AddNewFeedback" type="button" class="btn btn-primary">Submit your feedback</button>
+            <button @onclick="AddNewFeedback" disabled="@(string.IsNullOrEmpty(Description) || string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(FeedbackState.ToString()))" type="button" class="btn btn-primary">Submit your feedback</button>
         </form>
     </div>
 </main>
@@ -48,7 +48,7 @@
     private static string Description { get; set; } = string.Empty;
     private static int? FeedbackState { get; set; }
 
-    
+
     protected override async Task OnInitializedAsync()
     {
         Users = (await UserService.GetAllUsers()).ToList();
@@ -57,6 +57,7 @@
     private async Task AddNewFeedback()
     {
         var success = await FeedbackService.AddFeedback(new FeedbackModel(UserId, Description, FeedbackState));
-        if (success) _snackbar.Add("Feedback has been sent!", Severity.Success);
+        if (success) _snackbar.Add("Feedback has been sent &#128578;!", Severity.Success);
+        if (!success) _snackbar.Add("Something went wrong &#128577; !", Severity.Error);
     }
 }
