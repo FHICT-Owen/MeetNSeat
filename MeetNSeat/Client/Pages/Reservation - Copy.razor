@@ -1,0 +1,89 @@
+﻿@page "/test"
+@attribute [Authorize]
+@using MeetNSeat.Client.Models
+@using MeetNSeat.Client.Services
+@using Blazored.SessionStorage
+@using System.Globalization
+
+@inject ISessionStorageService _sessionStorage;
+@inject ISnackbar _snackbar
+
+<main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
+    <h2 class="pt-3 pb-2 mb-3 border-bottom">Plan a reservation</h2>
+    <div>
+        <form>
+            <div class="mb-3">
+                @* <strong class="form-label pt-3">Current week number: @WeekNumber</strong> *@
+                <table class="table table-breakword">
+                    <thead>
+                    <tr>
+                        @foreach (var period in Periods)
+                        {
+                            <th scope="col">@period.DayOfWeek</th>
+                        }
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        @foreach (var period in Periods)
+                        {
+                            <td>
+                            @foreach (var height in period.Heights)
+                            {
+                                <div style="height: @(height)px; background-color: #eaeaea; margin-bottom: 2px; size: 5px"></div>
+                            }
+                            </td>
+                        }
+                    </tr>
+                    </tbody>
+                </table>
+                <button @onclick="PreviousWeek" type="button" disabled="@(FirstWeekday.Date == DateTime.Today)" class="btn btn-primary">Previous week</button>
+                <button @onclick="NextWeek" type="button" class="btn btn-primary">Next week</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+@code {
+
+    private List<PeriodModel> Periods { get; set; } = new();
+
+    private DateTime FirstWeekday { get; set; } = DateTime.Today.Date;
+    
+    private void SetComingWeekDays()
+    {
+        for (var i = 0; i < 7; i++)
+            Periods[i].DayOfWeek = FirstWeekday.AddDays(i).DayOfWeek;
+    }
+
+    // private int WeekNumber { get; set; }
+    //
+    // private void GetWeekNumber()
+    // {
+    //     var ciCurr = CultureInfo.CurrentCulture;
+    //     WeekNumber = ciCurr.Calendar.GetWeekOfYear(FirstWeekday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+    // }
+
+    private void NextWeek()
+    {
+        FirstWeekday = FirstWeekday.AddDays(7);
+        SetComingWeekDays();
+        // GetWeekNumber();
+        // GetDayContentOfComingWeek();
+    }
+    
+    private void PreviousWeek()
+    {
+        FirstWeekday = FirstWeekday.AddDays(-7);
+        SetComingWeekDays();
+        // GetWeekNumber();
+        // GetDayContentOfComingWeek();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Periods = (await ReservationService.GetAllReservationsDateTimes(37, "Conference", 2, FirstWeekday, FirstWeekday.AddDays(7))).ToList();
+        SetComingWeekDays();
+        // GetWeekNumber();
+    }
+}

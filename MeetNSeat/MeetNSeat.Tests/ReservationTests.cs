@@ -2,6 +2,7 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MeetNSeat.Logic;
 using System.Collections.Generic;
+using MeetNSeat.Dal;
 using MeetNSeat.Dal.Interfaces.Dtos;
 namespace MeetNSeat.Tests
 {
@@ -121,6 +122,14 @@ namespace MeetNSeat.Tests
         public void Sad()
         {
             var s = new Reservation(175, 22, "108105466526811947195", 0, 2, Convert.ToDateTime("2021-06-15 15:22:18"), Convert.ToDateTime("2021-06-28 22:00:00"), Convert.ToDateTime("2021-06-28 23:00:00"), Convert.ToDateTime("2021-06-15 13:28:52")).ConfirmReservation("45.95.64.247");
+        }
+        
+        [TestMethod]
+        public void Test()
+        {
+            var s = new ReservationDal();
+            var x = s.GetReservationStartAndEndTimesBetweenPeriodByLocation(40, Convert.ToDateTime("2021-07-01T00:00"), Convert.ToDateTime("2030-10-26T14:15"));
+            x = x;
         }
         
 

@@ -80,7 +80,20 @@ namespace MeetNSeat.Dal
         {
             using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
             
-            List<ReservationDto> output = connection.Query<ReservationDto>("dbo.GetAllReservations").ToList();
+            var output = connection.Query<ReservationDto>("dbo.GetAllReservations").ToList();
+            return output;
+        }
+        
+        public List<TestDto> GetReservationStartAndEndTimesBetweenPeriodByLocation(int locationId, DateTime startTime, DateTime endTime)
+        {
+            using IDbConnection connection = new SqlConnection(Connection.GetConnectionString());
+            
+            var parameters = new DynamicParameters();
+            parameters.Add("@LocationId", locationId);
+            parameters.Add("@StartTime", startTime);
+            parameters.Add("@EndTime", endTime);
+            
+            var output = connection.Query<TestDto>("dbo.GetReservationStartAndEndTimeBetweenPeriod @LocationId, @StartTime, @EndTime", parameters).ToList();
             return output;
         }
     }

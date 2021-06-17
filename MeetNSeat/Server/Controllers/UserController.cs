@@ -9,10 +9,19 @@ namespace MeetNSeat.Server.Controllers
     public class UserController : ApiControllerBase
     {
         private readonly IManageUser _manageUser;
+        private readonly IManagePeriod _managePeriod;
 
-        public UserController(IManageUser manageUser)
+        public UserController(IManageUser manageUser, IManagePeriod managePeriod)
         {
             _manageUser = manageUser;
+            _managePeriod = managePeriod;
+        }
+        
+        [HttpGet("{locationId}/{roomType}/{attendees}/{startTime}/{endTime}")]
+        public ActionResult GetAvailableRooms(int locationId, string roomType, int attendees, DateTime startTime, DateTime endTime)
+        {
+            var days = _managePeriod.GetPeriods(locationId, roomType, attendees, startTime, endTime);
+            return Ok(days);
         }
 
         [HttpGet("{id}")]

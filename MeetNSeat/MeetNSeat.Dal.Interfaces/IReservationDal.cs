@@ -12,5 +12,8 @@ namespace MeetNSeat.Dal.Interfaces
         bool RemoveReservation(int id);
         bool UpdateReservation(ReservationDto reservationDto);
         List<ReservationDto> GetReservationByUser(string id);
+
+        List<TestDto> GetReservationStartAndEndTimesBetweenPeriodByLocation(int locationId, DateTime startTime,
+            DateTime endTime);
     }
 }
