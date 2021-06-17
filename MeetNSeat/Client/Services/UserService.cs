@@ -20,10 +20,10 @@ namespace MeetNSeat.Client.Services
             return await client.GetFromJsonAsync<List<UserModel>>($"{Url.Address}/api/authentication/");
         }
 
-        public static async Task<bool> ConfirmReservation(string address, ReservationModel reservation)
+        public static async Task<bool> ConfirmReservation(string ip, ReservationModel reservation)
         {
             var client = new HttpClient();
-            var response = await client.PutAsJsonAsync($"{Url.Address}/api/user/confirm/{address}",reservation);
+            var response = await client.PutAsJsonAsync($"{Url.Address}/api/user/confirm/{ip}",reservation);
             return response.IsSuccessStatusCode;
         }
        

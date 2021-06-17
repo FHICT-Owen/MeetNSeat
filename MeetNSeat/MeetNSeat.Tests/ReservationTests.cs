@@ -19,8 +19,10 @@ namespace MeetNSeat.Tests
         public void GetAllReservations()
         {
             var u = new User();
+            var s = u.GetReservationByUser("108105466526811947195");
+            s = s;
+            // Assert.IsNotNull();
 
-            Assert.IsNotNull(u.GetAllReservations());
         }
         [TestMethod]
         public void CreateReservation()
@@ -120,7 +122,7 @@ namespace MeetNSeat.Tests
         [TestMethod]
         public void Sad()
         {
-            var s = new Reservation(175, 22, "108105466526811947195", 0, 2, Convert.ToDateTime("2021-06-15 15:22:18"), Convert.ToDateTime("2021-06-28 22:00:00"), Convert.ToDateTime("2021-06-28 23:00:00"), Convert.ToDateTime("2021-06-15 13:28:52")).ConfirmReservation("45.95.64.247");
+            var s = new Reservation(263, 81, "108105466526811947195", 0, 1, Convert.ToDateTime("2021-06-17 10:58:03"), Convert.ToDateTime("2021-06-17 12:57:00"), Convert.ToDateTime("2021-06-17 13:57:00"), Convert.ToDateTime("2021-06-17 13:28:52")).ConfirmReservation("145.93.56.138");
         }
         
 

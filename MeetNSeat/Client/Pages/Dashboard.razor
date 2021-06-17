@@ -150,8 +150,9 @@
     private async Task ConfirmReservation(ReservationModel reservation)
     {
         var ip = await _apiClientService.GetUserIpAsync();
-        reservation.IsConfirmed = DateTime.UtcNow;
         await UserService.ConfirmReservation(ip.Ip, reservation);
+        UserReservations = (await UserService.GetUserReservations(UserId)).ToList();
+        Console.WriteLine(UserReservations[0].IsConfirmed);
     }
 
     private IEnumerable<DateTime> FindInterval(DateTime from,
