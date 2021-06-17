@@ -1,0 +1,31 @@
+﻿@using MeetNSeat.Client.Models
+@inject ISnackbar _snackbar
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            @ContentText
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        UserId: @UserId <br>
+        E-mail: @Email
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">@ButtonText</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public string UserId { get; set; }
+    [Parameter] public string Email { get; set; }
+    [Parameter] public string ContentText { get; set; }
+    [Parameter] public string ButtonText { get; set; }
+
+    private void Cancel()
+    {
+        MudDialog.Close(DialogResult.Cancel());
+    }
+}

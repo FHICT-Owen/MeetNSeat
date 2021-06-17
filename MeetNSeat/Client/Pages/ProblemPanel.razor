@@ -2,7 +2,10 @@
 @using MeetNSeat.Client.Models
 @using MeetNSeat.Client.Services
 @using System.Globalization
+@using MeetNSeat.Client.Dialogs
 @attribute [Authorize(Roles = "2,3")]
+
+@inject IDialogService _dialog
 
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <h2 class="pt-3">Problem panel</h2>
@@ -78,31 +81,6 @@
             }
             </tbody>
         </table>
-        @if (DialogIsOpen)
-        {
-            <div class="modal" style="display:block; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 class="modal-title">User</h3>
-                            <button type="button" class="close" @onclick="CloseDialog">
-                                <span aria-hidden="true">X</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div>
-                                <label class="form-label m-1 pt-2">UserId : </label>
-                                @UserId
-                            </div>
-                            <div>
-                                <label class="form-label m-1 pt-2">Email : </label>
-                                @Email
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
     </div>
 </main>
 
@@ -115,18 +93,18 @@
     private bool IsDisabled { get; set; } = true;
 
     private bool DialogIsOpen { get; set; }
-    
+
     private string UserId { get; set; }
     private string Email { get; set; }
-    
+
     List<ProblemModel> Problems { get; set; } = new();
-    
+
     protected override async Task OnInitializedAsync()
     {
         Problems = (await ProblemService.GetAllProblems()).ToList();
         IsDisabled = !Problems.Any(model => model.IsResolved);
     }
-    
+
     private static async Task Toggle(ProblemModel problem)
     {
         problem.IsCollapsed = !problem.IsCollapsed;
@@ -138,9 +116,10 @@
     {
         UserId = problem.UserId;
         Email = problem.Email;
-        DialogIsOpen = true;
+        var parameters = new DialogParameters {{"ContentText", "User Information"}, {"ButtonText", "Close"}, {"UserId", UserId}, {"Email", Email}};
+        _dialog.Show<UserDialog>("User Information", parameters, new DialogOptions() {MaxWidth = MaxWidth.ExtraSmall});
     }
-    
+
     private void CloseDialog()
     {
         DialogIsOpen = false;
@@ -151,12 +130,12 @@
         ShowResolved = !ShowResolved;
         ButtonText = ShowResolved ? "Hide Resolved" : "Show Resolved";
     }
-    
+
     private async Task ResolveProblem(ProblemModel problem)
     {
         problem.IsResolved = !problem.IsResolved;
         problem.IsCollapsed = true;
-        
+
         if (problem.IsResolved)
         {
             problem.ResolvedAt = DateTime.Now;
@@ -167,7 +146,7 @@
             problem.ResolvedAt = null;
             await ProblemService.UpdateProblem(problem);
         }
-        
+
         if (!Problems.Any(model => model.IsResolved))
         {
             IsDisabled = true;
@@ -175,7 +154,7 @@
         }
         else IsDisabled = false;
     }
-    
+
     private async Task DeleteProblem(int id)
     {
         Problems.Remove(Problems.Find(problem => problem.Id == id));

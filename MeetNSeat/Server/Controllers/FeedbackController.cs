@@ -1,4 +1,5 @@
-﻿using MeetNSeat.Logic;
+﻿using System;
+using MeetNSeat.Logic;
 using MeetNSeat.Logic.Interfaces;
 using MeetNSeat.Server.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,22 +17,36 @@ namespace MeetNSeat.Server.Controllers
         [HttpGet]
         public ActionResult GetAllUsersWithFeedback()
         {
-            var allUsers = _manageFeedback.GetAllUsersWithFeedback();
-            return Ok(allUsers);
+            try
+            {
+                var allUsers = _manageFeedback.GetAllUsersWithFeedback();
+                return allUsers == null ? Problem() : Ok(allUsers);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public ActionResult GetAllFeedback(string id)
         {
-            var allFeedback = _manageFeedback.GetFeedbackByUser(id);
-            return Ok(allFeedback);
+            try
+            {
+                var allFeedback = _manageFeedback.GetFeedbackByUser(id);
+                return allFeedback == null ? Problem() : Ok(allFeedback);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
         
         [HttpPost]
-        public void AddFeedback([FromBody] FeedbackModel feedbackModel)
+        public ActionResult AddFeedback([FromBody] FeedbackModel feedbackModel)
         {
             var newFeedback = new Feedback(feedbackModel.Description, feedbackModel.FeedbackState, feedbackModel.UserId);
-            _manageFeedback.AddFeedback(newFeedback);
+            return Ok(_manageFeedback.AddFeedback(newFeedback));
         }
     }
 }

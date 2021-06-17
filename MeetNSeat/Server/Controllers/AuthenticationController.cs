@@ -1,3 +1,4 @@
+using System;
 using MeetNSeat.Logic;
 using MeetNSeat.Logic.Interfaces;
 using MeetNSeat.Server.Models;
@@ -11,24 +12,40 @@ namespace MeetNSeat.Server.Controllers
         public ActionResult GetAllUsers()
         {
             var users = Authentication.Instance.GetAllUsers();
+            if (users == null) return Problem();
             return Ok(users);
         }
 
         [HttpPost("adduser")]
-        public void AddUser([FromBody] UserModel userModel)
+        public ActionResult AddUser([FromBody] UserModel userModel)
         {
-            Authentication.Instance.GetAllUsers();
-            var newUser = new User(userModel.Id, userModel.Nickname, (Role)userModel.Role);
-            Authentication.Instance.AddUserIfNonExistent(newUser);
+            try
+            {
+                Authentication.Instance.GetAllUsers();
+                var newUser = new User(userModel.Id, userModel.Nickname, (Role)userModel.Role);
+                Authentication.Instance.AddUserIfNonExistent(newUser);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
 
         [HttpGet("user/{userId}")]
         public ActionResult GetUser(string userId)
         {
-            var user = Authentication.Instance.GetUser(userId);
-            if (user == null) return Ok(0);
-            var role = (int) user.Role;
-            return Ok(role);
+            try
+            {
+                var user = Authentication.Instance.GetUser(userId);
+                if (user == null) return Problem();
+                var role = (int)user.Role;
+                return Ok(role);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
     }
 }
