@@ -96,7 +96,7 @@ namespace MeetNSeat.Logic
             var locations = LocationCollection.Instance.GetAllLocations();
             var match = locations.Any(res => res.IpAddress == ip);
             if (!match) return false;
-            return _dal.ConfirmReservation(Id, IsConfirmed);
+            return _dal.ConfirmReservation(Id, DateTime.Now);
         }
 
         public ReservationDto ConvertToDto()

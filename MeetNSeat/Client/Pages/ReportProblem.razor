@@ -8,6 +8,8 @@
 @using System.IO
 @attribute [Authorize(Roles = "1,2,3")]
 
+@inject ISnackbar _snackbar
+
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <h2 class="pt-3 pb-2 mb-3 border-bottom">Report problem</h2>
     <div>
@@ -34,8 +36,8 @@
                             }
                         }
                     </select>
-                    <br/>
-                    <InputFile OnChange="@SingleUpload"/>
+                    <br />
+                    <InputFile OnChange="@SingleUpload" />
                 </div>
                 <div>
                     <label class="form-label">Room</label>
@@ -59,11 +61,11 @@
 @code {
     List<LocationModel> Locations { get; set; } = new();
     List<RoomModel> Rooms { get; set; } = new();
-    
+
     protected override async Task OnInitializedAsync()
     {
         Locations = (await LocationService.GetAllLocations()).ToList();
-        
+
         var authState = await _authStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         if (user.Identity.IsAuthenticated)
@@ -73,25 +75,25 @@
             Email = user.FindFirst(c => c.Type == "email")?.Value;
         }
     }
-    
+
     private async Task SingleUpload(InputFileChangeEventArgs e)
     {
         var imageFile = await e.File.RequestImageFileAsync("", 1366, 768);
         await using var fileStream = imageFile.OpenReadStream();
         await using MemoryStream ms = new();
-        
+
         await fileStream.CopyToAsync(ms);
-        
+
         Picture = ms.ToArray();
     }
-    
+
     async Task OnLocationChange(ChangeEventArgs e)
     {
         var locationId = Convert.ToInt32(e.Value);
         LocationName = Locations.Find(location => location.Id == locationId)?.Name;
         await GetRoomsAtLocation(locationId);
     }
-    
+
     private async Task GetRoomsAtLocation(int id)
     {
         Rooms.Clear();
@@ -99,7 +101,7 @@
         foreach (var floor in floors)
             Rooms.AddRange(floor.Rooms);
     }
-    
+
     private string LocationName { get; set; }
     private string RoomName { get; set; }
     private string UserId { get; set; }
@@ -112,6 +114,14 @@
     private async Task AddProblem()
     {
         Console.WriteLine(Description);
-        await ProblemService.AddProblem(new ProblemModel(LocationName, RoomName, UserId, Nickname, Email, Title, Description, Picture));
+        var success = await ProblemService.AddProblem(new ProblemModel(LocationName, RoomName, UserId, Nickname, Email, Title, Description, Picture));
+        if (success)
+        {
+            _snackbar.Add("Successfully added problem", Severity.Success);
+        }
+        else
+        {
+            _snackbar.Add("Failed to add problem!", Severity.Error);
+        }
     }
 }
