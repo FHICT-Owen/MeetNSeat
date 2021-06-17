@@ -59,10 +59,10 @@ namespace MeetNSeat.Logic
             return _dal.GetAllReservations();
         }
 
-        public bool EditReservation(Reservation reservation)
+        public bool EditReservation()
         {
-            var user = Authentication.Instance.GetAllUsers().SingleOrDefault(res => res.Id == reservation.UserId);
-            var result = user?.GetAllReservations().SingleOrDefault(res => res.Id == reservation.Id);
+            var user = Authentication.Instance.GetAllUsers().SingleOrDefault(res => res.Id == UserId);
+            var result = user?.GetAllReservations().SingleOrDefault(res => res.Id == Id);
             var locations = LocationCollection.Instance.GetAllLocations();
             var reservations = GetAllReservations();
             var targetRoom = new Room();
@@ -71,20 +71,20 @@ namespace MeetNSeat.Logic
                 var floors = location.GetAllFloors();
                 foreach (var floor in floors)
                 {
-                    var room = floor.GetAllRooms().SingleOrDefault(res => res.Id == reservation.RoomId);
+                    var room = floor.GetAllRooms().SingleOrDefault(res => res.Id == RoomId);
                     if (room == null) return false;
                     targetRoom = room;
                 }
             }
             if (result == null) return false;
-            if (reservation.Attendees > targetRoom.Spots) return _dal.UpdateReservation(result.ConvertToDto());
+            if (Attendees > targetRoom.Spots) return _dal.UpdateReservation(result.ConvertToDto());
             {
                 foreach (var unused in reservations.Where(res => res.RoomId == targetRoom.Id && !User.CheckForNoOverlap(res.StartTime, res.EndTime,
-                    reservation.StartTime, reservation.EndTime)))
+                    StartTime, EndTime)))
                 {
-                    result.Attendees = reservation.Attendees;
-                    result.StartTime = reservation.StartTime;
-                    result.EndTime = reservation.EndTime;
+                    result.Attendees = Attendees;
+                    result.StartTime = StartTime;
+                    result.EndTime = EndTime;
                 }
             }
 

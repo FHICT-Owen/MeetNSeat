@@ -29,6 +29,8 @@ namespace MeetNSeat.Logic
             Name = name;
             City = city;
             IpAddress = ipAddress;
+            _roomDal = RoomFactory.CreateRoomDal();
+            _floorDal = FloorFactory.CreateFloorDal();
         }
 
         public Location(LocationDto locationDto)
@@ -37,6 +39,8 @@ namespace MeetNSeat.Logic
             Name = locationDto.Name;
             City = locationDto.City;
             IpAddress = locationDto.IpAddress;
+            _roomDal = RoomFactory.CreateRoomDal();
+            _floorDal = FloorFactory.CreateFloorDal();
         }
         
         public IReadOnlyCollection<Floor> GetAllRoomsAndFloorByLocationId(int locationId)

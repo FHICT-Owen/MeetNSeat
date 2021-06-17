@@ -23,21 +23,21 @@ namespace MeetNSeat.Server.Controllers
         }
 
         [HttpPost]
-        public void CreateReservation([FromBody] ReservationModel reservationModel)
+        public ActionResult CreateReservation([FromBody] ReservationModel reservationModel)
         {
-            var newReservation = _manageUser.AddReservation(reservationModel.Type,reservationModel.RoomId, reservationModel.LocationId, reservationModel.UserId, reservationModel.Attendees, reservationModel.StartTime, reservationModel.EndTime);
+            return Ok(_manageUser.AddReservation(reservationModel.Type,reservationModel.RoomId, reservationModel.LocationId, reservationModel.UserId, reservationModel.Attendees, reservationModel.StartTime, reservationModel.EndTime));
         }
 
         [HttpPost("edit")]
-        public bool UpdateReservation([FromBody] ReservationModel reservation)
+        public ActionResult UpdateReservation([FromBody] ReservationModel reservation)
         {
-            return _manageUser.EditReservation(reservation.ConvertToReservation());
+            return Ok(_manageUser.EditReservation(reservation.ConvertToReservation()));
         }
 
         [HttpDelete("{id:int}")]
-        public bool DeleteResult(int id)
+        public ActionResult DeleteResult(int id)
         {
-            return _manageUser.DeleteReservation(id);
+            return Ok(_manageUser.DeleteReservation(id));
         }
 
         [HttpPut("confirm/{ip}")]

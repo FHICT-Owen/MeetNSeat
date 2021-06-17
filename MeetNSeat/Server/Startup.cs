@@ -50,7 +50,7 @@ namespace MeetNSeat.Server
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
-            //app.ConfigureExceptionHandler();
+            app.ConfigureExceptionHandler();
 
             app.UseRouting();
             

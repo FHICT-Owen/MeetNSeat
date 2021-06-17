@@ -19,6 +19,7 @@ namespace MeetNSeat.Logic
         public Room(string type)
         {
             Type = type;
+            _dal = RoomFactory.CreateRoomDal();
         }
 
         public Room(int id, int floorId, string name, int spots, string type, string facilities)
@@ -29,6 +30,7 @@ namespace MeetNSeat.Logic
             Spots = spots;
             Type = type;
             Facilities = facilities;
+            _dal = RoomFactory.CreateRoomDal();
         }
         public Room(RoomDto roomDto)
         {
@@ -38,6 +40,7 @@ namespace MeetNSeat.Logic
             Type = roomDto.RoomType;
             Spots = roomDto.Spots;
             Facilities = roomDto.Facilities;
+            _dal = RoomFactory.CreateRoomDal();
         }
 
         // public Room(RoomDto roomDto) : this(roomDto.Type){}

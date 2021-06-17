@@ -140,28 +140,30 @@
 
     private async Task AddReservation()
     {
-        if ((EndDate - StartDate).Hours > 8)
+        try
         {
-            _snackbar.Add("Reservation is longer than 8 hours!", Severity.Error);
-            return;
+            if ((EndDate - StartDate).Hours > 8)
+            {
+                _snackbar.Add("Reservation is longer than 8 hours!", Severity.Error);
+                return;
+            }
+            var locationId = Convert.ToInt32(Location);
+            var attendees = Convert.ToInt32(Attendees);
+            var roomId = Convert.ToInt32(AvailableRoom);
+            var userId = await _sessionStorage.GetItemAsync<string>("userId");
+            var success = await UserService.CreateReservation(new ReservationModel(locationId, roomId, Type, userId, attendees, StartDate, EndDate));
+            if (success)
+            {
+                _snackbar.Add("Successfully added reservation", Severity.Success);
+            }
+            AvailableRooms.Clear();
+            AvailableRoom = null;
+            await GetAvailableRooms();
         }
-
-        var locationId = Convert.ToInt32(Location);
-        var attendees = Convert.ToInt32(Attendees);
-        var roomId = Convert.ToInt32(AvailableRoom);
-        var userId = await _sessionStorage.GetItemAsync<string>("userId");
-        var success = await UserService.CreateReservation(new ReservationModel(locationId, roomId, Type, userId, attendees, StartDate, EndDate));
-        if (success)
+        catch (Exception ex)
         {
-            _snackbar.Add("Successfully added reservation", Severity.Success);
+            _snackbar.Add($"Failed to add reservation! > {ex.Message}", Severity.Error);
         }
-        else
-        {
-            _snackbar.Add("Failed to add reservation!", Severity.Error);
-        }
-        AvailableRooms.Clear();
-        AvailableRoom = null;
-        await GetAvailableRooms();
     }
 
     private async Task GetAvailableRooms()

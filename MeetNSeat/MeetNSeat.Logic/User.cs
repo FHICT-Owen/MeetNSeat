@@ -20,7 +20,7 @@ namespace MeetNSeat.Logic
         public string Id { get; set; }
         public string Nickname { get; set; }
         public Role Role { get; set; }
-        private readonly List<Reservation> _reservations = new();
+        private List<Reservation> _reservations = new();
         private readonly IReservationDal _dal;
 
         public User(UserDto userDto)
@@ -28,6 +28,7 @@ namespace MeetNSeat.Logic
             Id = userDto.Id;
             Nickname = userDto.Nickname;
             Role = (Role)userDto.RoleId;
+            _dal = ReservationFactory.CreateReservationDal();
         }
         
         public User()
@@ -41,6 +42,7 @@ namespace MeetNSeat.Logic
             Id = id;
             Nickname = nickname;
             Role = role;
+            _dal = ReservationFactory.CreateReservationDal();
         }
 
         public IReadOnlyCollection<Reservation> GetAllReservations()
@@ -71,12 +73,27 @@ namespace MeetNSeat.Logic
             return reservations;
         }
 
-        public bool AddReservation(string type,int roomId, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
+        public bool AddReservation(string roomType, int roomId, int locationId, string userId, int attendees, DateTime startTime, DateTime endTime)
         {
             if (startTime <= DateTime.Now || endTime <= DateTime.Now) return false;
             var sqlStartTime = Convert.ToDateTime(startTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             var sqlEndTime = Convert.ToDateTime(endTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            return _dal.AddReservation(new CreateReservationDto(roomId, userId, attendees, sqlStartTime, sqlEndTime));
+            var locationObject = new Location();
+            var rooms = locationObject.GetAllRoomsWithType(roomType, locationId);
+            var reservationObject = new Reservation();
+            var reservations = reservationObject.GetAllReservations();
+            foreach (var room in rooms)
+            {
+                if (attendees > room.Spots) continue;
+                var interferingReservations = 
+                    reservations.Where(reservation =>
+                        reservation.RoomId == room.Id && !CheckForNoOverlap(reservation.StartTime, reservation.EndTime, startTime, endTime));
+                if (interferingReservations.All(reservation => reservation.RoomId != roomId))
+                { 
+                    return _dal.AddReservation(new CreateReservationDto(roomId, userId, attendees, sqlStartTime, sqlEndTime));
+                }
+            }
+            return false;
         }
 
         public List<RoomDto> GetAvailableRooms(int locationId,string roomType, int attendees, DateTime startTime, DateTime endTime, int roomId)
@@ -90,8 +107,7 @@ namespace MeetNSeat.Logic
             foreach (var room in rooms)
             {
                 if (attendees > room.Spots) continue;
-                var interferingReservations = 
-                    reservations.Where(reservation => 
+                var interferingReservations = reservations.Where(reservation => 
                         reservation.RoomId == room.Id && !CheckForNoOverlap(reservation.StartTime, reservation.EndTime, startTime, endTime));
                 
                 if (interferingReservations.Any(reservation => reservation.RoomId == room.Id))
@@ -109,9 +125,12 @@ namespace MeetNSeat.Logic
 
         public bool EditReservation(Reservation reservation)
         {
-            var result = _reservations.SingleOrDefault(res => res.Id == reservation.Id);
-            result?.EditReservation(reservation);
-            return _dal.UpdateReservation(reservation.ConvertToDto());
+            var success = reservation.EditReservation();
+            if (success)
+            {
+                return _dal.UpdateReservation(reservation.ConvertToDto());
+            }
+            throw new Exception("Was unable to edit reservation!");
         }
 
         public bool DeleteReservation(int id)

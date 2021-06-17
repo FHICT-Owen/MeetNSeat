@@ -18,6 +18,7 @@ namespace MeetNSeat.Logic
         {
             Name = name;
             LocationId = locationId;
+            _dal = RoomFactory.CreateRoomDal();
         }
 
         public Floor()
@@ -33,6 +34,7 @@ namespace MeetNSeat.Logic
             floorDto.Rooms?.ForEach(room => {
                 if (room != null) Rooms.Add(new Room(room));
             });
+            _dal = RoomFactory.CreateRoomDal();
         }
 
         public FloorDto ConvertToDto()
