@@ -14,11 +14,12 @@ namespace MeetNSeat.Client.Services
 			return await client.GetFromJsonAsync<List<ProblemModel>>($"{Url.Address}/api/problem");
 		}
 		
-		public static async Task AddProblem(ProblemModel problem)
+		public static async Task<bool> AddProblem(ProblemModel problem)
 		{
 			using var client = new HttpClient();
-			await client.PostAsJsonAsync($"{Url.Address}/api/problem", problem);
-		}
+			var response = await client.PostAsJsonAsync($"{Url.Address}/api/problem", problem);
+            return response.IsSuccessStatusCode;
+        }
 		
 		public static async Task DeleteProblem(int id)
 		{
