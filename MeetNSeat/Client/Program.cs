@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
@@ -33,7 +34,11 @@ namespace MeetNSeat.Client
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddOidcAuthentication<RemoteAuthenticationState, CustomRemoteUserAccount>(options =>
             {
-                builder.Configuration.Bind("Auth0", options.ProviderOptions);
+#if DEBUG
+                builder.Configuration.Bind("Auth0_Debug", options.ProviderOptions);
+#else
+                builder.Configuration.Bind("Auth0_Release", options.ProviderOptions);
+#endif
                 options.ProviderOptions.DefaultScopes.Add("email");
                 options.ProviderOptions.ResponseType = "code";
             }).AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, CustomRemoteUserAccount, CustomUserClaimsPrincipal>();

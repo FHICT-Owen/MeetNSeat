@@ -11,25 +11,25 @@ namespace MeetNSeat.Client.Services
 		public static async Task<IEnumerable<ProblemModel>> GetAllProblems()
 		{
 			using var client = new HttpClient();
-			return await client.GetFromJsonAsync<List<ProblemModel>>("https://localhost:5001/api/problem");
+			return await client.GetFromJsonAsync<List<ProblemModel>>($"{Url.Address}/api/problem");
 		}
 		
 		public static async Task AddProblem(ProblemModel problem)
 		{
 			using var client = new HttpClient();
-			await client.PostAsJsonAsync("https://localhost:5001/api/problem", problem);
+			await client.PostAsJsonAsync($"{Url.Address}/api/problem", problem);
 		}
 		
 		public static async Task DeleteProblem(int id)
 		{
 			using var client = new HttpClient();
-			await client.DeleteAsync($"https://localhost:5001/api/problem/{id}");
+			await client.DeleteAsync($"{Url.Address}/api/problem/{id}");
 		}
 		
 		public static async Task UpdateProblem(ProblemModel problem)
 		{
 			using var client = new HttpClient();
-			await client.PutAsJsonAsync("https://localhost:5001/api/problem", problem);
+			await client.PutAsJsonAsync($"{Url.Address}/api/problem", problem);
 		}
 	}
 }

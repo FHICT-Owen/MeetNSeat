@@ -11,32 +11,32 @@ namespace MeetNSeat.Client.Services
         public static async Task<IEnumerable<ReservationModel>> GetUserReservations(string userId)
         {
             using var client = new HttpClient();
-            return await client.GetFromJsonAsync<List<ReservationModel>>("https://localhost:5001/api/user/" + userId);
+            return await client.GetFromJsonAsync<List<ReservationModel>>($"{Url.Address}/api/user/" + userId);
         }
 
         public static async Task<IEnumerable<UserModel>> GetAllUsers()
         {
             using var client = new HttpClient();
-            return await client.GetFromJsonAsync<List<UserModel>>("https://localhost:5001/api/authentication/");
+            return await client.GetFromJsonAsync<List<UserModel>>($"{Url.Address}/api/authentication/");
         }
 
         public static async Task<bool> ConfirmReservation(string address, ReservationModel reservation)
         {
             var client = new HttpClient();
-            var response = await client.PutAsJsonAsync($"https://localhost:5001/api/user/confirm/{address}",reservation);
+            var response = await client.PutAsJsonAsync($"{Url.Address}/api/user/confirm/{address}",reservation);
             return response.IsSuccessStatusCode;
         }
        
         public static async Task<bool> CreateReservation(ReservationModel reservation)
         {
             using var client = new HttpClient();
-            var response = await client.PostAsJsonAsync("https://localhost:5001/api/user", reservation);
+            var response = await client.PostAsJsonAsync($"{Url.Address}/api/user", reservation);
             return response.IsSuccessStatusCode;
         }
         public static async Task<bool> EditReservation(ReservationModel reservation)
         {
             using var client = new HttpClient();
-            var response = await client.PostAsJsonAsync("https://localhost:5001/api/user/edit", reservation);
+            var response = await client.PostAsJsonAsync($"{Url.Address}/api/user/edit", reservation);
             return response.IsSuccessStatusCode;
         }
     }

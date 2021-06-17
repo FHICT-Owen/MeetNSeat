@@ -11,19 +11,19 @@ namespace MeetNSeat.Client.Services
         public static async Task<IEnumerable<UserScoreModel>> GetAllUsersWithFeedback()
         {
             using var client = new HttpClient();
-            return await client.GetFromJsonAsync<List<UserScoreModel>>("https://localhost:5001/api/feedback/");
+            return await client.GetFromJsonAsync<List<UserScoreModel>>($"{Url.Address}/api/feedback/");
         }
 
         public static async Task<IEnumerable<FeedbackModel>> GetAllFeedbackByUserId(string userId)
         {
             using var client = new HttpClient();
-            return await client.GetFromJsonAsync<List<FeedbackModel>>("https://localhost:5001/api/feedback/" + userId);
+            return await client.GetFromJsonAsync<List<FeedbackModel>>($"{Url.Address}/api/feedback/{userId}");
         }
 
         public static async Task<bool> AddFeedback(FeedbackModel feedback)
         {
             using var client = new HttpClient();
-            var response = await client.PostAsJsonAsync("https://localhost:5001/api/feedback", feedback);
+            var response = await client.PostAsJsonAsync($"{Url.Address}/api/feedback", feedback);
             return response.IsSuccessStatusCode;
         }
     }

@@ -26,19 +26,17 @@ namespace MeetNSeat.Client
             RemoteAuthenticationUserOptions options)
         {
             var user = await base.CreateUserAsync(account, options);
-            if (user.Identity.IsAuthenticated)
+            if (!user.Identity.IsAuthenticated) return user;
+            var claimsIdentity = (ClaimsIdentity) user.Identity;
+            var userId = claimsIdentity.Claims.Single(res => res.Type == "sub").Value.Split("|")[1];
+            var role = await AuthService.GetUserRole(userId);
+            if (role == 0)
             {
-                ClaimsIdentity claimsIdentity = (ClaimsIdentity) user.Identity;
-                var userId = claimsIdentity.Claims.Single(res => res.Type == "sub").Value.Split("|")[1];
-                var role = await AuthService.GetUserRole(userId);
-                if (role == 0)
-                {
-                    var nickname = user.Identity?.Name;
-                    await AuthService.AddUser(new UserModel(userId, nickname, 1));
-                    role = 1;
-                }
-                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
+                var nickname = user.Identity?.Name;
+                await AuthService.AddUser(new UserModel(userId, nickname, 1));
+                role = 1;
             }
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
             return user;
         }
     }

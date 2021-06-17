@@ -11,25 +11,25 @@ namespace MeetNSeat.Client.Services
     public static async Task<IEnumerable<LocationModel>> GetAllLocations()
     {
         using var client = new HttpClient();
-        return await client.GetFromJsonAsync<List<LocationModel>>("https://localhost:5001/api/location");
+        return await client.GetFromJsonAsync<List<LocationModel>>($"{Url.Address}/api/location");
     }
     
     public static async Task AddLocation(LocationModel location)
     {
       using var client = new HttpClient();
-      await client.PostAsJsonAsync("https://localhost:5001/api/location", location);
+      await client.PostAsJsonAsync($"{Url.Address}/api/location", location);
     }
     
     public static async Task DeleteLocation(int id)
     {
       using var client = new HttpClient();
-      await client.DeleteAsync($"https://localhost:5001/api/location/{id}");
+      await client.DeleteAsync($"{Url.Address}/api/location/{id}");
     }
     
     public static async Task UpdateLocation(LocationModel location)
     {
       using var client = new HttpClient();
-      await client.PutAsJsonAsync("https://localhost:5001/api/location", location);
+      await client.PutAsJsonAsync($"{Url.Address}/api/location", location);
     }
 	}
 }

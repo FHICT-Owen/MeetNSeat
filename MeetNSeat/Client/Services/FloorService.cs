@@ -11,31 +11,31 @@ namespace MeetNSeat.Client.Services
         public static async Task<IEnumerable<FloorModel>> GetAllFloorsAndRoomsByLocationId(int id)
         {
             using var client = new HttpClient();
-            return await client.GetFromJsonAsync<List<FloorModel>>($"https://localhost:5001/api/floor/{id}");
+            return await client.GetFromJsonAsync<List<FloorModel>>($"{Url.Address}/api/floor/{id}");
         }
 
         public static async Task<IEnumerable<FloorModel>> GetAllFloors()
         {
             using var client = new HttpClient();
-            return await client.GetFromJsonAsync<List<FloorModel>>("https://localhost:5001/api/floor");
+            return await client.GetFromJsonAsync<List<FloorModel>>($"{Url.Address}/api/floor");
         }
 
         public static async Task AddFloor(FloorModel floor)
         {
             using var client = new HttpClient();
-            await client.PostAsJsonAsync("https://localhost:5001/api/floor", floor);
+            await client.PostAsJsonAsync($"{Url.Address}/api/floor", floor);
         }
         
         public static async Task DeleteFloor(int id)
         {
             using var client = new HttpClient();
-            await client.DeleteAsync($"https://localhost:5001/api/floor/{id}");
+            await client.DeleteAsync($"{Url.Address}/api/floor/{id}");
         }
         
         public static async Task UpdateFloor(FloorModel floor)
         {
             using var client = new HttpClient();
-            await client.PutAsJsonAsync("https://localhost:5001/api/floor", floor);
+            await client.PutAsJsonAsync($"{Url.Address}/api/floor", floor);
         }
     }
 }

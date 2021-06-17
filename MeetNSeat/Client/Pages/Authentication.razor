@@ -10,9 +10,13 @@
 <RemoteAuthenticatorView Action="@Action">
     <LogOut>
         @{
-            var authority = (string)_configuration["Auth0:Authority"];
-            var clientId = (string)_configuration["Auth0:ClientId"];
-
+#if DEBUG
+            var authority = (string)_configuration["Auth0_Debug:Authority"];
+            var clientId = (string)_configuration["Auth0_Debug:ClientId"];
+#else
+            var authority = (string)_configuration["Auth0_Release:Authority"];
+            var clientId = (string)_configuration["Auth0_Release:ClientId"];
+#endif
             _navigation.NavigateTo($"{authority}/v2/logout?client_id={clientId}");
         }
     </LogOut>
