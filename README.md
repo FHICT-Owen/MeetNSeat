@@ -1,5 +1,5 @@
 # MeetNSeat
-
+MeetNSeat is a Blazor WASM based single page application for managing company reservations based off a floorplan.
 ## Technologies
 * Blazor WebAssembly
 * Dapper
